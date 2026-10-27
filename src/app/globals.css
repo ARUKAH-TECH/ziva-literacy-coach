@@ -1,0 +1,42 @@
+@import "tailwindcss";
+
+:root {
+  --background: #fffaf0;
+  --foreground: #1c1917;
+  --ziva: #0b69a8;
+  --ziva-dark: #0b3d91;
+  --gold: #e3a82a;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-ziva: var(--ziva);
+  --color-ziva-dark: var(--ziva-dark);
+  --color-gold: var(--gold);
+}
+
+html {
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Bigger, friendlier focus ring for keyboard users. */
+:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 2px;
+}
+
+@keyframes pop {
+  0% { transform: scale(0.6); opacity: 0; }
+  60% { transform: scale(1.15); opacity: 1; }
+  100% { transform: scale(1); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .pop { animation: pop 0.45s ease-out both; }
+}

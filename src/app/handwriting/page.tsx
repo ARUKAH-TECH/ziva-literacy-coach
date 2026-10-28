@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { AppShell } from "@/components/AppShell";
 import { Stars, praise, primaryButton, secondaryButton } from "@/components/ui";
 import { TracePad, type TraceScore } from "@/components/TracePad";
+import { PaperCheck } from "@/components/PaperCheck";
 import { SETS_FOR_LEVEL, traceSet } from "@/content/handwriting";
 import { recordResult, useProgress } from "@/lib/progress";
 import { speak } from "@/lib/speech";
@@ -100,6 +101,12 @@ export default function HandwritingPage() {
               </div>
             </div>
           )}
+          <PaperCheck
+            target={item.kind === "text" ? item.text : item.label}
+            prompt={item.kind === "text" ? "Write" : "Draw"}
+            level={progress.level ?? "kg"}
+            recordKey={`paper:${item.id}`}
+          />
         </>
       )}
     </AppShell>

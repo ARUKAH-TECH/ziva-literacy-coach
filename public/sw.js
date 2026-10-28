@@ -24,7 +24,10 @@ self.addEventListener("install", (event) => {
       } catch {
         // Development or a missing list: fall back to caching as pages are used.
       }
-      await self.skipWaiting();
+      // First install: start working straight away. An update instead waits
+      // until the learner taps "Update now" (or next opens the app), so a
+      // lesson is never swapped out in the middle.
+      if (!self.registration.active) await self.skipWaiting();
     })(),
   );
 });
@@ -40,7 +43,8 @@ self.addEventListener("activate", (event) => {
       }
       if (keep) {
         for (const key of await caches.keys()) {
-          if (key.startsWith(PREFIX) && key !== keep && key !== PREFIX + "runtime") await caches.delete(key);
+          // Old versions and pages saved while browsing are replaced by the new full copy.
+          if (key.startsWith(PREFIX) && key !== keep) await caches.delete(key);
         }
       }
       await self.clients.claim();
@@ -99,8 +103,12 @@ self.addEventListener("fetch", (event) => {
   );
 });
 
-// The page can ask how much is saved for offline use.
+// The page can ask how much is saved for offline use, or apply a waiting update.
 self.addEventListener("message", (event) => {
+  if (event.data === "skip-waiting") {
+    self.skipWaiting();
+    return;
+  }
   if (event.data === "offline-status") {
     event.waitUntil(
       (async () => {

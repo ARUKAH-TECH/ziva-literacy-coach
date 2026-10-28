@@ -20,9 +20,8 @@ export function AppShell({ title, back = "/", children }: { title?: string; back
               ←
             </Link>
           ) : (
-            <span aria-hidden="true" className="flex h-11 w-11 items-center justify-center rounded-full bg-white text-xl">
-              ✏️
-            </span>
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src="/logo.webp" alt="" width={44} height={44} className="h-11 w-11 shrink-0 rounded-full bg-white shadow" />
           )}
           <div className="min-w-0 flex-1">
             <p className="truncate text-lg font-extrabold leading-tight">{title ?? "ZIVA Literacy"}</p>

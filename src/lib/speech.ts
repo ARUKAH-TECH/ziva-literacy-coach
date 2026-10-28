@@ -4,13 +4,20 @@
 // Android phones once a voice is installed). Falls back silently if the
 // browser has no speech support.
 
+import { getAccent, onAccentChange } from "@/lib/accent";
+
 let preferred: SpeechSynthesisVoice | null = null;
 
 function pickVoice() {
   if (typeof window === "undefined" || !("speechSynthesis" in window)) return null;
   if (preferred) return preferred;
   const voices = window.speechSynthesis.getVoices();
+  const accent = getAccent().toLowerCase();
+  const sameLang = (v: SpeechSynthesisVoice) => v.lang.replace("_", "-").toLowerCase() === accent;
+  // The reader's own English first (e.g. a Nigerian voice, if the phone has one).
   preferred =
+    voices.find((v) => sameLang(v) && /google/i.test(v.name)) ??
+    voices.find(sameLang) ??
     voices.find((v) => v.lang === "en-GB" && /female|google/i.test(v.name)) ??
     voices.find((v) => v.lang === "en-GB") ??
     voices.find((v) => v.lang.startsWith("en")) ??
@@ -22,6 +29,9 @@ if (typeof window !== "undefined" && "speechSynthesis" in window) {
   window.speechSynthesis.addEventListener?.("voiceschanged", () => {
     preferred = null;
     pickVoice();
+  });
+  onAccentChange(() => {
+    preferred = null;
   });
 }
 

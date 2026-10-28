@@ -4,8 +4,9 @@ import { useEffect, useRef, useState } from "react";
 import { Stars, goldButton, primaryButton, secondaryButton } from "@/components/ui";
 import { starsFor } from "@/components/useQueryMode";
 import { useOnline } from "@/components/useOnline";
+import { ACCENTS, getAccent, setAccent, type AccentCode } from "@/lib/accent";
 import { hasConsent, setConsent } from "@/lib/consent";
-import { alignReading, pronunciationTip, similarity, normalize, soundChunks, splitWords, syllables, type WordResult } from "@/lib/readCheck";
+import { alignBest, pronunciationTip, similarity, normalize, soundChunks, splitWords, syllables, type WordResult } from "@/lib/readCheck";
 import { recordResult } from "@/lib/progress";
 import { speak, stopSpeaking } from "@/lib/speech";
 
@@ -27,15 +28,28 @@ interface Recognition {
   onend: (() => void) | null;
   onerror: ((e: { error: string }) => void) | null;
 }
+// Accents this phone's speech service said it can't do (we then use en-GB).
+const unsupportedLangs = new Set<string>();
+
 function newRecognition(): Recognition | null {
   if (typeof window === "undefined") return null;
   const W = window as unknown as { SpeechRecognition?: new () => Recognition; webkitSpeechRecognition?: new () => Recognition };
   const R = W.SpeechRecognition ?? W.webkitSpeechRecognition;
   if (!R) return null;
   const r = new R();
-  r.lang = "en-GB";
-  r.maxAlternatives = 1;
+  const accent = getAccent();
+  // Listen in the reader's own English (e.g. Nigerian), so the accent is understood.
+  r.lang = unsupportedLangs.has(accent) ? "en-GB" : accent;
+  // Several guesses of what was said: a word counts if any guess matches.
+  r.maxAlternatives = 5;
   return r;
+}
+
+/** All the phone's guesses for one result, best first. */
+function alternatives(result: ArrayLike<{ transcript: string }>) {
+  const out: string[] = [];
+  for (let i = 0; i < result.length; i++) if (result[i]?.transcript) out.push(result[i].transcript);
+  return out;
 }
 
 const COLORS: Record<WordResult["status"], string> = {
@@ -60,16 +74,19 @@ function WordHelp({ result, onClose }: { result: WordResult; onClose: () => void
     rec.current = r;
     r.continuous = false;
     r.interimResults = false;
-    let heard = "";
+    let heard: string[] = [];
     r.onresult = (e) => {
-      heard = e.results[0]?.[0]?.transcript ?? "";
+      heard = e.results[0] ? alternatives(e.results[0]) : [];
     };
     r.onend = () => {
-      const ok = heard.split(/\s+/).some((h) => similarity(normalize(h), normalize(clean)) >= 0.8);
+      const ok = heard.some((g) => g.split(/\s+/).some((h) => similarity(normalize(h), normalize(clean)) >= 0.8));
       setState(ok ? "good" : "again");
       speak(ok ? "Well done!" : "Nearly. Listen and try again.");
     };
-    r.onerror = () => setState("again");
+    r.onerror = (e) => {
+      if (e.error === "language-not-supported") unsupportedLangs.add(getAccent());
+      setState("again");
+    };
     setState("listening");
     r.start();
   }
@@ -131,11 +148,14 @@ export function ReadAloudCheck({ paragraphs, storyKey, big }: { paragraphs: stri
   const [showSummary, setShowSummary] = useState(false);
   const rec = useRef<Recognition | null>(null);
   const finalText = useRef("");
+  const finalAlts = useRef<string[][]>([]);
   const wantListening = useRef(false);
+  const [accent, setAccentState] = useState<AccentCode>("en-NG");
 
   useEffect(() => {
     setSupported(Boolean(newRecognition()));
     setConsentState(hasConsent("voice"));
+    setAccentState(getAccent());
     return () => {
       wantListening.current = false;
       rec.current?.abort();
@@ -152,13 +172,16 @@ export function ReadAloudCheck({ paragraphs, storyKey, big }: { paragraphs: stri
     r.continuous = true;
     r.interimResults = true;
     finalText.current = "";
+    finalAlts.current = [];
     setHeard("");
     r.onresult = (e) => {
       let interim = "";
       for (let i = e.resultIndex; i < e.results.length; i++) {
         const text = e.results[i][0]?.transcript ?? "";
-        if (e.results[i].isFinal) finalText.current += ` ${text}`;
-        else interim += ` ${text}`;
+        if (e.results[i].isFinal) {
+          finalText.current += ` ${text}`;
+          finalAlts.current.push(alternatives(e.results[i]));
+        } else interim += ` ${text}`;
       }
       setHeard(`${finalText.current} ${interim}`.trim());
     };
@@ -173,6 +196,12 @@ export function ReadAloudCheck({ paragraphs, storyKey, big }: { paragraphs: stri
       } else setListening(false);
     };
     r.onerror = (e) => {
+      if (e.error === "language-not-supported" && !unsupportedLangs.has(getAccent())) {
+        // This phone can't listen in that accent yet — carry on with en-GB.
+        unsupportedLangs.add(getAccent());
+        r.lang = "en-GB";
+        return; // onend restarts it
+      }
       if (e.error === "not-allowed" || e.error === "service-not-allowed") {
         wantListening.current = false;
         setListening(false);
@@ -193,20 +222,29 @@ export function ReadAloudCheck({ paragraphs, storyKey, big }: { paragraphs: stri
     wantListening.current = false;
     rec.current?.stop();
     setListening(false);
-    const res = alignReading(words, finalText.current || heard);
+    // Build whole-paragraph guesses from the phone's alternatives.
+    const segs = finalAlts.current;
+    const guesses = segs.length
+      ? Array.from({ length: Math.max(...segs.map((s) => s.length)) }, (_, a) => segs.map((s) => s[a] ?? s[0]).join(" "))
+      : [heard];
+    // Also mix: each segment's best guess with one segment swapped (cheap and helps a lot).
+    if (segs.length > 1) segs.forEach((s, i) => s.slice(1).forEach((alt) => guesses.push(segs.map((x, j) => (j === i ? alt : x[0])).join(" "))));
+    const res = alignBest(words, guesses.slice(0, 40));
     const next = [...results];
     next[k] = res;
     setResults(next);
-    const good = res.filter((r) => r.status === "ok").length;
+    const good = res.filter((r) => r.status === "ok").length + res.filter((r) => r.status === "almost").length * 0.5;
     speak(good === res.length ? "Excellent reading!" : good / res.length >= 0.8 ? "Good reading! Let's practise a few words." : "Good try! Let's practise some words.");
   }
 
   const done = showSummary;
   const all = results.flat().filter(Boolean);
   const correct = all.filter((r) => r.status === "ok").length;
+  // "Nearly" words get half credit: the word was recognisable.
+  const credit = correct + all.filter((r) => r.status === "almost").length * 0.5;
 
   useEffect(() => {
-    if (done && all.length) recordResult(`read-aloud:${storyKey}`, starsFor(correct, all.length));
+    if (done && all.length) recordResult(`read-aloud:${storyKey}`, starsFor(credit, all.length));
   }, [done]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!open) {
@@ -247,7 +285,7 @@ export function ReadAloudCheck({ paragraphs, storyKey, big }: { paragraphs: stri
         <p className="mt-3 rounded-2xl bg-amber-100 p-4 font-semibold">📴 Connect to the internet to check reading aloud.</p>
       ) : done ? (
         <div className="mt-4 flex flex-col items-center gap-3 text-center">
-          <Stars count={starsFor(correct, all.length)} size="text-4xl" />
+          <Stars count={starsFor(credit, all.length)} size="text-4xl" />
           <p className="text-xl font-bold">
             {correct} of {all.length} words read well
           </p>
@@ -271,6 +309,26 @@ export function ReadAloudCheck({ paragraphs, storyKey, big }: { paragraphs: stri
         </div>
       ) : (
         <div className="mt-3">
+          <label className="mb-3 flex flex-wrap items-center gap-2 rounded-2xl bg-emerald-50 p-3 text-sm">
+            <span className="font-semibold">🌍 Reader&apos;s English:</span>
+            <select
+              value={accent}
+              disabled={listening}
+              onChange={(e) => {
+                const code = e.target.value as AccentCode;
+                setAccent(code);
+                setAccentState(code);
+              }}
+              className="rounded-lg border border-black/15 bg-white px-2 py-1 font-semibold"
+            >
+              {ACCENTS.map((a) => (
+                <option key={a.code} value={a.code}>
+                  {a.label}
+                </option>
+              ))}
+            </select>
+            <span className="w-full text-black/60">We check that each word is said correctly — not whether it sounds British or American.</span>
+          </label>
           <p className="text-sm font-semibold text-black/60">
             Part {k + 1} of {paragraphs.length} — tap <strong>Start</strong>, read this aloud, then tap <strong>I&apos;ve finished</strong>.
           </p>
@@ -329,7 +387,7 @@ export function ReadAloudCheck({ paragraphs, storyKey, big }: { paragraphs: stri
             )}
           </div>
           <p className="mt-3 text-xs text-black/50">
-            The phone&apos;s listening isn&apos;t perfect — accents and noise can confuse it. Read clearly in a quiet place. A teacher or parent knows best.
+            Your accent is fine — saying words the way they are spelt is correct reading. The phone&apos;s listening isn&apos;t perfect and noise can confuse it. Read clearly in a quiet place. A teacher or parent knows best.
           </p>
         </div>
       )}

@@ -52,13 +52,60 @@ function editDistance(a: string, b: string) {
   return dp[a.length][b.length];
 }
 
-/** 0–1: how alike two words are (spelling and sound). */
+/**
+ * Accent-friendly keys. Many readers (Nigeria, Ghana and elsewhere) say words
+ * the way they are spelt, and that is still correct reading. So these
+ * differences are NOT counted as mistakes:
+ *  - "th" said as t or d ("tink", "de" for think / the)
+ *  - a dropped or added h at the start ("ouse" / "house")
+ *  - a soft last t/d after a consonant ("han" / "hand", "ask" / "asked")
+ *  - final -r / -er said fully or not ("teacher", "teachaa")
+ * Different vowels make a word "nearly" (yellow), never "wrong".
+ */
+function accentKeys(w: string) {
+  const base = soundKey(w.replace(/([^aeiou])ed$/, "$1d"))
+    .replace(/^h/, "")
+    .replace(/([^aeiou])[td]$/, "$1")
+    .replace(/(er|ar|or|a|r)$/, "a");
+  return new Set([base.replace(/th/g, "t"), base.replace(/th/g, "d")]);
+}
+
+const foldVowels = (k: string) => k.replace(/[aeiouy]+/g, "a");
+
+/** 0–1: how alike two words are (spelling and sound, allowing for accent). */
 export function similarity(a: string, b: string) {
   if (a === b) return 1;
   const s1 = 1 - editDistance(a, b) / Math.max(a.length, b.length, 1);
   const ka = soundKey(a), kb = soundKey(b);
   const s2 = ka === kb ? 0.95 : 1 - editDistance(ka, kb) / Math.max(ka.length, kb.length, 1);
-  return Math.max(s1, s2);
+  const aa = accentKeys(a), ab = accentKeys(b);
+  const sameAccent = [...aa].some((x) => ab.has(x));
+  const s3 = sameAccent ? 0.9 : [...aa].some((x) => [...ab].some((y) => foldVowels(x) === foldVowels(y))) ? 0.7 : 0;
+  return Math.max(s1, s2, s3);
+}
+
+/** Do the two words begin with the same sound (allowing for accent)? */
+function sameStart(a: string, b: string) {
+  const first = (w: string) => [...accentKeys(w)].map((k) => k[0] ?? "");
+  const fb = first(b);
+  return first(a).some((x) => fb.includes(x));
+}
+
+/**
+ * Like alignReading, but the phone may offer several guesses of what it
+ * heard. Each story word keeps its best result across the guesses, so an
+ * accent the phone wasn't sure about doesn't count against the reader.
+ */
+export function alignBest(target: string[], guesses: string[]): WordResult[] {
+  const rank: Record<WordStatus, number> = { ok: 3, almost: 2, wrong: 1, missed: 0 };
+  const list = guesses.map((g) => g.trim()).filter(Boolean);
+  if (list.length === 0) return alignReading(target, "");
+  let best = alignReading(target, list[0]);
+  for (const g of list.slice(1)) {
+    const r = alignReading(target, g);
+    best = best.map((b, i) => (rank[r[i].status] > rank[b.status] ? r[i] : b));
+  }
+  return best;
 }
 
 /**
@@ -74,7 +121,10 @@ export function alignReading(target: string[], heardText: string): WordResult[] 
   const cost = (i: number, j: number) => {
     const s = similarity(t[i], h[j]);
     const okAt = name[i] ? 0.45 : 0.8;
-    return s >= okAt ? 0 : s >= 0.5 ? 0.6 : 1;
+    if (s >= okAt) return 0;
+    // "Nearly" only when it starts with the same sound (went/want);
+    // basket for market is a different word.
+    return s >= 0.5 && sameStart(t[i], h[j]) ? 0.6 : 1;
   };
   const D = Array.from({ length: n + 1 }, () => new Float64Array(m + 1));
   const B = Array.from({ length: n + 1 }, () => new Uint8Array(m + 1)); // 1 diag, 2 up (missed), 3 left (extra)
@@ -156,7 +206,7 @@ export function pronunciationTip(word: string) {
   if (/^kn/.test(w)) return "The k is silent — start with the n sound.";
   if (/^wr/.test(w)) return "The w is silent — start with the r sound.";
   if (/igh/.test(w)) return "“igh” says the long i sound, like in “night”.";
-  if (/th/.test(w)) return "For “th”, put the tip of your tongue between your teeth and blow gently.";
+  if (/th/.test(w)) return "For “th”, you can put the tip of your tongue between your teeth and blow gently. Saying it like t or d (as many good readers do) is fine too — make sure every other sound is there.";
   if (/ph/.test(w)) return "“ph” sounds like f.";
   if (/[^aeiou]ed$/.test(w) && w.length > 4) return "Past-tense “-ed”: after t or d say “id”; after p, k, s, sh, ch say “t”; otherwise “d”.";
   if (/[aeiou][^aeiou]e$/.test(w)) return "The e at the end is silent, but it makes the first vowel say its name (like “cake”).";

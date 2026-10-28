@@ -5,6 +5,7 @@ import { levelInfo } from "@/lib/levels";
 import { useProgress } from "@/lib/progress";
 import { useLearners } from "@/lib/learners";
 import { useOnline } from "@/components/useOnline";
+import { FullscreenButton } from "@/components/FullscreenButton";
 import { stopSpeaking } from "@/lib/speech";
 
 /** Header with Home, the chosen class, and an offline notice. */
@@ -37,6 +38,7 @@ export function AppShell({ title, back = "/", children }: { title?: string; back
             <span aria-hidden="true">{current ? "🧒" : "👤"}</span>
             <span className="truncate">{current ? current.name : "Guest"}</span>
           </Link>
+          <FullscreenButton />
           <Link href="/level/" className="shrink-0 rounded-full bg-gold px-3 py-1.5 text-sm font-bold text-[#14110c]">
             {level ? `${level.emoji} ${level.short}` : "Choose class"}
           </Link>

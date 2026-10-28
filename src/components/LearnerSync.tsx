@@ -2,12 +2,14 @@
 
 import { useEffect } from "react";
 import { LEARNER_EVENT, getLearners } from "@/lib/learners";
-import { PROGRESS_SAVED } from "@/lib/progress";
+import { PROGRESS_SAVED, readProgress } from "@/lib/progress";
 import { syncNow } from "@/lib/sync";
+import { captureRef, markLearningDay } from "@/lib/account";
 
 /** Quietly keeps the active learner's stars in sync (when online). */
 export function LearnerSync() {
   useEffect(() => {
+    captureRef();
     let timer: number | null = null;
     const soon = (ms = 4000) => {
       if (timer !== null) window.clearTimeout(timer);
@@ -16,9 +18,25 @@ export function LearnerSync() {
         void syncNow();
       }, ms);
     };
-    const onVisible = () => document.visibilityState === "visible" && soon(500);
-    const onSaved = () => soon();
-    const onOnline = () => soon(500);
+    // A lesson done offline today still counts once the phone is back online.
+    const catchUp = () => {
+      if (readProgress().days.includes(new Date().toISOString().slice(0, 10))) void markLearningDay();
+    };
+    catchUp();
+    const onVisible = () => {
+      if (document.visibilityState !== "visible") return;
+      soon(500);
+      catchUp();
+    };
+    const onSaved = () => {
+      soon();
+      // A lesson finished: today counts as a learning day for the signed-in person.
+      void markLearningDay();
+    };
+    const onOnline = () => {
+      soon(500);
+      catchUp();
+    };
     // Only when a different learner is chosen (sync itself updates profiles).
     let lastActive = getLearners().active;
     const onLearner = () => {

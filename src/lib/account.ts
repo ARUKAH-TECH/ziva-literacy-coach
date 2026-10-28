@@ -88,8 +88,65 @@ export function useSession() {
   return { session, ready };
 }
 
+const REF_KEY = "ziva-literacy:ref";
+
+/** Remembers whose share link brought this phone here (?ref=CODE). */
+export function captureRef() {
+  try {
+    const ref = new URLSearchParams(window.location.search).get("ref")?.toUpperCase() ?? "";
+    if (/^[A-Z0-9]{6}$/.test(ref)) localStorage.setItem(REF_KEY, ref);
+  } catch {
+    // ignore
+  }
+}
+
+export function savedRef() {
+  try {
+    const r = localStorage.getItem(REF_KEY) ?? "";
+    return /^[A-Z0-9]{6}$/.test(r) ? r : "";
+  } catch {
+    return "";
+  }
+}
+
 export async function register(phone: string, name: string) {
-  setSession(await rpc<Session>("lit_register", { p_phone: phone, p_name: name }));
+  const ref = savedRef();
+  setSession(
+    ref
+      ? await rpc<Session>("lit_register_ref", { p_phone: phone, p_name: name, p_ref: ref })
+      : await rpc<Session>("lit_register", { p_phone: phone, p_name: name }),
+  );
+}
+
+export interface Rewards {
+  refCode: string;
+  credits: number;
+  earned: number;
+  goal: number;
+  myDays: number;
+  invited: { name: string; days: number; done: boolean }[];
+  keys: { key: string; book: string; createdAt: string; activatedAt: string | null; expiresAt: string | null }[];
+}
+
+export const loadRewards = () => call<Rewards>("lit_rewards");
+
+/** Counts today as a learning day for the signed-in person (once a day). */
+export async function markLearningDay() {
+  const s = getSession();
+  if (!s || (typeof navigator !== "undefined" && !navigator.onLine)) return;
+  const today = new Date().toISOString().slice(0, 10);
+  const key = `ziva-literacy:visit:${s.phone}`;
+  try {
+    if (localStorage.getItem(key) === today) return;
+  } catch {
+    // ignore
+  }
+  try {
+    await call("lit_visit");
+    localStorage.setItem(key, today);
+  } catch {
+    // try again next lesson
+  }
 }
 
 export async function signIn(phone: string) {

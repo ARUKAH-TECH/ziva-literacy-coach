@@ -4,6 +4,7 @@ import { AppShell } from "@/components/AppShell";
 import { BigLink } from "@/components/ui";
 import { InstallCard } from "@/components/InstallCard";
 import { ShareButtons } from "@/components/ShareButtons";
+import { RefWelcome } from "@/components/RefWelcome";
 import { levelInfo } from "@/lib/levels";
 import { useProgress, streak } from "@/lib/progress";
 
@@ -13,6 +14,7 @@ export default function Home() {
   const days = streak(progress.days);
   return (
     <AppShell back={null}>
+      <RefWelcome />
       <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-ziva to-ziva-dark p-6 text-white shadow-lg">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
@@ -40,7 +42,8 @@ export default function Home() {
         <BigLink href="/handwriting/" emoji="✏️" title="Handwriting practice" text="Trace strokes, letters, words and sentences" color="bg-rose-100" />
         <BigLink href="/progress/" emoji="🏆" title="My progress" text="Stars and practice days on this device" color="bg-violet-100" />
         <BigLink href="/join/" emoji="🧒" title="Who is learning?" text="Enter your learner code from a parent or teacher" color="bg-lime-100" />
-        <BigLink href="/account/" emoji="👨‍👩‍👧" title="Parents, teachers & schools" text="Register, add children, follow their progress" color="bg-orange-100" />
+        <BigLink href="/account/" emoji="👨‍👩‍👧" title="Register: students, parents & schools" text="Sign up with your name and phone, follow progress" color="bg-orange-100" />
+        <BigLink href="/account/#invite" emoji="🎁" title="Invite & earn a free book" text="50 friends who learn 7 days = 7 days free reading" color="bg-yellow-100" />
       </div>
 
       <div className="mt-6">

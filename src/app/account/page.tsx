@@ -6,14 +6,25 @@ import { AppShell } from "@/components/AppShell";
 import { goldButton, primaryButton, secondaryButton } from "@/components/ui";
 import { useOnline } from "@/components/useOnline";
 import { SpaceView } from "@/components/dash/SpaceView";
-import { call, loadMe, prettyPhone, register, signIn, signOut, useSession, type Me } from "@/lib/account";
-import { CloudError } from "@/lib/cloud";
+import { InviteEarn } from "@/components/dash/InviteEarn";
+import { call, captureRef, loadMe, prettyPhone, register, savedRef, signIn, signOut, useSession, type Me } from "@/lib/account";
+import { CloudError, rpc } from "@/lib/cloud";
 
 const input = "w-full rounded-2xl border-2 border-black/15 bg-white px-4 py-3 text-xl";
 
 function SignInForm() {
   const online = useOnline();
   const [mode, setMode] = useState<"signin" | "register">("signin");
+  const [inviter, setInviter] = useState<string | null>(null);
+  useEffect(() => {
+    captureRef();
+    const ref = savedRef();
+    if (!ref) return;
+    setMode("register");
+    rpc<string | null>("lit_ref_info", { p_ref: ref })
+      .then((n) => setInviter(n || null))
+      .catch(() => {});
+  }, []);
   const [phone, setPhone] = useState("");
   const [name, setName] = useState("");
   const [busy, setBusy] = useState(false);
@@ -40,9 +51,18 @@ function SignInForm() {
     <div className="mx-auto max-w-md">
       <div className="rounded-3xl bg-gradient-to-br from-ziva to-ziva-dark p-6 text-white shadow-lg">
         <p className="text-3xl">👨‍👩‍👧 🏫</p>
-        <h1 className="mt-2 text-2xl font-extrabold">Parents, teachers &amp; schools</h1>
-        <p className="mt-1 text-white/90">Add your children or learners, give each one a code, and see their stars, practice days and what to work on.</p>
+        <h1 className="mt-2 text-2xl font-extrabold">Register to learn or follow learners</h1>
+        <p className="mt-1 text-white/90">
+          Students, parents, teachers and schools: register with your name and phone. Learn yourself, or add children and see their stars,
+          practice days and what to work on.
+        </p>
       </div>
+
+      {inviter && (
+        <p className="mt-4 rounded-2xl bg-amber-100 p-4 text-center text-lg font-semibold text-amber-950">
+          🎉 {inviter} invited you! Register below with your name and phone, then learn on 7 days.
+        </p>
+      )}
 
       <div className="mt-5 flex rounded-full bg-white p-1 shadow-sm">
         {(["signin", "register"] as const).map((m) => (
@@ -115,6 +135,13 @@ function Start({ onDone }: { onDone: () => void }) {
 
   return (
     <div className="grid gap-3">
+      <Link href="/learn/" className="flex items-center gap-3 rounded-3xl bg-violet-100 p-4 shadow-sm">
+        <span className="text-3xl">🎒</span>
+        <span>
+          <span className="block text-lg font-extrabold">I&apos;m a student — just learn</span>
+          <span className="block text-sm text-black/60">Your learning days count while you are signed in on this phone</span>
+        </span>
+      </Link>
       <div className="grid gap-3 sm:grid-cols-3">
         <button type="button" onClick={() => (setMode("family"), setValue(""))} className={`rounded-3xl p-4 text-left shadow-sm ${mode === "family" ? "bg-amber-200" : "bg-amber-100"}`}>
           <span className="text-3xl">🏠</span>
@@ -201,6 +228,8 @@ export default function AccountPage() {
               <Start onDone={refresh} />
             </>
           )}
+
+          <InviteEarn />
 
           {me?.spaces.map((s) => (
             <SpaceView key={s.id} space={s} onChanged={refresh} />

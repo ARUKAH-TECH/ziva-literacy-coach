@@ -5,6 +5,7 @@ import { Stars, goldButton, primaryButton, secondaryButton } from "@/components/
 import { starsFor } from "@/components/useQueryMode";
 import { useOnline } from "@/components/useOnline";
 import { ACCENTS, getAccent, setAccent, type AccentCode } from "@/lib/accent";
+import { clock } from "@/lib/levels";
 import { hasConsent, setConsent } from "@/lib/consent";
 import { alignBest, pronunciationTip, similarity, normalize, soundChunks, splitWords, syllables, type WordResult } from "@/lib/readCheck";
 import { recordResult } from "@/lib/progress";
@@ -135,7 +136,7 @@ function WordHelp({ result, onClose }: { result: WordResult; onClose: () => void
   );
 }
 
-export function ReadAloudCheck({ paragraphs, storyKey, big }: { paragraphs: string[]; storyKey: string; big: boolean }) {
+export function ReadAloudCheck({ paragraphs, storyKey, big, wpmTarget }: { paragraphs: string[]; storyKey: string; big: boolean; wpmTarget?: number }) {
   const online = useOnline();
   const [supported, setSupported] = useState(true);
   const [consent, setConsentState] = useState(false);
@@ -151,6 +152,16 @@ export function ReadAloudCheck({ paragraphs, storyKey, big }: { paragraphs: stri
   const finalAlts = useRef<string[][]>([]);
   const wantListening = useRef(false);
   const [accent, setAccentState] = useState<AccentCode>("en-NG");
+  // Timer: seconds taken for each part, and a live clock while reading.
+  const [times, setTimes] = useState<number[]>([]);
+  const [elapsed, setElapsed] = useState(0);
+  const partStart = useRef(0);
+  const tick = useRef<number | null>(null);
+  const stopTick = () => {
+    if (tick.current !== null) window.clearInterval(tick.current);
+    tick.current = null;
+  };
+  useEffect(() => stopTick, []);
 
   useEffect(() => {
     setSupported(Boolean(newRecognition()));
@@ -205,12 +216,17 @@ export function ReadAloudCheck({ paragraphs, storyKey, big }: { paragraphs: stri
       if (e.error === "not-allowed" || e.error === "service-not-allowed") {
         wantListening.current = false;
         setListening(false);
+        stopTick();
         alertMic();
       }
     };
     wantListening.current = true;
     setListening(true);
     r.start();
+    partStart.current = performance.now();
+    setElapsed(0);
+    stopTick();
+    tick.current = window.setInterval(() => setElapsed((performance.now() - partStart.current) / 1000), 250);
   }
 
   const [micBlocked, setMicBlocked] = useState(false);
@@ -219,6 +235,13 @@ export function ReadAloudCheck({ paragraphs, storyKey, big }: { paragraphs: stri
   }
 
   function finish() {
+    stopTick();
+    const took = (performance.now() - partStart.current) / 1000;
+    setTimes((t) => {
+      const n = [...t];
+      n[k] = took;
+      return n;
+    });
     wantListening.current = false;
     rec.current?.stop();
     setListening(false);
@@ -242,6 +265,9 @@ export function ReadAloudCheck({ paragraphs, storyKey, big }: { paragraphs: stri
   const correct = all.filter((r) => r.status === "ok").length;
   // "Nearly" words get half credit: the word was recognisable.
   const credit = correct + all.filter((r) => r.status === "almost").length * 0.5;
+  const totalSeconds = times.reduce((a, b) => a + (b || 0), 0);
+  // Words read well per minute (a common way teachers measure reading fluency).
+  const wcpm = totalSeconds > 0 ? Math.round((credit / totalSeconds) * 60) : 0;
 
   useEffect(() => {
     if (done && all.length) recordResult(`read-aloud:${storyKey}`, starsFor(credit, all.length));
@@ -289,6 +315,23 @@ export function ReadAloudCheck({ paragraphs, storyKey, big }: { paragraphs: stri
           <p className="text-xl font-bold">
             {correct} of {all.length} words read well
           </p>
+          {totalSeconds > 0 && (
+            <div className="w-full rounded-2xl bg-sky-50 p-4">
+              <p className="text-3xl font-extrabold tabular-nums text-ziva">⏱️ {clock(totalSeconds)}</p>
+              <p className="text-lg font-bold">{wcpm} words a minute read well</p>
+              {wpmTarget && (
+                <p className="text-sm text-black/60">
+                  Guide for this class: about {wpmTarget} a minute.{" "}
+                  {credit / all.length < 0.8 ? "Read every word clearly first — then speed up." : wcpm >= wpmTarget ? "Great pace! 🚀" : wcpm >= wpmTarget * 0.7 ? "Nearly there — read it again tomorrow." : "Read every word clearly first; speed grows with practice."}
+                </p>
+              )}
+              {paragraphs.length > 1 && (
+                <p className="mt-1 text-xs text-black/50">
+                  {times.map((t, i) => (t ? `Part ${i + 1}: ${clock(t)}` : null)).filter(Boolean).join(" · ")}
+                </p>
+              )}
+            </div>
+          )}
           {all.some((r) => r.status !== "ok") ? (
             <>
               <p className="text-black/70">Tap a word to hear it and practise:</p>
@@ -303,7 +346,7 @@ export function ReadAloudCheck({ paragraphs, storyKey, big }: { paragraphs: stri
           ) : (
             <p className="text-lg">Every word read clearly. Amazing! 🌟</p>
           )}
-          <button type="button" onClick={() => (setResults([]), setK(0), setHeard(""), setShowSummary(false))} className={secondaryButton}>
+          <button type="button" onClick={() => (setResults([]), setTimes([]), setK(0), setHeard(""), setShowSummary(false))} className={secondaryButton}>
             🔁 Read again
           </button>
         </div>
@@ -351,6 +394,11 @@ export function ReadAloudCheck({ paragraphs, storyKey, big }: { paragraphs: stri
             </p>
           )}
           {listening && (
+            <p aria-live="off" className="mt-3 text-center text-4xl font-extrabold tabular-nums text-ziva">
+              ⏱️ {clock(elapsed)}
+            </p>
+          )}
+          {listening && (
             <p className="mt-3 min-h-[3rem] rounded-xl bg-black/5 p-3 text-black/70">
               🎙️ <em>{heard || "Listening… start reading"}</em>
             </p>
@@ -368,10 +416,16 @@ export function ReadAloudCheck({ paragraphs, storyKey, big }: { paragraphs: stri
               ))}
             {results[k] && (
               <>
+                {times[k] ? (
+                  <p className="w-full text-lg font-bold">
+                    ⏱️ {clock(times[k])} ·{" "}
+                    {Math.round((results[k].filter((r) => r.status !== "missed" && r.status !== "wrong").length / times[k]) * 60)} words a minute
+                  </p>
+                ) : null}
                 <p className="w-full text-sm text-black/70">
                   🟩 read well · 🟨 nearly · 🟥 different word · ⬜ skipped — <strong>tap a coloured word for help</strong>.
                 </p>
-                <button type="button" onClick={() => (setResults(results.map((r, i) => (i === k ? (undefined as unknown as WordResult[]) : r))), setHeard(""))} className={secondaryButton}>
+                <button type="button" onClick={() => (setResults(results.map((r, i) => (i === k ? (undefined as unknown as WordResult[]) : r))), setTimes(times.map((t, i) => (i === k ? 0 : t))), setHeard(""))} className={secondaryButton}>
                   🔁 Read this part again
                 </button>
                 {k < paragraphs.length - 1 ? (

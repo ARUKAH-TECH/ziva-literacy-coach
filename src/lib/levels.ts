@@ -29,3 +29,18 @@ export type ActivityId = (typeof ACTIVITIES)[number]["id"];
 export function activitiesFor(level: LevelId | null) {
   return ACTIVITIES.filter((a) => !level || (a.levels as readonly string[]).includes(level));
 }
+
+/** Friendly reading-speed guides (words per minute, read aloud). */
+export const READING_WPM: Record<LevelId, number> = { kg: 30, "p1-3": 60, "p4-6": 100, jhs: 130 };
+
+/**
+ * Friendly handwriting-speed guides (letters per minute, copying neatly).
+ * Rough classroom guides only — neat and correct letters matter more.
+ */
+export const WRITING_LPM: Record<LevelId, number> = { kg: 10, "p1-3": 25, "p4-6": 45, jhs: 65 };
+
+/** "1:05" */
+export function clock(seconds: number) {
+  const s = Math.max(0, Math.round(seconds));
+  return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
+}

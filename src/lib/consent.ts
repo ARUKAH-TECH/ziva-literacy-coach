@@ -1,5 +1,5 @@
 // Parent/teacher permissions, remembered on this device only.
-export type ConsentKind = "ai-photo" | "voice";
+export type ConsentKind = "ai-photo" | "voice" | "video";
 
 const key = (kind: ConsentKind) => `ziva-literacy:consent:${kind}`;
 

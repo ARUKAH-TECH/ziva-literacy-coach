@@ -6,13 +6,13 @@ import { Finished, Stars, goldButton, primaryButton, secondaryButton } from "@/c
 import { QuizRunner } from "@/components/QuizRunner";
 import { starsFor, useQueryMode } from "@/components/useQueryMode";
 import { storiesFor, wordCount, type Story } from "@/content/stories";
-import type { LevelId } from "@/lib/levels";
+import { READING_WPM, type LevelId } from "@/lib/levels";
 import { recordResult, useProgress } from "@/lib/progress";
 import { canSpeak, speak, stopSpeaking } from "@/lib/speech";
 import { ReadAloudCheck } from "@/components/ReadAloudCheck";
 
 // Typical oral reading targets (words per minute) used as friendly guides.
-const WPM_TARGET: Record<LevelId, number> = { kg: 30, "p1-3": 60, "p4-6": 100, jhs: 130 };
+const WPM_TARGET = READING_WPM;
 
 function StoryText({ story, active }: { story: Story; active: number }) {
   return (
@@ -79,7 +79,7 @@ function ReadStory({ story, onBack }: { story: Story; onBack: () => void }) {
             {active >= 0 ? "⏹ Stop" : "🔊 Read to me"}
           </button>
         )}
-        <ReadAloudCheck paragraphs={story.text} storyKey={story.id} big={story.level === "kg"} />
+        <ReadAloudCheck paragraphs={story.text} storyKey={story.id} big={story.level === "kg"} wpmTarget={READING_WPM[story.level]} />
       </div>
       <StoryText story={story} active={active} />
       <div className="mt-5 flex justify-center">

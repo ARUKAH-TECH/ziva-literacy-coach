@@ -1,11 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Stars, primaryButton, secondaryButton, goldButton } from "@/components/ui";
-import { useOnline } from "@/components/useOnline";
-import { checkPaperHandwriting, photoForUpload, type PaperCheck as Result } from "@/lib/handwritingCheck";
-import { aiCheckHandwriting, type AiFeedback } from "@/lib/aiCheck";
-import { hasConsent, setConsent } from "@/lib/consent";
+import { Stars, primaryButton, secondaryButton } from "@/components/ui";
+import { AiWritingCheck } from "@/components/AiWritingCheck";
+import { checkPaperHandwriting, type PaperCheck as Result } from "@/lib/handwritingCheck";
 import { recordResult } from "@/lib/progress";
 import { speak } from "@/lib/speech";
 
@@ -39,7 +37,6 @@ function Meter({ label, value }: { label: string; value: number }) {
  * and internet, an AI check can also read the letters.
  */
 export function PaperCheck({ target, prompt, level, recordKey }: { target: string; prompt: string; level: string; recordKey: string }) {
-  const online = useOnline();
   const camera = useRef<HTMLInputElement>(null);
   const gallery = useRef<HTMLInputElement>(null);
   const [photo, setPhoto] = useState<File | null>(null);
@@ -47,12 +44,6 @@ export function PaperCheck({ target, prompt, level, recordKey }: { target: strin
   const [busy, setBusy] = useState(false);
   const [result, setResult] = useState<Result | null>(null);
   const [problem, setProblem] = useState<string | null>(null);
-  const [consent, setConsentState] = useState(false);
-  const [ai, setAi] = useState<AiFeedback | null>(null);
-  const [aiBusy, setAiBusy] = useState(false);
-  const [aiError, setAiError] = useState<string | null>(null);
-
-  useEffect(() => setConsentState(hasConsent("ai-photo")), []);
   useEffect(() => () => void (preview && URL.revokeObjectURL(preview)), [preview]);
   useEffect(() => {
     // New exercise → start fresh.
@@ -60,8 +51,6 @@ export function PaperCheck({ target, prompt, level, recordKey }: { target: strin
     setPreview(null);
     setResult(null);
     setProblem(null);
-    setAi(null);
-    setAiError(null);
   }, [target]);
 
   async function onPick(file: File | undefined) {
@@ -70,8 +59,6 @@ export function PaperCheck({ target, prompt, level, recordKey }: { target: strin
     setPreview(URL.createObjectURL(file));
     setResult(null);
     setProblem(null);
-    setAi(null);
-    setAiError(null);
     setBusy(true);
     const check = await checkPaperHandwriting(file);
     setBusy(false);
@@ -81,24 +68,6 @@ export function PaperCheck({ target, prompt, level, recordKey }: { target: strin
       speak(check.stars >= 4 ? "Lovely writing!" : "Good work. Look at the tips to make it even better.");
     } else {
       setProblem(check.message);
-    }
-  }
-
-  async function runAi() {
-    if (!photo) return;
-    setAiBusy(true);
-    setAiError(null);
-    try {
-      const image = await photoForUpload(photo);
-      const res = await aiCheckHandwriting(image, target, level);
-      if (res.ok) {
-        setAi(res);
-        speak(res.summary || "Here is your feedback.");
-      } else setAiError(res.message);
-    } catch {
-      setAiError("That photo couldn't be prepared. Please try another photo.");
-    } finally {
-      setAiBusy(false);
     }
   }
 
@@ -153,86 +122,10 @@ export function PaperCheck({ target, prompt, level, recordKey }: { target: strin
               <ul className="mt-1 list-disc pl-5 text-sky-950">{result.next.map((s) => <li key={s}>{s}</li>)}</ul>
             </div>
           )}
-          <p className="text-xs text-black/50">The phone check looks at size, lines, spacing and neatness. It can&apos;t read which letters you wrote — use the AI check for that.</p>
+          <p className="text-xs text-black/50">The phone check looks at size, lines, spacing and neatness. It can&apos;t read which letters you wrote — use the AI check below to have your writing read and rewritten with corrections.</p>
 
-          {/* Optional AI check */}
-          <div className="rounded-2xl border-2 border-dashed border-ziva/30 p-4">
-            <p className="font-bold">🤖 AI check — reads the letters (needs internet)</p>
-            {!consent ? (
-              <label className="mt-2 flex items-start gap-3 text-sm">
-                <input
-                  type="checkbox"
-                  className="mt-1 h-5 w-5"
-                  onChange={(e) => {
-                    setConsent("ai-photo", e.target.checked);
-                    setConsentState(e.target.checked);
-                  }}
-                />
-                <span>
-                  <strong>For a parent or teacher:</strong> I agree to send this photo of handwriting to the ZIVA AI checker so it can read the
-                  writing. Only the photo is sent — no name. It is not saved. Please photograph only the paper, not the child.
-                </span>
-              </label>
-            ) : (
-              <div className="mt-2 flex flex-wrap items-center gap-3">
-                <button type="button" onClick={runAi} disabled={aiBusy || !online} className={goldButton}>
-                  {aiBusy ? "Reading your writing…" : "🤖 AI check"}
-                </button>
-                {!online && <span className="text-sm font-semibold text-amber-800">Connect to the internet to use the AI check.</span>}
-                <button
-                  type="button"
-                  onClick={() => {
-                    setConsent("ai-photo", false);
-                    setConsentState(false);
-                  }}
-                  className="text-xs text-black/50 underline"
-                >
-                  Turn off AI check
-                </button>
-              </div>
-            )}
-            {aiError && <p role="alert" className="mt-3 font-semibold text-rose-700">{aiError}</p>}
-            {ai && (
-              <div role="status" className="mt-4 flex flex-col gap-3">
-                <div className="flex items-center gap-3">
-                  <Stars count={ai.stars} size="text-3xl" />
-                </div>
-                {ai.summary && <p className="text-lg font-semibold">{ai.summary}</p>}
-                <p className="rounded-xl bg-black/5 p-3">
-                  <span className="text-sm text-black/60">The AI read:</span>{" "}
-                  <span className="font-bold">{ai.readText ? `“${ai.readText}”` : "(nothing clear)"}</span>
-                  {ai.readText && (
-                    <span className={`ml-2 rounded-full px-2 py-0.5 text-sm font-bold ${ai.matchesTarget ? "bg-emerald-100 text-emerald-900" : "bg-amber-100 text-amber-900"}`}>
-                      {ai.matchesTarget ? "✅ Matches" : "✍️ Not quite the same"}
-                    </span>
-                  )}
-                </p>
-                {ai.letters.length > 0 && (
-                  <div className="rounded-2xl bg-rose-50 p-4">
-                    <p className="font-bold text-rose-900">🔤 Letters to fix</p>
-                    <ul className="mt-2 flex flex-col gap-2">
-                      {ai.letters.map((l, i) => (
-                        <li key={i} className="rounded-xl bg-white p-3">
-                          <span className="text-2xl font-extrabold">{l.letter}</span> <span className="text-rose-900">{l.issue}</span>
-                          {l.tip && <p className="mt-1 text-sm text-black/70">💡 {l.tip}</p>}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-                {ai.strengths.length > 0 && (
-                  <ul className="list-disc rounded-2xl bg-emerald-50 p-4 pl-8 text-emerald-950">{ai.strengths.map((s) => <li key={s}>{s}</li>)}</ul>
-                )}
-                {ai.nextSteps.length > 0 && (
-                  <div className="rounded-2xl bg-sky-50 p-4">
-                    <p className="font-bold text-sky-900">👉 What to practise next</p>
-                    <ul className="mt-1 list-disc pl-5 text-sky-950">{ai.nextSteps.map((s) => <li key={s}>{s}</li>)}</ul>
-                  </div>
-                )}
-                <p className="text-xs text-black/50">AI feedback can make mistakes — a teacher or parent knows best.</p>
-              </div>
-            )}
-          </div>
+          {/* Optional AI check: reads the writing and rewrites it correctly */}
+          <AiWritingCheck image={photo} target={target} level={level} isShape={prompt === "Draw"} />
         </div>
       )}
     </section>

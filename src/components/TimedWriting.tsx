@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Stars, goldButton, primaryButton, secondaryButton } from "@/components/ui";
+import { AiWritingCheck } from "@/components/AiWritingCheck";
 import { hasConsent, setConsent } from "@/lib/consent";
 import { checkPaperHandwriting, type PaperCheck } from "@/lib/handwritingCheck";
 import { WRITING_LPM, clock, type LevelId } from "@/lib/levels";
@@ -38,6 +39,13 @@ export function TimedWriting({ target, isShape, level, recordKey }: { target: st
   const [videoUrl, setVideoUrl] = useState<string | null>(null);
   const [videoExt, setVideoExt] = useState("webm");
   const [check, setCheck] = useState<PaperCheck | null>(null);
+  const [frameImg, setFrameImg] = useState<Blob | null>(null);
+  const [frameUrl, setFrameUrl] = useState<string | null>(null);
+  useEffect(() => {
+    const u = frameImg ? URL.createObjectURL(frameImg) : null;
+    setFrameUrl(u);
+    return () => void (u && URL.revokeObjectURL(u));
+  }, [frameImg]);
   const [problem, setProblem] = useState<string | null>(null);
   const [cameraError, setCameraError] = useState<string | null>(null);
   const live = useRef<HTMLVideoElement>(null);
@@ -79,6 +87,7 @@ export function TimedWriting({ target, isShape, level, recordKey }: { target: st
     if (recorder.current?.state === "recording") recorder.current.stop();
     setVideoUrl((u) => (u && URL.revokeObjectURL(u), null));
     setCheck(null);
+    setFrameImg(null);
     setProblem(null);
     setElapsed(0);
     setSeconds(0);
@@ -179,6 +188,7 @@ export function TimedWriting({ target, isShape, level, recordKey }: { target: st
     if (lpm !== null) recordResult(`write-speed:${recordKey}`, speedStars);
     speak(lpm === null ? `Done in ${Math.round(s)} seconds.` : `Done! ${lpm} letters a minute.`);
 
+    setFrameImg(frame);
     if (frame) {
       const result = await checkPaperHandwriting(frame);
       if (result.ok) setCheck(result);
@@ -264,6 +274,9 @@ export function TimedWriting({ target, isShape, level, recordKey }: { target: st
               </div>
             </>
           )}
+          {phase === "writing" && useVideo && (
+            <p className="text-center text-sm font-semibold text-black/60">When you finish, move your hand away so the camera can see all the writing.</p>
+          )}
           {phase === "writing" && (
             <button type="button" onClick={finish} className={goldButton}>
               ✅ I&apos;ve finished
@@ -298,6 +311,15 @@ export function TimedWriting({ target, isShape, level, recordKey }: { target: st
             </div>
           )}
           {problem && <p className="rounded-2xl bg-amber-50 p-3 text-sm text-amber-950">{problem}</p>}
+
+          {frameImg && (
+            <div>
+              <p className="mb-2 text-sm font-semibold text-black/60">The last picture from the video is used for checking:</p>
+              {/* eslint-disable-next-line @next/next/no-img-element -- local frame, stays on the phone */}
+              <img src={frameUrl ?? ""} alt="Last picture of your writing" className="mb-3 max-h-48 w-full rounded-2xl object-contain ring-1 ring-black/10" />
+              <AiWritingCheck image={frameImg} target={target} level={level} isShape={isShape} />
+            </div>
+          )}
 
           {videoUrl && (
             <div>

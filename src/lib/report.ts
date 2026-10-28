@@ -14,8 +14,16 @@ export const SKILLS = [
 
 export type SkillId = (typeof SKILLS)[number]["id"];
 
+const STAGE_SKILL: Record<string, SkillId> = { writing: "handwriting", reading: "reading", spelling: "spelling" };
+
 export function skillOf(key: string): SkillId | null {
   const prefix = key.split(":")[0];
+  if (prefix === "stage") {
+    // stage:<class>.<skill>.<level>.<stage>.<work>
+    const [cls, skill] = (key.split(":")[1] ?? "").split(".");
+    if (skill === "words") return cls === "kg" || cls === "p1-3" ? "phonics" : "vocabulary";
+    return STAGE_SKILL[skill] ?? null;
+  }
   return SKILLS.find((s) => (s.prefixes as readonly string[]).includes(prefix))?.id ?? null;
 }
 
@@ -34,8 +42,15 @@ const ACTIVITY_NAMES: Record<string, string> = {
   punctuation: "Punctuation",
 };
 
+const LEVEL_NAMES = ["Beginner", "Intermediate", "Professional"];
+const SKILL_NAMES: Record<string, string> = { writing: "Writing", reading: "Reading", spelling: "Spelling", words: "Sounds & words" };
+
 export function activityName(key: string) {
   const [prefix, rest] = key.split(":");
+  if (prefix === "stage") {
+    const [, skill, L, s, w] = (rest ?? "").split(".");
+    return `${SKILL_NAMES[skill] ?? skill} · ${LEVEL_NAMES[Number(L)] ?? ""} stage ${Number(s) + 1} · work ${Number(w) + 1}`;
+  }
   const base = ACTIVITY_NAMES[prefix] ?? prefix;
   return rest && !["quiz", "all", "kg", "p1-3", "p4-6", "jhs"].includes(rest) ? `${base} · ${rest.replace(/-/g, " ")}` : base;
 }

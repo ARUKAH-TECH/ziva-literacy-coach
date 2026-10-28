@@ -25,6 +25,7 @@ export default function LearnPage() {
   return (
     <AppShell title={level ? `${level.label} lessons` : "Lessons"}>
       <div className="grid gap-4">
+        <BigLink href="/stages/" emoji="🪜" title="Stages: step by step" text="Beginner → Professional · 5 stages each · get ⭐⭐⭐⭐ to move on" color="bg-gradient-to-r from-amber-200 to-orange-200" />
         {list.map((a, i) => (
           <BigLink key={a.id} href={a.href} emoji={a.emoji} title={a.title} text={a.text} color={COLORS[i % COLORS.length]} />
         ))}

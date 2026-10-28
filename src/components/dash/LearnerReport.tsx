@@ -7,6 +7,8 @@ import { LEVELS, levelInfo, type LevelId } from "@/lib/levels";
 import { saveLearner } from "@/lib/learners";
 import { buildReport, whenText } from "@/lib/report";
 import { ShareCode } from "@/components/dash/ShareCode";
+import { SKILLS as STAGE_SKILLS } from "@/content/stages/generate";
+import { positionText } from "@/lib/stages";
 
 function Bar({ value }: { value: number }) {
   const pct = Math.round((value / 5) * 100);
@@ -118,6 +120,20 @@ export function LearnerReport({
               </div>
             ))}
           </div>
+        </div>
+
+        <div className="mt-4 rounded-2xl bg-white p-4 shadow-sm">
+          <p className="mb-2 font-bold">🪜 Stages reached</p>
+          <ul className="grid gap-1.5">
+            {STAGE_SKILLS.map((sk) => (
+              <li key={sk.id} className="flex items-center justify-between gap-2 text-sm">
+                <span className="font-semibold">
+                  {sk.emoji} {sk.title}
+                </span>
+                <span className="text-right text-black/70">{positionText(learner.level, sk.id, learner.progress)}</span>
+              </li>
+            ))}
+          </ul>
         </div>
 
         {(r.strong.length > 0 || r.needs.length > 0) && (

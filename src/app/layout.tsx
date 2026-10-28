@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { ServiceWorker } from "@/components/ServiceWorker";
+import { LearnerSync } from "@/components/LearnerSync";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://learn.zivarukah.com"),
@@ -21,6 +22,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en-GH">
       <body className="min-h-dvh antialiased">
         <ServiceWorker />
+        <LearnerSync />
         {children}
       </body>
     </html>

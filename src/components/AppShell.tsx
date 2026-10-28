@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { levelInfo } from "@/lib/levels";
 import { useProgress } from "@/lib/progress";
+import { useLearners } from "@/lib/learners";
 import { useOnline } from "@/components/useOnline";
 import { stopSpeaking } from "@/lib/speech";
 
@@ -11,6 +12,7 @@ export function AppShell({ title, back = "/", children }: { title?: string; back
   const { progress } = useProgress();
   const online = useOnline();
   const level = levelInfo(progress.level);
+  const { current } = useLearners();
   return (
     <div className="flex min-h-dvh flex-col">
       <header className="sticky top-0 z-30 bg-ziva text-white shadow-md">
@@ -25,9 +27,17 @@ export function AppShell({ title, back = "/", children }: { title?: string; back
           )}
           <div className="min-w-0 flex-1">
             <p className="truncate text-lg font-extrabold leading-tight">{title ?? "ZIVA Literacy"}</p>
-            {title && <p className="text-xs text-white/80">ZIVA Literacy & Handwriting Coach</p>}
+            {title && <p className="hidden text-xs text-white/80 sm:block">ZIVA Literacy & Handwriting Coach</p>}
           </div>
-          <Link href="/level/" className="rounded-full bg-gold px-3 py-1.5 text-sm font-bold text-[#14110c]">
+          <Link
+            href="/join/"
+            aria-label={current ? `Learning now: ${current.name}. Change learner` : "Who is learning?"}
+            className="flex h-9 max-w-[6.5rem] shrink-0 items-center gap-1 rounded-full bg-white/15 px-3 text-sm font-bold"
+          >
+            <span aria-hidden="true">{current ? "🧒" : "👤"}</span>
+            <span className="truncate">{current ? current.name : "Guest"}</span>
+          </Link>
+          <Link href="/level/" className="shrink-0 rounded-full bg-gold px-3 py-1.5 text-sm font-bold text-[#14110c]">
             {level ? `${level.emoji} ${level.short}` : "Choose class"}
           </Link>
         </div>

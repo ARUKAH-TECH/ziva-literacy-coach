@@ -2,11 +2,14 @@
 
 import { useEffect, useState } from "react";
 import type { LevelId } from "@/lib/levels";
+import { LEARNER_EVENT, getLearners, progressKeyFor } from "@/lib/learners";
 
-// Progress is kept ONLY on this device (localStorage). No names, scores or
-// recordings are sent anywhere. "Clear my progress" deletes it all.
+// Progress is kept on this device (localStorage). As a guest nothing is sent
+// anywhere. When a learner code from a parent or school is opened, that
+// learner's stars are also synced so the parent/teacher can see them.
 
-const KEY = "ziva-literacy:v1";
+export const PROGRESS_SAVED = "ziva-progress-saved";
+const currentKey = () => progressKeyFor(getLearners().active);
 
 export interface RecordEntry {
   best: number; // stars 0–5
@@ -24,9 +27,13 @@ export interface Progress {
 
 const EMPTY: Progress = { level: null, records: {}, days: [], scale: 5 };
 
+export function readProgress(): Progress {
+  return read();
+}
+
 function read(): Progress {
   try {
-    const raw = localStorage.getItem(KEY);
+    const raw = localStorage.getItem(currentKey());
     if (!raw) return EMPTY;
     const parsed = JSON.parse(raw) as Partial<Progress>;
     let records = parsed.records ?? {};
@@ -46,7 +53,7 @@ const listeners = new Set<(p: Progress) => void>();
 
 function write(next: Progress) {
   try {
-    localStorage.setItem(KEY, JSON.stringify(next));
+    localStorage.setItem(currentKey(), JSON.stringify(next));
   } catch {
     // Storage full or blocked (private mode): the lesson still works.
   }
@@ -60,11 +67,14 @@ export function useProgress() {
     setProgress(read());
     setLoaded(true);
     listeners.add(setProgress);
-    const onStorage = (e: StorageEvent) => e.key === KEY && setProgress(read());
+    const reload = () => setProgress(read());
+    const onStorage = (e: StorageEvent) => e.key === currentKey() && reload();
     window.addEventListener("storage", onStorage);
+    window.addEventListener(LEARNER_EVENT, reload);
     return () => {
       listeners.delete(setProgress);
       window.removeEventListener("storage", onStorage);
+      window.removeEventListener(LEARNER_EVENT, reload);
     };
   }, []);
   return { progress, loaded };
@@ -86,11 +96,26 @@ export function recordResult(key: string, stars: number) {
   };
   const days = current.days.includes(today) ? current.days : [...current.days, today].slice(-60);
   write({ ...current, records: { ...current.records, [key]: entry }, days, scale: 5 });
+  window.dispatchEvent(new Event(PROGRESS_SAVED));
+}
+
+/** Merges synced progress (from the cloud) into this phone's copy. */
+export function mergeProgress(incoming: Partial<Progress>, level?: LevelId) {
+  const current = read();
+  const records = { ...current.records };
+  for (const [k, r] of Object.entries(incoming.records ?? {})) {
+    const mine = records[k];
+    records[k] = mine
+      ? { best: Math.max(mine.best, r.best), tries: Math.max(mine.tries, r.tries), last: mine.last > r.last ? mine.last : r.last }
+      : r;
+  }
+  const days = [...new Set([...current.days, ...(incoming.days ?? [])])].sort().slice(-180);
+  write({ level: level ?? current.level, records, days, scale: 5 });
 }
 
 export function clearProgress() {
   try {
-    localStorage.removeItem(KEY);
+    localStorage.removeItem(currentKey());
   } catch {
     // ignore
   }

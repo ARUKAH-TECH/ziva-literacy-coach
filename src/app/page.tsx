@@ -39,6 +39,8 @@ export default function Home() {
         <BigLink href="/reading/" emoji="📖" title="Reading practice" text="Stories, read-aloud and questions" color="bg-emerald-100" />
         <BigLink href="/handwriting/" emoji="✏️" title="Handwriting practice" text="Trace strokes, letters, words and sentences" color="bg-rose-100" />
         <BigLink href="/progress/" emoji="🏆" title="My progress" text="Stars and practice days on this device" color="bg-violet-100" />
+        <BigLink href="/join/" emoji="🧒" title="Who is learning?" text="Enter your learner code from a parent or teacher" color="bg-lime-100" />
+        <BigLink href="/account/" emoji="👨‍👩‍👧" title="Parents, teachers & schools" text="Register, add children, follow their progress" color="bg-orange-100" />
       </div>
 
       <div className="mt-6">
@@ -58,7 +60,7 @@ export default function Home() {
       </section>
 
       <p className="mt-8 text-center text-sm text-black/60">
-        Free practice from <a href="https://zivarukah.com/ziva" className="font-semibold underline">ZIVA Special Classes</a>. No sign-up — progress stays on this device.
+        Free practice from <a href="https://zivarukah.com/ziva" className="font-semibold underline">ZIVA Special Classes</a>. No sign-up needed to learn. Parents and schools can register to follow progress.
       </p>
     </AppShell>
   );

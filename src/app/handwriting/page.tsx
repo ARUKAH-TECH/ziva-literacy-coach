@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { AppShell } from "@/components/AppShell";
-import { Stars, primaryButton, secondaryButton } from "@/components/ui";
+import { Stars, praise, primaryButton, secondaryButton } from "@/components/ui";
 import { TracePad, type TraceScore } from "@/components/TracePad";
 import { SETS_FOR_LEVEL, traceSet } from "@/content/handwriting";
 import { recordResult, useProgress } from "@/lib/progress";
@@ -81,7 +81,7 @@ export default function HandwritingPage() {
               onChecked={(score) => {
                 setResult(score);
                 recordResult(`handwriting:${item.id}`, score.stars);
-                speak(score.stars === 3 ? "Excellent!" : score.stars === 2 ? "Well done!" : score.stars === 1 ? "Good try!" : "Let's try again.");
+                speak(score.stars === 0 ? "Let's try again." : praise(score.stars));
               }}
             />
           </div>

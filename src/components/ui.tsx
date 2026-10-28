@@ -2,10 +2,17 @@
 
 import Link from "next/link";
 
+export const MAX_STARS = 5;
+
+/** Cheering words for a star count (0–5). */
+export function praise(stars: number) {
+  return stars >= 5 ? "Excellent!" : stars === 4 ? "Great job!" : stars === 3 ? "Well done!" : stars >= 1 ? "Good try!" : "Keep practising!";
+}
+
 export function Stars({ count, size = "text-3xl" }: { count: number; size?: string }) {
   return (
-    <span aria-label={`${count} out of 3 stars`} className={`${size} tracking-wider`}>
-      {[0, 1, 2].map((i) => (
+    <span aria-label={`${count} out of ${MAX_STARS} stars`} className={`${size} tracking-wide`}>
+      {Array.from({ length: MAX_STARS }, (_, i) => i).map((i) => (
         <span key={i} className={i < count ? "pop inline-block" : "inline-block opacity-25 grayscale"} style={{ animationDelay: `${i * 0.15}s` }}>
           ⭐
         </span>
@@ -43,7 +50,7 @@ export function Finished({ stars, message, onAgain, nextHref, nextLabel }: { sta
   return (
     <div role="status" className="flex flex-col items-center gap-4 rounded-3xl bg-white p-8 text-center shadow">
       <Stars count={stars} size="text-5xl" />
-      <p className="text-2xl font-extrabold">{stars === 3 ? "Excellent!" : stars === 2 ? "Well done!" : stars === 1 ? "Good try!" : "Keep practising!"}</p>
+      <p className="text-2xl font-extrabold">{praise(stars)}</p>
       <p className="text-lg text-black/70">{message}</p>
       <div className="flex flex-wrap justify-center gap-3">
         <button type="button" onClick={onAgain} className={secondaryButton}>

@@ -3,6 +3,7 @@
 import { AppShell } from "@/components/AppShell";
 import { BigLink } from "@/components/ui";
 import { InstallCard } from "@/components/InstallCard";
+import { ShareButtons } from "@/components/ShareButtons";
 import { levelInfo } from "@/lib/levels";
 import { useProgress, streak } from "@/lib/progress";
 
@@ -43,6 +44,18 @@ export default function Home() {
       <div className="mt-6">
         <InstallCard compact />
       </div>
+
+      <section className="mt-6 rounded-3xl bg-white p-5 shadow-sm">
+        <p className="text-lg font-extrabold">📣 Share ZIVA Literacy</p>
+        <p className="mt-1 text-black/70">Free for every child — send it to parents, teachers and friends.</p>
+        <ShareButtons
+          className="mt-3"
+          label="Send"
+          url="https://learn.zivarukah.com/"
+          title="ZIVA Literacy & Handwriting Coach"
+          message={"✏️ *ZIVA Literacy & Handwriting Coach* — FREE\n\nReading, phonics, spelling and handwriting practice for KG, Primary and JHS. Reads stories aloud, lets children trace letters with their finger and gives up to ⭐⭐⭐⭐⭐. Install it on your phone — works offline 👇"}
+        />
+      </section>
 
       <p className="mt-8 text-center text-sm text-black/60">
         Free practice from <a href="https://zivarukah.com/ziva" className="font-semibold underline">ZIVA Special Classes</a>. No sign-up — progress stays on this device.

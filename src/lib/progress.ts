@@ -9,7 +9,7 @@ import type { LevelId } from "@/lib/levels";
 const KEY = "ziva-literacy:v1";
 
 export interface RecordEntry {
-  best: number; // stars 0–3
+  best: number; // stars 0–5
   tries: number;
   last: string; // ISO date
 }
@@ -18,16 +18,25 @@ export interface Progress {
   level: LevelId | null;
   records: Record<string, RecordEntry>;
   days: string[]; // dates practised (YYYY-MM-DD), newest last
+  /** Star scale the records use (older saves used 3). */
+  scale?: 5;
 }
 
-const EMPTY: Progress = { level: null, records: {}, days: [] };
+const EMPTY: Progress = { level: null, records: {}, days: [], scale: 5 };
 
 function read(): Progress {
   try {
     const raw = localStorage.getItem(KEY);
     if (!raw) return EMPTY;
     const parsed = JSON.parse(raw) as Partial<Progress>;
-    return { level: parsed.level ?? null, records: parsed.records ?? {}, days: parsed.days ?? [] };
+    let records = parsed.records ?? {};
+    if (parsed.scale !== 5) {
+      // Saves from the 3-star version: 1★→2, 2★→3, 3★→5 on the new 5-star scale.
+      records = Object.fromEntries(
+        Object.entries(records).map(([k, r]) => [k, { ...r, best: r.best >= 3 ? 5 : Math.round((r.best * 5) / 3) }]),
+      );
+    }
+    return { level: parsed.level ?? null, records, days: parsed.days ?? [], scale: 5 };
   } catch {
     return EMPTY;
   }
@@ -65,18 +74,18 @@ export function setLevel(level: LevelId) {
   write({ ...read(), level });
 }
 
-/** Saves a finished exercise: `key` like "reading:ama-goat", stars 0–3. */
+/** Saves a finished exercise: `key` like "reading:ama-goat", stars 0–5. */
 export function recordResult(key: string, stars: number) {
   const current = read();
   const today = new Date().toISOString().slice(0, 10);
   const prev = current.records[key];
   const entry: RecordEntry = {
-    best: Math.max(prev?.best ?? 0, Math.max(0, Math.min(3, Math.round(stars)))),
+    best: Math.max(prev?.best ?? 0, Math.max(0, Math.min(5, Math.round(stars)))),
     tries: (prev?.tries ?? 0) + 1,
     last: new Date().toISOString(),
   };
   const days = current.days.includes(today) ? current.days : [...current.days, today].slice(-60);
-  write({ ...current, records: { ...current.records, [key]: entry }, days });
+  write({ ...current, records: { ...current.records, [key]: entry }, days, scale: 5 });
 }
 
 export function clearProgress() {

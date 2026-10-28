@@ -229,11 +229,11 @@ export function TracePad({ item, onChecked }: { item: TraceItem; onChecked: (sco
     const coverage = coreN ? covered / coreN : 0;
     const accuracy = inkN ? inside / inkN : 0;
     const score = coverage * 0.6 + accuracy * 0.4;
-    const stars = score >= 0.85 ? 3 : score >= 0.7 ? 2 : score >= 0.5 ? 1 : 0;
+    const stars = score >= 0.9 ? 5 : score >= 0.8 ? 4 : score >= 0.7 ? 3 : score >= 0.55 ? 2 : score >= 0.4 ? 1 : 0;
     const tip =
       coverage < 0.7 ? "Trace the whole shape — follow every part of the dotted guide." :
       accuracy < 0.75 ? "Try to stay on the dotted line." :
-      stars === 3 ? "Beautiful, neat writing!" : "Nice! Go slowly for even neater writing.";
+      stars === 5 ? "Beautiful, neat writing!" : "Nice! Go slowly for even neater writing.";
     onChecked({ stars, coverage, accuracy, tip });
   }
 

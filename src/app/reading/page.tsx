@@ -103,7 +103,7 @@ function Fluency({ story, level, onBack }: { story: Story; level: LevelId; onBac
   }, [start]);
 
   const seconds = start ? Math.max(0, Math.floor((now - start) / 1000)) : 0;
-  const stars = wpm === null ? 0 : wpm >= target ? 3 : wpm >= target * 0.75 ? 2 : wpm >= target * 0.5 ? 1 : 0;
+  const stars = wpm === null ? 0 : wpm >= target ? 5 : wpm >= target * 0.85 ? 4 : wpm >= target * 0.7 ? 3 : wpm >= target * 0.55 ? 2 : wpm >= target * 0.4 ? 1 : 0;
 
   return (
     <>
@@ -122,7 +122,7 @@ function Fluency({ story, level, onBack }: { story: Story; level: LevelId; onBac
           <Stars count={stars} size="text-4xl" />
           <p className="text-3xl font-extrabold">{wpm} words a minute</p>
           <p className="text-black/70">
-            {stars === 3 ? "Fluent reading — well done!" : "Read it again tomorrow — fluency grows with practice."} Ask a teacher or parent to listen for clear, correct words.
+            {stars === 5 ? "Fluent reading — well done!" : "Read it again tomorrow — fluency grows with practice."} Ask a teacher or parent to listen for clear, correct words.
           </p>
         </div>
       )}

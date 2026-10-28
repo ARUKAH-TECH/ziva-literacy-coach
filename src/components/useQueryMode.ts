@@ -21,6 +21,7 @@ export function shuffle<T>(list: readonly T[]): T[] {
 }
 
 export function starsFor(correct: number, total: number) {
+  // 5 stars = all correct; each fifth of the answers earns a star.
   const r = total ? correct / total : 0;
-  return r >= 0.9 ? 3 : r >= 0.6 ? 2 : r >= 0.3 ? 1 : 0;
+  return Math.max(0, Math.min(5, Math.floor(r * 5 + 1e-9)));
 }

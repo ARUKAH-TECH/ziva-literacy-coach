@@ -14,11 +14,11 @@ function printCodes(title: string, rows: { name: string; code: string }[]) {
   const w = window.open("", "_blank");
   if (!w) return;
   const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c] as string);
-  w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>${esc(title)} – learner codes</title>
+  w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>${esc(title)}: learner codes</title>
 <style>body{font-family:system-ui,Arial,sans-serif;margin:24px}h1{font-size:20px}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
 .card{border:2px dashed #999;border-radius:12px;padding:12px}.n{font-size:20px;font-weight:800}.c{font:700 22px monospace;letter-spacing:2px;margin:6px 0}
 .s{font-size:12px;color:#444}@media print{button{display:none}}</style></head><body>
-<button onclick="print()">🖨️ Print</button><h1>${esc(title)} — ZIVA Literacy learner codes</h1><div class="grid">
+<button onclick="print()">🖨️ Print</button><h1>${esc(title)}: ZIVA Literacy learner codes</h1><div class="grid">
 ${rows.map((r) => `<div class="card"><div class="n">${esc(r.name)}</div><div class="c">${esc(r.code)}</div><div class="s">Open learn.zivarukah.com/join and enter this code.</div></div>`).join("")}
 </div></body></html>`);
   w.document.close();
@@ -91,7 +91,7 @@ function AddLearners({ space, onDone }: { space: Space; onDone: () => void }) {
         </label>
       )}
       <label className="grid gap-1 text-sm font-semibold">
-        {school ? "Names — one per line (first name only)" : "Child's first name or nickname"}
+        {school ? "Names: one per line (first name only)" : "Child's first name or nickname"}
         {school ? (
           <textarea value={names} onChange={(e) => setNames(e.target.value)} rows={5} placeholder={"Esi\nKofi\nAbena"} className={input} />
         ) : (
@@ -112,7 +112,7 @@ function AddLearners({ space, onDone }: { space: Space; onDone: () => void }) {
       </button>
       {added.length > 0 && (
         <div className="rounded-2xl bg-emerald-50 p-4">
-          <p className="font-bold text-emerald-900">✅ Added — give each child their code:</p>
+          <p className="font-bold text-emerald-900">✅ Added. Give each child their code:</p>
           <ul className="mt-2 grid gap-1">
             {added.map((a) => (
               <li key={a.code} className="flex justify-between gap-2">
@@ -288,7 +288,7 @@ function People({ space, onDone }: { space: Space; onDone: () => void }) {
         type="button"
         onClick={() => {
           const me = space.members.find((m) => m.me);
-          if (me && confirm(`Leave ${space.name}? ${space.members.length === 1 ? "You are the only member — it and all its children's data will be deleted." : ""}`))
+          if (me && confirm(`Leave ${space.name}? ${space.members.length === 1 ? "You are the only member. It and all its children's data will be deleted." : ""}`))
             run("lit_set_member", { p_group: space.id, p_account: me.id, p_role: null });
         }}
         className="justify-self-start text-sm font-bold text-rose-700 underline"
@@ -381,7 +381,7 @@ export function SpaceView({ space, onChanged }: { space: Space; onChanged: () =>
           <p className="text-xs text-black/60">practised this week</p>
         </div>
         <div className="rounded-2xl bg-white p-3">
-          <p className="text-2xl font-extrabold">{avg ? avg.toFixed(1) : "–"}</p>
+          <p className="text-2xl font-extrabold">{avg ? avg.toFixed(1) : "None"}</p>
           <p className="text-xs text-black/60">average stars</p>
         </div>
       </div>

@@ -42,7 +42,7 @@ export const WORKS_PER_STAGE = 20;
 export const PASS_STARS = 4;
 
 export const SKILLS: { id: SkillId; title: string; emoji: string; text: string }[] = [
-  { id: "writing", title: "Writing", emoji: "✏️", text: "Trace and write — letters to sentences" },
+  { id: "writing", title: "Writing", emoji: "✏️", text: "Trace and write: letters to sentences" },
   { id: "reading", title: "Reading", emoji: "📖", text: "Read, then answer the question" },
   { id: "spelling", title: "Spelling", emoji: "📝", text: "Listen and spell" },
   { id: "words", title: "Sounds & words", emoji: "🔤", text: "Sounds, rhymes, meanings and grammar" },
@@ -241,7 +241,7 @@ function blendWork(id: string, r: R): Work {
   return {
     kind: "choice",
     id,
-    prompt: `Put the sounds together: ${word.split("").join(" – ")}`,
+    prompt: `Put the sounds together: ${word.split("").join(", ")}`,
     say: `${word.split("").join(", ")}. What word is it?`,
     picture: PIC.get(word),
     ...c,

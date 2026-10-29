@@ -70,7 +70,7 @@ export default function JoinPage() {
                     {lvl?.emoji} {lvl?.short} · {l.kind === "school" ? "🏫" : "🏠"} {l.space}
                   </span>
                   <span className="block text-xs text-black/60">
-                    {l.missing ? "⚠️ This code no longer works — ask your parent or teacher." : l.lastSync ? `Saved online: ${whenText(l.lastSync)}` : "Not saved online yet"}
+                    {l.missing ? "⚠️ This code no longer works: ask your parent or teacher." : l.lastSync ? `Saved online: ${whenText(l.lastSync)}` : "Not saved online yet"}
                   </span>
                 </span>
               </button>

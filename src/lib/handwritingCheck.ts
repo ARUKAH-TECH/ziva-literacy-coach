@@ -273,12 +273,12 @@ export async function checkPaperHandwriting(file: Blob): Promise<PaperCheck | Pa
   const strengths: string[] = [];
   const next: string[] = [];
   const add = (score: number, good: string, needs: string) => (score >= 0.7 ? strengths.push(good) : next.push(needs));
-  add(size, "Your letters are a steady size.", "Make your letters the same size — small letters should all reach the same height.");
+  add(size, "Your letters are a steady size.", "Make your letters the same size; small letters should all reach the same height.");
   add(line, "Your writing sits nicely on the line.", "Keep your letters sitting on the line. Use lined paper and rest each letter on it.");
   add(spacing, "Good, even spacing.", "Space your letters evenly. Leave a finger space between words.");
   add(slant, "Your letters lean the same way.", "Keep your letters standing straight (or all leaning the same way).");
-  add(neat, "Neat — very few stray marks.", "Write slowly to avoid extra marks. Rub out mistakes gently.");
-  if (touching > letters.length * 0.2) next.push("Some letters are crowded together — give each letter its own space.");
+  add(neat, "Neat: very few stray marks.", "Write slowly to avoid extra marks. Rub out mistakes gently.");
+  if (touching > letters.length * 0.2) next.push("Some letters are crowded together: give each letter its own space.");
   if (textRows.length === 0) next.push("Write in a straight row across the page.");
 
   return { ok: true, stars, letters: letters.length, lines: Math.max(1, textRows.length), scores, strengths, next };

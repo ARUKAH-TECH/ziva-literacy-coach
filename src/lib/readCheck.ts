@@ -203,17 +203,17 @@ export function syllables(word: string) {
 export function pronunciationTip(word: string) {
   const w = normalize(word);
   if (/tion$/.test(w)) return "“-tion” at the end sounds like “shun”.";
-  if (/^kn/.test(w)) return "The k is silent — start with the n sound.";
-  if (/^wr/.test(w)) return "The w is silent — start with the r sound.";
+  if (/^kn/.test(w)) return "The k is silent: start with the n sound.";
+  if (/^wr/.test(w)) return "The w is silent: start with the r sound.";
   if (/igh/.test(w)) return "“igh” says the long i sound, like in “night”.";
-  if (/th/.test(w)) return "For “th”, you can put the tip of your tongue between your teeth and blow gently. Saying it like t or d (as many good readers do) is fine too — make sure every other sound is there.";
+  if (/th/.test(w)) return "For “th”, you can put the tip of your tongue between your teeth and blow gently. Saying it like t or d (as many good readers do) is fine too; just make sure every other sound is there.";
   if (/ph/.test(w)) return "“ph” sounds like f.";
   if (/[^aeiou]ed$/.test(w) && w.length > 4) return "Past-tense “-ed”: after t or d say “id”; after p, k, s, sh, ch say “t”; otherwise “d”.";
   if (/[aeiou][^aeiou]e$/.test(w)) return "The e at the end is silent, but it makes the first vowel say its name (like “cake”).";
   if (/ee|ea/.test(w)) return "“ee” and “ea” usually make a long “eee” sound.";
   if (/oo/.test(w)) return "“oo” is like in “moon” (sometimes short, like “book”).";
   if (/sh|ch/.test(w)) return "“sh” is quiet (shhh); “ch” is a short sneeze sound (ch!).";
-  if (/ng$/.test(w)) return "End with “ng” at the back of your mouth — don't add a g sound after it.";
+  if (/ng$/.test(w)) return "End with “ng” at the back of your mouth; don't add a g sound after it.";
   if (syllables(word).length > 1) return "Clap the parts, say each part slowly, then join them together.";
   return "Say each sound, then blend them together smoothly.";
 }

@@ -103,16 +103,16 @@ export function Subscriptions({ me }: { me: Me | null }) {
         The free part is finished. A subscription opens all stages up to Professional. Pay with Mobile Money or card
         (Paystack). Each payment adds 1 month.
       </p>
-      {paid === "paid" && <p role="status" className="mt-3 rounded-2xl bg-emerald-100 p-3 font-bold text-emerald-900">🎉 Payment received — your month is active. Thank you!</p>}
-      {paid === "pending" && <p role="status" className="mt-3 rounded-2xl bg-amber-100 p-3 font-bold text-amber-900">⏳ Waiting for the payment to be confirmed. Approve it on your phone if asked — this page checks again shortly.</p>}
-      {paid === "failed" && <p role="alert" className="mt-3 rounded-2xl bg-rose-100 p-3 font-bold text-rose-900">The payment did not go through. No money was taken for this month — please try again.</p>}
+      {paid === "paid" && <p role="status" className="mt-3 rounded-2xl bg-emerald-100 p-3 font-bold text-emerald-900">🎉 Payment received: your month is active. Thank you!</p>}
+      {paid === "pending" && <p role="status" className="mt-3 rounded-2xl bg-amber-100 p-3 font-bold text-amber-900">⏳ Waiting for the payment to be confirmed. Approve it on your phone if asked. This page checks again shortly.</p>}
+      {paid === "failed" && <p role="alert" className="mt-3 rounded-2xl bg-rose-100 p-3 font-bold text-rose-900">The payment did not go through. No money was taken for this month. Please try again.</p>}
       <ul className="mt-4 grid gap-3">
-        {showSelf && <Row title="🎒 Me (student)" sub={`GHS ${PRICES.student} a month — for my own learning on this phone`} until={subs.selfUntil} plan="student" group={null} canPay />}
+        {showSelf && <Row title="🎒 Me (student)" sub={`GHS ${PRICES.student} a month: for my own learning on this phone`} until={subs.selfUntil} plan="student" group={null} canPay />}
         {spaces.map((s) => (
           <Row
             key={s.id}
             title={`${s.kind === "school" ? "🏫" : "🏠"} ${s.name}`}
-            sub={s.kind === "school" ? `GHS ${PRICES.school} a month — every learner in the school` : `GHS ${PRICES.parent} a month — all children in the family`}
+            sub={s.kind === "school" ? `GHS ${PRICES.school} a month: every learner in the school` : `GHS ${PRICES.parent} a month: all children in the family`}
             until={s.until}
             plan={s.kind === "school" ? "school" : "parent"}
             group={s.id}

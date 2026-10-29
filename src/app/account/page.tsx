@@ -103,7 +103,7 @@ function SignInForm() {
           {busy ? "Please wait…" : mode === "register" ? "Register" : "Sign in"}
         </button>
         <p className="text-xs text-black/60">
-          No password needed — you sign in with your phone number and this phone stays signed in. Only first names and practice stars of children are
+          No password needed: you sign in with your phone number and this phone stays signed in. Only first names and practice stars of children are
           saved.
         </p>
       </form>
@@ -139,7 +139,7 @@ function Start({ onDone }: { onDone: () => void }) {
       <Link href="/learn/" className="flex items-center gap-3 rounded-3xl bg-violet-100 p-4 shadow-sm">
         <span className="text-3xl">🎒</span>
         <span>
-          <span className="block text-lg font-extrabold">I&apos;m a student — just learn</span>
+          <span className="block text-lg font-extrabold">I&apos;m a student: just learn</span>
           <span className="block text-sm text-black/60">Your learning days count while you are signed in on this phone</span>
         </span>
       </Link>
@@ -257,7 +257,7 @@ export default function AccountPage() {
               <li>On the child&apos;s phone (or yours), open learn.zivarukah.com → <strong>Who is learning?</strong> → enter the code.</li>
               <li>Their stars save on the phone (works offline) and sync here whenever there is internet.</li>
               <li>Schools: the head adds classes, shares the SCH- code with teachers, and gives each class to a teacher.</li>
-              <li>A home account and a school account are separate — a parent and a school can each follow the same child with their own code.</li>
+              <li>A home account and a school account are separate: a parent and a school can each follow the same child with their own code.</li>
             </ol>
             <button
               type="button"

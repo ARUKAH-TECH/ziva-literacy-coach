@@ -55,7 +55,7 @@ export function activityName(key: string) {
   if (prefix === "wordbank") {
     // wordbank:<class>:<stage>  (e.g. wordbank:jhs:3)
     const stage = key.split(":")[2];
-    const cls = rest === "jhs" ? "JHS" : rest === "p4-6" ? "P4–6" : null;
+    const cls = rest === "jhs" ? "JHS" : rest === "p4-6" ? "P4 to P6" : null;
     return cls && stage ? `Word bank · ${cls} stage ${stage}` : "Word bank";
   }
   const base = ACTIVITY_NAMES[prefix] ?? prefix;

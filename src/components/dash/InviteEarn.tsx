@@ -8,12 +8,12 @@ const BOOK_TITLE = "THE WICKED AND UNFORGIVING STUDENT";
 const readLink = (slug: string, key: string) => `https://zivarukah.com/books/${slug}/read?ref=${key}`;
 
 function keyStatus(k: Rewards["keys"][number]) {
-  if (!k.activatedAt) return { label: "Ready — 7 days start when you open it", tone: "bg-emerald-100 text-emerald-900", open: true };
+  if (!k.activatedAt) return { label: "Ready: 7 days start when you open it", tone: "bg-emerald-100 text-emerald-900", open: true };
   const ends = k.expiresAt ? new Date(k.expiresAt).getTime() : 0;
   const left = ends - Date.now();
-  if (left <= 0) return { label: "Used — 7 days ended", tone: "bg-black/5 text-black/60", open: false };
+  if (left <= 0) return { label: "Used: 7 days ended", tone: "bg-black/5 text-black/60", open: false };
   const days = Math.ceil(left / 86_400_000);
-  return { label: `Open — ${days} day${days === 1 ? "" : "s"} left`, tone: "bg-sky-100 text-sky-900", open: true };
+  return { label: `Open: ${days} day${days === 1 ? "" : "s"} left`, tone: "bg-sky-100 text-sky-900", open: true };
 }
 
 /** "Invite & earn": share link, credits, friends' learning days and free reading keys. */
@@ -69,7 +69,7 @@ export function InviteEarn() {
         <p className="mt-1 break-all rounded-xl bg-black/5 p-2 font-mono text-sm">{link}</p>
         <ShareCode
           code={r.refCode}
-          message={`📚 Learn reading, phonics, spelling and handwriting FREE with *ZIVA Literacy* — for KG, Primary and JHS.\n\nRegister with your name and phone here 👇\n${link}`}
+          message={`📚 Learn reading, phonics, spelling and handwriting FREE with *ZIVA Literacy*, for KG, Primary and JHS.\n\nRegister with your name and phone here 👇\n${link}`}
         />
         <button
           type="button"
@@ -145,7 +145,7 @@ export function InviteEarn() {
               );
             })}
           </ul>
-          <p className="mt-2 text-xs text-black/60">Keep your key secret — anyone with it can read during your 7 days.</p>
+          <p className="mt-2 text-xs text-black/60">Keep your key secret: anyone with it can read during your 7 days.</p>
         </div>
       )}
 

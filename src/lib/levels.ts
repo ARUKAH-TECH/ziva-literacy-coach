@@ -1,8 +1,8 @@
 export const LEVELS = [
-  { id: "kg", label: "Kindergarten", short: "KG 1–2", emoji: "🧸", blurb: "Letters, sounds, tracing and listening to stories" },
-  { id: "p1-3", label: "Primary 1–3", short: "P1–3", emoji: "🎒", blurb: "Phonics, blending, short stories, spelling and neat letters" },
-  { id: "p4-6", label: "Primary 4–6", short: "P4–6", emoji: "📘", blurb: "Fluency, vocabulary, comprehension, spelling and punctuation" },
-  { id: "jhs", label: "JHS 1–3", short: "JHS", emoji: "🎓", blurb: "Passages, vocabulary, fluency, spelling, punctuation and clear handwriting" },
+  { id: "kg", label: "Kindergarten", short: "KG 1 to 2", emoji: "🧸", blurb: "Letters, sounds, tracing and listening to stories" },
+  { id: "p1-3", label: "Primary 1 to 3", short: "P1 to P3", emoji: "🎒", blurb: "Phonics, blending, short stories, spelling and neat letters" },
+  { id: "p4-6", label: "Primary 4 to 6", short: "P4 to P6", emoji: "📘", blurb: "Fluency, vocabulary, comprehension, spelling and punctuation" },
+  { id: "jhs", label: "JHS 1 to 3", short: "JHS", emoji: "🎓", blurb: "Passages, vocabulary, fluency, spelling, punctuation and clear handwriting" },
 ] as const;
 
 export type LevelId = (typeof LEVELS)[number]["id"];
@@ -21,7 +21,7 @@ export const ACTIVITIES = [
   { id: "fluency", href: "/reading/?mode=fluency", title: "Reading speed", emoji: "⏱️", skill: "Reading", levels: ["p1-3", "p4-6", "jhs"], text: "Read aloud and see your words per minute." },
   { id: "spelling", href: "/spelling/", title: "Spelling", emoji: "📝", skill: "Spelling", levels: ["p1-3", "p4-6", "jhs"], text: "Listen to the word and type it." },
   { id: "vocabulary", href: "/vocabulary/", title: "Word meanings", emoji: "💡", skill: "Vocabulary", levels: ["p4-6", "jhs"], text: "Choose what each word means." },
-  { id: "word-bank", href: "/word-bank/", title: "Word bank", emoji: "📚", skill: "Vocabulary", levels: ["p4-6", "jhs"], text: "Meanings, synonyms, antonyms and idioms — stages of 30 questions." },
+  { id: "word-bank", href: "/word-bank/", title: "Word bank", emoji: "📚", skill: "Vocabulary", levels: ["p4-6", "jhs"], text: "Meanings, synonyms, antonyms and idioms: stages of 30 questions." },
   { id: "punctuation", href: "/punctuation/", title: "Punctuation", emoji: "❗", skill: "Writing", levels: ["p4-6", "jhs"], text: "Pick the sentence with correct punctuation." },
 ] as const;
 

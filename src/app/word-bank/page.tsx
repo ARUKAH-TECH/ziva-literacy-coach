@@ -13,7 +13,7 @@ import { useAccess } from "@/lib/subscription";
 
 const PASS = 4;
 const LEVEL_TABS: { id: WordBankLevel; label: string }[] = [
-  { id: "p4-6", label: "P4–6" },
+  { id: "p4-6", label: "P4 to P6" },
   { id: "jhs", label: "JHS" },
 ];
 const TIERS = [
@@ -92,7 +92,7 @@ export default function WordBankPage() {
             <div className="mt-4 rounded-3xl bg-gradient-to-br from-ziva to-ziva-dark p-5 text-white shadow">
               <p className="text-2xl font-extrabold">📖 Study, then test</p>
               <p className="mt-1 text-white/90">
-                Read these {limit < QUESTIONS_PER_STAGE ? limit : QUESTIONS_PER_STAGE} and tap 🔊 to listen. Then take the test: {QUESTIONS_PER_STAGE} questions — get{" "}
+                Read these {limit < QUESTIONS_PER_STAGE ? limit : QUESTIONS_PER_STAGE} and tap 🔊 to listen. Then take the test: {QUESTIONS_PER_STAGE} questions. Get{" "}
                 <strong>⭐⭐⭐⭐</strong> (24 correct) to open the next stage.
               </p>
               <button type="button" onClick={() => go({ mode: "test", seed: view.seed + 1, score: 0, asked: 0 })} className={`${secondaryButton} mt-3`}>
@@ -148,7 +148,7 @@ export default function WordBankPage() {
               message={
                 stars >= PASS
                   ? `${view.score} of ${QUESTIONS_PER_STAGE} correct. ${stage.n < stages.length ? `Stage ${stage.n + 1} is open!` : "You finished the whole Word bank! 🏆"}`
-                  : `${view.score} of ${QUESTIONS_PER_STAGE} correct. You need 24 to open the next stage — study the words and try again.`
+                  : `${view.score} of ${QUESTIONS_PER_STAGE} correct. You need 24 to open the next stage. Study the words and try again.`
               }
               onAgain={() => go({ mode: "study" })}
             />
@@ -183,7 +183,7 @@ export default function WordBankPage() {
       </div>
 
       <div className="mt-4 rounded-3xl bg-gradient-to-br from-ziva to-ziva-dark p-5 text-white shadow">
-        <p className="text-2xl font-extrabold">📚 Word bank — {level === "jhs" ? "JHS" : "Primary 4–6"}</p>
+        <p className="text-2xl font-extrabold">📚 Word bank: {level === "jhs" ? "JHS" : "Primary 4 to 6"}</p>
         <p className="mt-1 text-white/90">
           {SECTIONS.map((s) => `${s.emoji} ${s.title}`).join(" · ")}. {stages.length} stages of {QUESTIONS_PER_STAGE} questions, from 🌱 Beginner to 🌳 Professional. Get{" "}
           <strong>⭐⭐⭐⭐</strong> to open the next stage.

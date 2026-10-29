@@ -112,7 +112,7 @@ export function TimedWriting({ target, isShape, level, recordKey }: { target: st
         stream.current = s;
         setPhase("ready");
       } catch {
-        setCameraError("The camera couldn't open. In Chrome tap ⋮ → Settings → Site settings → Camera and allow this app — or use the timer without video.");
+        setCameraError("The camera couldn't open. In Chrome tap ⋮ → Settings → Site settings → Camera and allow this app, or use the timer without video.");
         setUseVideo(false);
       }
     } else setPhase("ready");
@@ -203,10 +203,10 @@ export function TimedWriting({ target, isShape, level, recordKey }: { target: st
   let advice = "";
   if (lpm !== null) {
     const neat = check?.stars ?? null;
-    if (neat !== null && neat <= 2 && lpm >= guide * 0.8) advice = "Good speed — now slow down a little and make every letter neat. Neat first, then fast.";
-    else if (lpm >= guide) advice = neat !== null && neat >= 4 ? "Fast and neat — excellent!" : "Great speed for your class!";
+    if (neat !== null && neat <= 2 && lpm >= guide * 0.8) advice = "Good speed: now slow down a little and make every letter neat. Neat first, then fast.";
+    else if (lpm >= guide) advice = neat !== null && neat >= 4 ? "Fast and neat: excellent!" : "Great speed for your class!";
     else if (lpm >= guide * 0.6) advice = "Good pace. Practise a little every day and your speed will grow.";
-    else advice = "Take your time and form each letter well — speed comes with daily practice. Try writing the same words again tomorrow.";
+    else advice = "Take your time and form each letter well. Speed comes with daily practice. Try writing the same words again tomorrow.";
   }
 
   return (
@@ -230,7 +230,7 @@ export function TimedWriting({ target, isShape, level, recordKey }: { target: st
               />
               <span>
                 <strong>For a parent or teacher:</strong> allow the camera to film the paper while the child writes. Point it at the paper and hand
-                only — not the child&apos;s face. The video stays on this phone and is never sent anywhere.
+                only, not the child&apos;s face. The video stays on this phone and is never sent anywhere.
               </span>
             </label>
           ) : null}

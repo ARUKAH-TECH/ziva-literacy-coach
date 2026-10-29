@@ -58,7 +58,7 @@ export default function StagesPage() {
     return (
       <AppShell title="Stages" back="/learn/">
         <div className="rounded-3xl bg-gradient-to-br from-ziva to-ziva-dark p-5 text-white shadow">
-          <p className="text-2xl font-extrabold">🪜 Step by step — {info.label}</p>
+          <p className="text-2xl font-extrabold">🪜 Step by step: {info.label}</p>
           <p className="mt-1 text-white/90">
             3 levels: 🌱 Beginner → 🌿 Intermediate → 🌳 Professional. Each level has 5 stages of 20 works. Get <strong>⭐⭐⭐⭐</strong> on a work to
             open the next one.
@@ -230,7 +230,7 @@ export default function StagesPage() {
         })}
       </div>
       <p className="mt-5 rounded-2xl bg-sky-50 p-4 text-sm text-sky-950">
-        Each work needs <strong>⭐⭐⭐⭐</strong> or more. If you get fewer stars, do it again — you can&apos;t skip ahead. You can always go back and
+        Each work needs <strong>⭐⭐⭐⭐</strong> or more. If you get fewer stars, do it again; you can&apos;t skip ahead. You can always go back and
         practise works you have passed.
       </p>
       <div className="mt-4 text-center">

@@ -62,7 +62,7 @@ export function InstallCard({ compact = false }: { compact?: boolean }) {
           )}
         </div>
       )}
-      {result === "dismissed" && <p className="mt-3 text-sm text-white/80">No problem — you can install it later from here.</p>}
+      {result === "dismissed" && <p className="mt-3 text-sm text-white/80">No problem: you can install it later from here.</p>}
     </div>
   );
 }

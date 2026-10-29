@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://learn.zivarukah.com"),
   title: { default: "ZIVA Literacy & Handwriting Coach", template: "%s · ZIVA Literacy" },
   description:
-    "Free reading, phonics, spelling and handwriting practice for Kindergarten, Primary 1–6 and JHS 1–3 learners in Ghana. Works offline once opened.",
+    "Free reading, phonics, spelling and handwriting practice for Kindergarten, Primary 1 to 6 and JHS 1 to 3 learners in Ghana. Works offline once opened.",
   applicationName: "ZIVA Literacy",
   manifest: "/manifest.webmanifest",
   appleWebApp: { capable: true, title: "ZIVA Literacy", statusBarStyle: "default" },

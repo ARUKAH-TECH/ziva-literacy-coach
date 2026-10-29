@@ -145,7 +145,7 @@ export default function CommentsPage() {
         {list === null ? (
           <p className="mt-3 text-black/60">Loading…</p>
         ) : list.length === 0 ? (
-          <p className="mt-3 rounded-2xl bg-white p-4 text-black/60">{online ? "No comments yet — be the first!" : "📴 Connect to the internet to see comments."}</p>
+          <p className="mt-3 rounded-2xl bg-white p-4 text-black/60">{online ? "No comments yet. Be the first!" : "📴 Connect to the internet to see comments."}</p>
         ) : (
           <ul className="mt-3 grid gap-3">
             {list.map((c) => (

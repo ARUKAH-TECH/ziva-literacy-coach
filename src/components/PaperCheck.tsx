@@ -122,7 +122,7 @@ export function PaperCheck({ target, prompt, level, recordKey }: { target: strin
               <ul className="mt-1 list-disc pl-5 text-sky-950">{result.next.map((s) => <li key={s}>{s}</li>)}</ul>
             </div>
           )}
-          <p className="text-xs text-black/60">The phone check looks at size, lines, spacing and neatness. It can&apos;t read which letters you wrote — use the AI check below to have your writing read and rewritten with corrections.</p>
+          <p className="text-xs text-black/60">The phone check looks at size, lines, spacing and neatness. It can&apos;t read which letters you wrote. Use the AI check below to have your writing read and rewritten with corrections.</p>
 
           {/* Optional AI check: reads the writing and rewrites it correctly */}
           <AiWritingCheck image={photo} target={target} level={level} isShape={prompt === "Draw"} />

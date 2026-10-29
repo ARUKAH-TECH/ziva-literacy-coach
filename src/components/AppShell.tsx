@@ -32,7 +32,7 @@ export function AppShell({ title, back = "/", children }: { title?: string; back
           </div>
           <Link
             href="/join/"
-            aria-label={current ? `${current.name} — change who is learning` : "Guest — choose who is learning"}
+            aria-label={current ? `${current.name}: change who is learning` : "Guest: choose who is learning"}
             className="flex h-9 max-w-[6.5rem] shrink-0 items-center gap-1 rounded-full bg-black/25 px-3 text-sm font-bold"
           >
             <span aria-hidden="true">{current ? "🧒" : "👤"}</span>
@@ -45,7 +45,7 @@ export function AppShell({ title, back = "/", children }: { title?: string; back
         </div>
         {!online && (
           <p role="status" className="bg-amber-300 px-4 py-1.5 text-center text-sm font-semibold text-amber-950">
-            📴 You’re offline — saved lessons still work. Progress is kept on this device.
+            📴 You’re offline: saved lessons still work. Progress is kept on this device.
           </p>
         )}
       </header>

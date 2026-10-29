@@ -82,7 +82,7 @@ export function AiWritingCheck({ image, target, level, isShape = false }: { imag
 
   return (
     <div className="rounded-2xl border-2 border-dashed border-ziva/30 p-4">
-      <p className="font-bold">🤖 AI check — reads your writing and rewrites it correctly (needs internet)</p>
+      <p className="font-bold">🤖 AI check: reads your writing and rewrites it correctly (needs internet)</p>
       {!consent ? (
         <label className="mt-2 flex items-start gap-3 text-sm">
           <input
@@ -95,7 +95,7 @@ export function AiWritingCheck({ image, target, level, isShape = false }: { imag
           />
           <span>
             <strong>For a parent or teacher:</strong> I agree to send this picture of handwriting to the ZIVA AI checker so it can read the writing.
-            Only the picture is sent — no name. It is not saved. Please show only the paper, not the child.
+            Only the picture is sent: no name. It is not saved. Please show only the paper, not the child.
           </span>
         </label>
       ) : (
@@ -186,7 +186,7 @@ export function AiWritingCheck({ image, target, level, isShape = false }: { imag
           {compared && !compared.perfect && (
             <p className="rounded-2xl bg-sky-100 p-3 font-semibold text-sky-950">✏️ Now copy the correct writing once more, then check again.</p>
           )}
-          <p className="text-xs text-black/60">AI feedback can make mistakes — a teacher or parent knows best.</p>
+          <p className="text-xs text-black/60">AI feedback can make mistakes: a teacher or parent knows best.</p>
         </div>
       )}
     </div>

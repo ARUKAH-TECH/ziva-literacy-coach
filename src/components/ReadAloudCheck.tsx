@@ -326,7 +326,7 @@ export function ReadAloudCheck({ paragraphs, storyKey, big, wpmTarget }: { parag
               {wpmTarget && (
                 <p className="text-sm text-black/60">
                   Guide for this class: about {wpmTarget} a minute.{" "}
-                  {credit / all.length < 0.8 ? "Read every word clearly first — then speed up." : wcpm >= wpmTarget ? "Great pace! 🚀" : wcpm >= wpmTarget * 0.7 ? "Nearly there — read it again tomorrow." : "Read every word clearly first; speed grows with practice."}
+                  {credit / all.length < 0.8 ? "Read every word clearly first, then speed up." : wcpm >= wpmTarget ? "Great pace! 🚀" : wcpm >= wpmTarget * 0.7 ? "Nearly there: read it again tomorrow." : "Read every word clearly first; speed grows with practice."}
                 </p>
               )}
               {paragraphs.length > 1 && (
@@ -374,10 +374,10 @@ export function ReadAloudCheck({ paragraphs, storyKey, big, wpmTarget }: { parag
                 </option>
               ))}
             </select>
-            <span className="w-full text-black/60">We check that each word is said correctly — not whether it sounds British or American.</span>
+            <span className="w-full text-black/60">We check that each word is said correctly, not whether it sounds British or American.</span>
           </label>
           <p className="text-sm font-semibold text-black/60">
-            Part {k + 1} of {paragraphs.length} — tap <strong>Start</strong>, read this aloud, then tap <strong>I&apos;ve finished</strong>.
+            Part {k + 1} of {paragraphs.length}. Tap <strong>Start</strong>, read this aloud, then tap <strong>I&apos;ve finished</strong>.
           </p>
           <p className={`mt-3 flex flex-wrap gap-x-1.5 gap-y-2 rounded-2xl bg-amber-50 p-4 ${big ? "text-3xl leading-snug" : "text-2xl leading-snug"}`}>
             {(results[k] ?? words.map((w) => ({ word: w, status: "ok" as const }))).map((r, i) => (
@@ -427,7 +427,7 @@ export function ReadAloudCheck({ paragraphs, storyKey, big, wpmTarget }: { parag
                   </p>
                 ) : null}
                 <p className="w-full text-sm text-black/70">
-                  🟩 read well · 🟨 nearly · 🟥 different word · ⬜ skipped — <strong>tap a coloured word for help</strong>.
+                  🟩 read well · 🟨 nearly · 🟥 different word · ⬜ skipped. <strong>Tap a coloured word for help</strong>.
                 </p>
                 <button type="button" onClick={() => (setResults(results.map((r, i) => (i === k ? (undefined as unknown as WordResult[]) : r))), setTimes(times.map((t, i) => (i === k ? 0 : t))), setHeard(""))} className={secondaryButton}>
                   🔁 Read this part again
@@ -445,7 +445,7 @@ export function ReadAloudCheck({ paragraphs, storyKey, big, wpmTarget }: { parag
             )}
           </div>
           <p className="mt-3 text-xs text-black/60">
-            Your accent is fine — saying words the way they are spelt is correct reading. The phone&apos;s listening isn&apos;t perfect and noise can confuse it. Read clearly in a quiet place. A teacher or parent knows best.
+            Your accent is fine: saying words the way they are spelt is correct reading. The phone&apos;s listening isn&apos;t perfect and noise can confuse it. Read clearly in a quiet place. A teacher or parent knows best.
           </p>
         </div>
       )}

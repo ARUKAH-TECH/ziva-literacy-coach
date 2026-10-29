@@ -124,7 +124,7 @@ function Fluency({ story, level, onBack }: { story: Story; level: LevelId; onBac
           <Stars count={stars} size="text-4xl" />
           <p className="text-3xl font-extrabold">{wpm} words a minute</p>
           <p className="text-black/70">
-            {stars === 5 ? "Fluent reading — well done!" : "Read it again tomorrow — fluency grows with practice."} Ask a teacher or parent to listen for clear, correct words.
+            {stars === 5 ? "Fluent reading: well done!" : "Read it again tomorrow: fluency grows with practice."} Ask a teacher or parent to listen for clear, correct words.
           </p>
         </div>
       )}

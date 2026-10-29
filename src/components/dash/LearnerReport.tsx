@@ -85,7 +85,7 @@ export function LearnerReport({
             <p className="text-xs text-black/60">activities done</p>
           </div>
           <div className="rounded-2xl bg-white p-3 shadow-sm">
-            <p className="text-2xl font-extrabold">{r.avg ? r.avg.toFixed(1) : "–"}</p>
+            <p className="text-2xl font-extrabold">{r.avg ? r.avg.toFixed(1) : "None"}</p>
             <p className="text-xs text-black/60">average stars</p>
           </div>
           <div className="rounded-2xl bg-white p-3 shadow-sm">

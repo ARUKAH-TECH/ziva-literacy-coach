@@ -36,7 +36,7 @@ export function Paywall({ onCheck }: { onCheck: () => void }) {
         Stage 1 and half of Stage 2 are free in every skill. To keep going up to Professional level, a subscription is needed.
       </p>
       <p className="rounded-2xl bg-emerald-50 p-3 text-sm font-semibold text-emerald-900">
-        ✅ One subscription opens everything: writing, reading, spelling, sounds &amp; words and the Word bank — in every class.
+        ✅ One subscription opens everything: writing, reading, spelling, sounds &amp; words and the Word bank, in every class.
       </p>
 
       {current ? (

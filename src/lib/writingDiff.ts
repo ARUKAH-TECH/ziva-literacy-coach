@@ -106,7 +106,7 @@ function spellingNote(t: string, w: string): string | null {
     const diffs = [...tl.toLowerCase()].map((c, i) => [c, wl[i].toLowerCase()] as const).filter(([a, b]) => a !== b);
     if (diffs.length && diffs.every(([a, b]) => TURNED[b] === a)) {
       const [a, b] = diffs[0];
-      return `“${wl}” should be “${tl}” — your ${b} is turned round; it should be ${a}`;
+      return `“${wl}” should be “${tl}”: your ${b} is turned round; it should be ${a}`;
     }
     if (diffs.length === 1) {
       const [a, b] = diffs[0];
@@ -215,7 +215,7 @@ export function compareWriting(target: string, written: string, shapeLetters: st
       corrections.push(`Missing word: “${lettersOf(tWords[ti]) || tWords[ti]}”`);
     } else if (wi !== null) {
       wrote.push([...wWords[wi]].map((ch) => ({ ch, mark: "extra" as Mark })));
-      corrections.push(`Leave out “${wWords[wi]}” — it isn't in the exercise`);
+      corrections.push(`Leave out “${wWords[wi]}”: it isn't in the exercise`);
     }
   }
 

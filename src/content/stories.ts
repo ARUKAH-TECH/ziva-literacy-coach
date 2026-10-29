@@ -116,7 +116,7 @@ export const STORIES: Story[] = [
       { q: "Where did Akosua spend her vacation?", options: ["In Accra", "In a village near Kumasi", "In Tamale", "At school"], answer: 1, why: "She visited her grandfather in a village near Kumasi." },
       { q: "How do you know a cocoa pod is ripe?", options: ["It falls off", "It turns yellow or orange", "It becomes small", "It smells sweet"], answer: 1, why: "Ripe pods turn yellow or orange." },
       { q: "Why were the beans covered with banana leaves?", options: ["To hide them", "To keep insects away", "So that they could ferment", "To make them green"], answer: 2, why: "They were covered for about six days so that they could ferment." },
-      { q: "In the passage, the word “bitter” means…", options: ["Very sweet", "Having a sharp, unpleasant taste", "Very soft", "Brightly coloured"], answer: 1, why: "Raw cocoa beans taste sharp and unpleasant — bitter — not sweet like chocolate." },
+      { q: "In the passage, the word “bitter” means…", options: ["Very sweet", "Having a sharp, unpleasant taste", "Very soft", "Brightly coloured"], answer: 1, why: "Raw cocoa beans taste sharp and unpleasant, bitter, not sweet like chocolate." },
     ],
   },
 
@@ -134,7 +134,7 @@ export const STORIES: Story[] = [
     ],
     questions: [
       { q: "Why did Nana Yaw check his aunt’s phone?", options: ["The man asked him to", "The confirmation came from an ordinary number", "The network was slow", "His aunt called him"], answer: 1, why: "He noticed the message came from an ordinary phone number, not the network provider." },
-      { q: "Which word best describes Nana Yaw in this passage?", options: ["Careless", "Rude", "Observant", "Fearful"], answer: 2, why: "He noticed a small detail and checked before acting — he was observant." },
+      { q: "Which word best describes Nana Yaw in this passage?", options: ["Careless", "Rude", "Observant", "Fearful"], answer: 2, why: "He noticed a small detail and checked before acting; he was observant." },
       { q: "What does “verify” mean in the last paragraph?", options: ["Forget", "Check that something is true", "Pay for something", "Argue about"], answer: 1, why: "To verify is to confirm that something is true." },
       { q: "What is the main idea of the passage?", options: ["Shops in Takoradi are busy", "Mobile money is dangerous", "Careful reading and checking can protect us", "Holidays are for working"], answer: 2, why: "The passage ends by showing that reading carefully protects people in everyday life." },
     ],

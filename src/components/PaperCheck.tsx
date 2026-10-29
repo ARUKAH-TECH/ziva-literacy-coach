@@ -88,7 +88,7 @@ export function PaperCheck({ target, prompt, level, recordKey }: { target: strin
           🖼️ Upload photo
         </button>
       </div>
-      <p className="mt-2 text-sm text-black/50">Tip: good light, paper flat, writing fills most of the photo.</p>
+      <p className="mt-2 text-sm text-black/60">Tip: good light, paper flat, writing fills most of the photo.</p>
 
       {preview && (
         // eslint-disable-next-line @next/next/no-img-element -- local photo preview, never uploaded unless AI check is chosen
@@ -122,7 +122,7 @@ export function PaperCheck({ target, prompt, level, recordKey }: { target: strin
               <ul className="mt-1 list-disc pl-5 text-sky-950">{result.next.map((s) => <li key={s}>{s}</li>)}</ul>
             </div>
           )}
-          <p className="text-xs text-black/50">The phone check looks at size, lines, spacing and neatness. It can&apos;t read which letters you wrote — use the AI check below to have your writing read and rewritten with corrections.</p>
+          <p className="text-xs text-black/60">The phone check looks at size, lines, spacing and neatness. It can&apos;t read which letters you wrote — use the AI check below to have your writing read and rewritten with corrections.</p>
 
           {/* Optional AI check: reads the writing and rewrites it correctly */}
           <AiWritingCheck image={photo} target={target} level={level} isShape={prompt === "Draw"} />

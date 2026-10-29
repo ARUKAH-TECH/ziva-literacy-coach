@@ -57,7 +57,7 @@ const COLORS: Record<WordResult["status"], string> = {
   ok: "bg-emerald-100 text-emerald-950",
   almost: "bg-amber-200 text-amber-950 underline decoration-wavy decoration-amber-600",
   wrong: "bg-rose-200 text-rose-950 underline decoration-wavy decoration-rose-600",
-  missed: "bg-black/10 text-black/50 line-through",
+  missed: "bg-black/10 text-black/60 line-through",
 };
 
 function WordHelp({ result, onClose }: { result: WordResult; onClose: () => void }) {
@@ -285,7 +285,7 @@ export function ReadAloudCheck({ paragraphs, storyKey, big, wpmTarget }: { parag
     <section className="mt-4 w-full rounded-3xl bg-white p-5 shadow-sm">
       <div className="flex items-center justify-between">
         <p className="text-xl font-extrabold">🎤 Read aloud &amp; check</p>
-        <button type="button" onClick={() => (wantListening.current = false, rec.current?.abort(), setOpen(false))} className="text-sm text-black/50 underline">
+        <button type="button" onClick={() => (wantListening.current = false, rec.current?.abort(), setOpen(false))} className="text-sm text-black/60 underline">
           Close
         </button>
       </div>
@@ -330,7 +330,7 @@ export function ReadAloudCheck({ paragraphs, storyKey, big, wpmTarget }: { parag
                 </p>
               )}
               {paragraphs.length > 1 && (
-                <p className="mt-1 text-xs text-black/50">
+                <p className="mt-1 text-xs text-black/60">
                   {times.map((t, i) => (t ? `Part ${i + 1}: ${clock(t)}` : null)).filter(Boolean).join(" · ")}
                 </p>
               )}
@@ -444,7 +444,7 @@ export function ReadAloudCheck({ paragraphs, storyKey, big, wpmTarget }: { parag
               </>
             )}
           </div>
-          <p className="mt-3 text-xs text-black/50">
+          <p className="mt-3 text-xs text-black/60">
             Your accent is fine — saying words the way they are spelt is correct reading. The phone&apos;s listening isn&apos;t perfect and noise can confuse it. Read clearly in a quiet place. A teacher or parent knows best.
           </p>
         </div>

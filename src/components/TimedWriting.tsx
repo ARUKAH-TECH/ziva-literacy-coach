@@ -325,7 +325,7 @@ export function TimedWriting({ target, isShape, level, recordKey }: { target: st
             <div>
               <p className="mb-2 font-bold">🎬 Watch how the letters were formed</p>
               <video src={videoUrl} controls playsInline className="max-h-80 w-full rounded-2xl bg-black object-contain" />
-              <p className="mt-2 text-xs text-black/50">Tip: look at where each letter starts and which way the pencil moves.</p>
+              <p className="mt-2 text-xs text-black/60">Tip: look at where each letter starts and which way the pencil moves.</p>
             </div>
           )}
 
@@ -337,7 +337,7 @@ export function TimedWriting({ target, isShape, level, recordKey }: { target: st
               </a>
             )}
           </div>
-          <p className="text-xs text-black/50">
+          <p className="text-xs text-black/60">
             Speed guides are rough classroom guides, not a test. Neat, correct letters matter more than speed. The video is deleted when you leave
             this page unless you save it.
           </p>

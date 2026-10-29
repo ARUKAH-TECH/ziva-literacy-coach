@@ -161,7 +161,7 @@ export function LearnerReport({
                 <li key={a.key} className="flex items-center justify-between gap-2 py-2">
                   <span className="min-w-0">
                     <span className="block truncate text-sm font-semibold capitalize">{a.name}</span>
-                    <span className="block text-xs text-black/50">
+                    <span className="block text-xs text-black/60">
                       {whenText(a.entry.last)} · tried {a.entry.tries}×
                     </span>
                   </span>

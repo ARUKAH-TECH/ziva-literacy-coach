@@ -32,8 +32,8 @@ export function AppShell({ title, back = "/", children }: { title?: string; back
           </div>
           <Link
             href="/join/"
-            aria-label={current ? `Learning now: ${current.name}. Change learner` : "Who is learning?"}
-            className="flex h-9 max-w-[6.5rem] shrink-0 items-center gap-1 rounded-full bg-white/15 px-3 text-sm font-bold"
+            aria-label={current ? `${current.name} — change who is learning` : "Guest — choose who is learning"}
+            className="flex h-9 max-w-[6.5rem] shrink-0 items-center gap-1 rounded-full bg-black/25 px-3 text-sm font-bold"
           >
             <span aria-hidden="true">{current ? "🧒" : "👤"}</span>
             <span className="truncate">{current ? current.name : "Guest"}</span>

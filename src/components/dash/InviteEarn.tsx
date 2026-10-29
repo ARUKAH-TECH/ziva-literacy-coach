@@ -52,9 +52,9 @@ export function InviteEarn() {
         <div className="flex items-end justify-between">
           <p className="text-4xl font-extrabold text-ziva">
             {r.credits}
-            <span className="text-lg text-black/50"> / {r.goal} credits</span>
+            <span className="text-lg text-black/60"> / {r.goal} credits</span>
           </p>
-          {r.earned > 0 && <p className="text-xs text-black/50">{r.earned} earned in total</p>}
+          {r.earned > 0 && <p className="text-xs text-black/60">{r.earned} earned in total</p>}
         </div>
         <div className="mt-2 h-4 overflow-hidden rounded-full bg-black/10">
           <div className="h-full rounded-full bg-gradient-to-r from-gold to-orange-500" style={{ width: `${Math.max(r.credits ? 3 : 0, pct)}%` }} />
@@ -104,7 +104,7 @@ export function InviteEarn() {
               </li>
             ))}
           </ul>
-          {learning.length > 30 && <p className="mt-2 text-xs text-black/50">…and {learning.length - 30} more</p>}
+          {learning.length > 30 && <p className="mt-2 text-xs text-black/60">…and {learning.length - 30} more</p>}
         </div>
       )}
 
@@ -145,7 +145,7 @@ export function InviteEarn() {
               );
             })}
           </ul>
-          <p className="mt-2 text-xs text-black/50">Keep your key secret — anyone with it can read during your 7 days.</p>
+          <p className="mt-2 text-xs text-black/60">Keep your key secret — anyone with it can read during your 7 days.</p>
         </div>
       )}
 

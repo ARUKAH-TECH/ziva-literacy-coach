@@ -233,7 +233,7 @@ function People({ space, onDone }: { space: Space; onDone: () => void }) {
         {space.members.map((m) => (
           <li key={m.id} className="flex flex-wrap items-center gap-2 rounded-xl bg-black/5 p-3">
             <span className="font-semibold">
-              {m.name} {m.me && <span className="text-sm text-black/50">(you)</span>}
+              {m.name} {m.me && <span className="text-sm text-black/60">(you)</span>}
             </span>
             <span className="rounded-full bg-white px-2 py-0.5 text-xs font-bold capitalize">{m.role}</span>
             <span className="ml-auto flex gap-2">
@@ -314,7 +314,7 @@ function LearnerTile({ l, onOpen, className }: { l: LearnerRow; onOpen: () => vo
       </span>
       <span className="shrink-0 text-right">
         <Stars count={r.stars} size="text-xs" />
-        <span className="block text-xs text-black/50">{r.activities} done</span>
+        <span className="block text-xs text-black/60">{r.activities} done</span>
       </span>
     </button>
   );
@@ -367,7 +367,7 @@ export function SpaceView({ space, onChanged }: { space: Space; onChanged: () =>
         )}
         <span className="rounded-full bg-ziva/10 px-3 py-1 text-sm font-bold text-ziva">{space.role === "head" ? "Head of school" : space.role === "teacher" ? "Teacher" : "Parent"}</span>
         {!renaming && space.role !== "teacher" && (
-          <button type="button" onClick={() => setRenaming(true)} className="text-sm text-black/50 underline">Rename</button>
+          <button type="button" onClick={() => setRenaming(true)} className="text-sm text-black/60 underline">Rename</button>
         )}
       </div>
 

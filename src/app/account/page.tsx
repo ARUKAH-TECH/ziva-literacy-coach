@@ -102,7 +102,7 @@ function SignInForm() {
         <button type="submit" disabled={busy || !online || phone.replace(/\D/g, "").length < 9 || (mode === "register" && !name.trim())} className={primaryButton}>
           {busy ? "Please wait…" : mode === "register" ? "Register" : "Sign in"}
         </button>
-        <p className="text-xs text-black/50">
+        <p className="text-xs text-black/60">
           No password needed — you sign in with your phone number and this phone stays signed in. Only first names and practice stars of children are
           saved.
         </p>

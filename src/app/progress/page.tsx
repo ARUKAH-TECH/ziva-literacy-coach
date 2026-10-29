@@ -43,7 +43,7 @@ export default function ProgressPage() {
                   {rows.map(([key, r]) => (
                     <li key={key} className="flex items-center justify-between gap-3 py-2">
                       <span className="min-w-0 truncate capitalize">{key.split(":").slice(1).join(" ").replace(/-/g, " ") || a.title}</span>
-                      <span className="flex shrink-0 items-center gap-2 text-sm text-black/50">
+                      <span className="flex shrink-0 items-center gap-2 text-sm text-black/60">
                         {r.tries}× <Stars count={r.best} size="text-lg" />
                       </span>
                     </li>

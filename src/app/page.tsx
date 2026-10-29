@@ -5,6 +5,7 @@ import { BigLink } from "@/components/ui";
 import { InstallCard } from "@/components/InstallCard";
 import { ShareButtons } from "@/components/ShareButtons";
 import { RefWelcome } from "@/components/RefWelcome";
+import { IosKeepStars } from "@/components/IosKeepStars";
 import { levelInfo } from "@/lib/levels";
 import { useProgress, streak } from "@/lib/progress";
 
@@ -15,6 +16,7 @@ export default function Home() {
   return (
     <AppShell back={null}>
       <RefWelcome />
+      <IosKeepStars />
       <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-ziva to-ziva-dark p-6 text-white shadow-lg">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img

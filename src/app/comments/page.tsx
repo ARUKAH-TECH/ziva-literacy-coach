@@ -107,7 +107,7 @@ export default function CommentsPage() {
               className="rounded-2xl border-2 border-black/15 bg-white px-4 py-3 text-lg font-normal"
             />
           </label>
-          <p className="text-xs text-black/50">
+          <p className="text-xs text-black/60">
             Shown with your first name only. Please don&apos;t include phone numbers, links or children&apos;s full names. {600 - body.length} letters left.
           </p>
           {msg && <p role="status" className={`rounded-2xl p-3 font-semibold ${msg.ok ? "bg-emerald-50 text-emerald-900" : "bg-rose-50 text-rose-800"}`}>{msg.text}</p>}
@@ -156,7 +156,7 @@ export default function CommentsPage() {
                   <span className={`rounded-full px-2 py-0.5 text-xs font-bold ${c.kind === "suggestion" ? "bg-amber-100 text-amber-900" : "bg-sky-100 text-sky-900"}`}>
                     {c.kind === "suggestion" ? "💡 Suggestion" : "💬 Comment"}
                   </span>
-                  <span className="ml-auto text-xs text-black/50">{when(c.at)}</span>
+                  <span className="ml-auto text-xs text-black/60">{when(c.at)}</span>
                 </div>
                 <p className="mt-2 text-lg">{c.body}</p>
                 {c.reply && <p className="mt-2 rounded-2xl bg-sky-50 p-3 text-sky-950">↩️ <strong>ZIVA:</strong> {c.reply}</p>}

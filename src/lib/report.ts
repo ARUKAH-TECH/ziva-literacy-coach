@@ -8,7 +8,7 @@ export const SKILLS = [
   { id: "fluency", label: "Reading speed", emoji: "⏱️", href: "/reading/?mode=fluency", prefixes: ["fluency"] },
   { id: "handwriting", label: "Handwriting", emoji: "✏️", href: "/handwriting/", prefixes: ["handwriting", "paper", "write-speed"] },
   { id: "spelling", label: "Spelling", emoji: "📝", href: "/spelling/", prefixes: ["spelling"] },
-  { id: "vocabulary", label: "Word meanings", emoji: "💡", href: "/vocabulary/", prefixes: ["vocabulary"] },
+  { id: "vocabulary", label: "Word meanings", emoji: "💡", href: "/vocabulary/", prefixes: ["vocabulary", "wordbank"] },
   { id: "punctuation", label: "Punctuation", emoji: "❗", href: "/punctuation/", prefixes: ["punctuation"] },
 ] as const;
 
@@ -39,6 +39,7 @@ const ACTIVITY_NAMES: Record<string, string> = {
   "write-speed": "Timed writing",
   spelling: "Spelling",
   vocabulary: "Word meanings",
+  wordbank: "Word bank",
   punctuation: "Punctuation",
 };
 
@@ -50,6 +51,11 @@ export function activityName(key: string) {
   if (prefix === "stage") {
     const [, skill, L, s, w] = (rest ?? "").split(".");
     return `${SKILL_NAMES[skill] ?? skill} · ${LEVEL_NAMES[Number(L)] ?? ""} stage ${Number(s) + 1} · work ${Number(w) + 1}`;
+  }
+  if (prefix === "wordbank") {
+    const [section, ...lvl] = (rest ?? "").split("-");
+    const names: Record<string, string> = { meanings: "word meanings", synonyms: "synonyms", antonyms: "antonyms", idioms: "idioms" };
+    return `Word bank · ${names[section] ?? section}${lvl.length ? ` (${lvl.join("-") === "jhs" ? "JHS" : "P4–6"})` : ""}`;
   }
   const base = ACTIVITY_NAMES[prefix] ?? prefix;
   return rest && !["quiz", "all", "kg", "p1-3", "p4-6", "jhs"].includes(rest) ? `${base} · ${rest.replace(/-/g, " ")}` : base;

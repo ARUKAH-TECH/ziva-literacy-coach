@@ -291,7 +291,11 @@ export function ReadAloudCheck({ paragraphs, storyKey, big, wpmTarget }: { parag
       </div>
 
       {!supported ? (
-        <p className="mt-3 rounded-2xl bg-amber-100 p-4 font-semibold">This phone&apos;s browser can&apos;t listen to reading. Open the app in Google Chrome to use this.</p>
+        <p className="mt-3 rounded-2xl bg-amber-100 p-4 font-semibold">
+          {typeof navigator !== "undefined" && /iPhone|iPad|iPod/.test(navigator.userAgent)
+            ? "This iPhone can't listen to reading here. Open the app in Safari, and turn on Siri & Dictation in Settings → Siri (or Keyboard → Enable Dictation)."
+            : "This browser can't listen to reading. Open the app in Google Chrome or Microsoft Edge to use this."}
+        </p>
       ) : !consent ? (
         <label className="mt-3 flex items-start gap-3 rounded-2xl bg-sky-50 p-4 text-sm">
           <input

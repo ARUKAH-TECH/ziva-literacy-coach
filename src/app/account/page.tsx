@@ -230,7 +230,7 @@ export default function AccountPage() {
             </>
           )}
 
-          <Subscriptions />
+          <Subscriptions me={me} />
 
           <InviteEarn />
 

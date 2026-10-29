@@ -1,12 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { goldButton, primaryButton, secondaryButton } from "@/components/ui";
 import { useOnline } from "@/components/useOnline";
 import { useSession } from "@/lib/account";
 import { useLearners } from "@/lib/learners";
-import { PRICES, payFor } from "@/lib/subscription";
+import { PRICES, markLimitReached, payFor } from "@/lib/subscription";
 
 /** Shown instead of a paid work when there is no active subscription. */
 export function Paywall({ onCheck }: { onCheck: () => void }) {
@@ -15,6 +15,7 @@ export function Paywall({ onCheck }: { onCheck: () => void }) {
   const { current } = useLearners();
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  useEffect(() => markLimitReached(), []);
 
   async function pay() {
     setBusy(true);

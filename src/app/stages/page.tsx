@@ -140,7 +140,7 @@ export default function StagesPage() {
                 aria-label={`Work ${i + 1}${ok ? ", passed" : open ? "" : ", locked"}`}
                 className={`h-8 w-8 rounded-lg text-xs font-bold ${i === k ? "ring-2 ring-ziva" : ""} ${ok ? "bg-emerald-500 text-white" : open ? "bg-amber-200" : "bg-black/10 text-black/30"}`}
               >
-                {ok ? "✓" : open ? (isFreeWork(L, view.stage!, i) || access.ok ? i + 1 : "🔐") : "🔒"}
+                {ok ? "✓" : open ? i + 1 : "🔒"}
               </button>
             );
           })}
@@ -230,11 +230,6 @@ export default function StagesPage() {
         })}
       </div>
       <p className="mt-5 rounded-2xl bg-sky-50 p-4 text-sm text-sky-950">
-        {access.ok ? (
-          <>✅ Subscription active. </>
-        ) : (
-          <>🎁 Free: Stage 1 and the first 10 works of Stage 2. After that a subscription is needed (student GHS 20, family GHS 50, school GHS 100 a month). </>
-        )}
         Each work needs <strong>⭐⭐⭐⭐</strong> or more. If you get fewer stars, do it again — you can&apos;t skip ahead. You can always go back and
         practise works you have passed.
       </p>

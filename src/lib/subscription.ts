@@ -19,6 +19,29 @@ const PAY_URL = "https://zivarukah.com/api/literacy/subscribe";
 const KEY = "ziva-literacy:access";
 const EVENT = "ziva-access-changed";
 
+const LIMIT_KEY = "ziva-literacy:limit-reached";
+
+/** Called when the subscribe screen is shown — from then on the account page offers subscriptions. */
+export function markLimitReached() {
+  try {
+    localStorage.setItem(LIMIT_KEY, "yes");
+  } catch {
+    // ignore
+  }
+}
+export function limitReachedHere() {
+  try {
+    return localStorage.getItem(LIMIT_KEY) === "yes";
+  } catch {
+    return false;
+  }
+}
+
+/** Has this learner's progress reached the end of the free part in any skill? */
+export function reachedLimit(records: Record<string, { best: number }> | undefined) {
+  return Object.entries(records ?? {}).some(([k, r]) => /^stage:[^.]+\.[a-z]+\.0\.1\.9$/.test(k) && r.best >= 4);
+}
+
 export function isFreeWork(level: number, stage: number, work: number) {
   return level === 0 && (stage === 0 || (stage === 1 && work < FREE_WORKS_IN_STAGE_2));
 }

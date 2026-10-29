@@ -4,7 +4,8 @@ import { useCallback, useEffect, useState } from "react";
 import { goldButton } from "@/components/ui";
 import { useOnline } from "@/components/useOnline";
 import { call } from "@/lib/account";
-import { PRICES, payFor, refreshAccess, untilText, type Plan } from "@/lib/subscription";
+import { PRICES, limitReachedHere, payFor, reachedLimit, refreshAccess, untilText, type Plan } from "@/lib/subscription";
+import type { Me } from "@/lib/account";
 
 interface MySubs {
   selfUntil: string | null;
@@ -58,7 +59,7 @@ function Row({ title, sub, until, plan, group, canPay }: { title: string; sub: s
 }
 
 /** Subscriptions for me (student) and my families/schools, plus the Paystack return message. */
-export function Subscriptions() {
+export function Subscriptions({ me }: { me: Me | null }) {
   const [subs, setSubs] = useState<MySubs | null>(null);
   const [paid, setPaid] = useState<string | null>(null);
 
@@ -86,19 +87,28 @@ export function Subscriptions() {
   }, [load]);
 
   if (!subs) return null;
+  // Hidden until needed: shown only for whoever has reached the end of the
+  // free part (or has paid before), and right after coming back from Paystack.
+  const showSelf = Boolean(paid) || limitReachedHere() || Boolean(subs.selfUntil);
+  const spaces = subs.spaces.filter((s) => {
+    if (s.until) return true;
+    const sp = me?.spaces.find((x) => x.id === s.id);
+    return Boolean(sp?.learners.some((l) => reachedLimit(l.progress?.records)));
+  });
+  if (!showSelf && spaces.length === 0) return null;
   return (
     <section id="subscribe" className="rounded-3xl bg-sky-50 p-5">
       <p className="text-2xl font-extrabold">💳 Subscription</p>
       <p className="mt-1 text-black/70">
-        In every skill, Stage 1 and half of Stage 2 are free. A subscription opens all stages up to Professional. Pay with Mobile Money or card
+        The free part is finished. A subscription opens all stages up to Professional. Pay with Mobile Money or card
         (Paystack). Each payment adds 1 month.
       </p>
       {paid === "paid" && <p role="status" className="mt-3 rounded-2xl bg-emerald-100 p-3 font-bold text-emerald-900">🎉 Payment received — your month is active. Thank you!</p>}
       {paid === "pending" && <p role="status" className="mt-3 rounded-2xl bg-amber-100 p-3 font-bold text-amber-900">⏳ Waiting for the payment to be confirmed. Approve it on your phone if asked — this page checks again shortly.</p>}
       {paid === "failed" && <p role="alert" className="mt-3 rounded-2xl bg-rose-100 p-3 font-bold text-rose-900">The payment did not go through. No money was taken for this month — please try again.</p>}
       <ul className="mt-4 grid gap-3">
-        <Row title="🎒 Me (student)" sub={`GHS ${PRICES.student} a month — for my own learning on this phone`} until={subs.selfUntil} plan="student" group={null} canPay />
-        {subs.spaces.map((s) => (
+        {showSelf && <Row title="🎒 Me (student)" sub={`GHS ${PRICES.student} a month — for my own learning on this phone`} until={subs.selfUntil} plan="student" group={null} canPay />}
+        {spaces.map((s) => (
           <Row
             key={s.id}
             title={`${s.kind === "school" ? "🏫" : "🏠"} ${s.name}`}

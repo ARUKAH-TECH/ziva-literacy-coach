@@ -43,6 +43,7 @@ export default function Home() {
         <BigLink href="/progress/" emoji="🏆" title="My progress" text="Stars and practice days on this device" color="bg-violet-100" />
         <BigLink href="/join/" emoji="🧒" title="Who is learning?" text="Enter your learner code from a parent or teacher" color="bg-lime-100" />
         <BigLink href="/account/" emoji="👨‍👩‍👧" title="Register: students, parents & schools" text="Sign up with your name and phone, follow progress" color="bg-orange-100" />
+        <BigLink href="/comments/" emoji="💬" title="Comments & suggestions" text="See what people say, and tell us what to add" color="bg-sky-100" />
         <BigLink href="/account/#invite" emoji="🎁" title="Invite & earn a free book" text="50 friends who learn 7 days = 7 days free reading" color="bg-yellow-100" />
       </div>
 

@@ -18,6 +18,10 @@
 
 html {
   -webkit-tap-highlight-color: transparent;
+  /* The app has its own bright colours: keep them (and form boxes) the same
+     on phones set to Dark Mode, so text never turns white-on-white. */
+  color-scheme: light only;
+  background: var(--background);
 }
 
 body {

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://learn.zivarukah.com/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://learn.zivarukah.com/learn/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://learn.zivarukah.com/stages/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://learn.zivarukah.com/level/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://learn.zivarukah.com/reading/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://learn.zivarukah.com/reading/?mode=fluency</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://learn.zivarukah.com/handwriting/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://learn.zivarukah.com/spelling/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://learn.zivarukah.com/phonics/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://learn.zivarukah.com/letters/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://learn.zivarukah.com/vocabulary/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://learn.zivarukah.com/punctuation/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://learn.zivarukah.com/comments/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://learn.zivarukah.com/install/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+</urlset>

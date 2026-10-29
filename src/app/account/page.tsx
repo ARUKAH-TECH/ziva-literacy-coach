@@ -7,6 +7,7 @@ import { goldButton, primaryButton, secondaryButton } from "@/components/ui";
 import { useOnline } from "@/components/useOnline";
 import { SpaceView } from "@/components/dash/SpaceView";
 import { InviteEarn } from "@/components/dash/InviteEarn";
+import { Subscriptions } from "@/components/dash/Subscriptions";
 import { call, captureRef, loadMe, prettyPhone, register, savedRef, signIn, signOut, useSession, type Me } from "@/lib/account";
 import { CloudError, rpc } from "@/lib/cloud";
 
@@ -228,6 +229,8 @@ export default function AccountPage() {
               <Start onDone={refresh} />
             </>
           )}
+
+          <Subscriptions />
 
           <InviteEarn />
 

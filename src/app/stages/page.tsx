@@ -10,6 +10,8 @@ import { levelInfo } from "@/lib/levels";
 import { recordResult, useProgress } from "@/lib/progress";
 import { currentPosition, passed, stageOpen, stagePassedCount, starsOn, workOpen } from "@/lib/stages";
 import { speak, stopSpeaking } from "@/lib/speech";
+import { Paywall } from "@/components/Paywall";
+import { isFreeWork, useAccess } from "@/lib/subscription";
 
 type View = { skill: SkillId | null; level: number; stage: number | null; work: number };
 const KEY = "ziva-literacy:stages-view";
@@ -19,6 +21,7 @@ export default function StagesPage() {
   const cls = progress.level;
   const info = levelInfo(cls);
   const [view, setView] = useState<View>({ skill: null, level: 0, stage: null, work: 0 });
+  const access = useAccess();
 
   // Remember where we were (per phone), so Back/refresh returns here.
   useEffect(() => {
@@ -137,18 +140,18 @@ export default function StagesPage() {
                 aria-label={`Work ${i + 1}${ok ? ", passed" : open ? "" : ", locked"}`}
                 className={`h-8 w-8 rounded-lg text-xs font-bold ${i === k ? "ring-2 ring-ziva" : ""} ${ok ? "bg-emerald-500 text-white" : open ? "bg-amber-200" : "bg-black/10 text-black/30"}`}
               >
-                {ok ? "✓" : open ? i + 1 : "🔒"}
+                {ok ? "✓" : open ? (isFreeWork(L, view.stage!, i) || access.ok ? i + 1 : "🔐") : "🔒"}
               </button>
             );
           })}
         </div>
 
         <section className="mt-4 rounded-3xl bg-white p-5 shadow-sm">
-          <WorkPlayer
-            key={work.id}
-            work={work}
-            onResult={(stars) => recordResult(recordKeyFor(work.id), stars)}
-          />
+          {isFreeWork(L, view.stage, k) || access.ok ? (
+            <WorkPlayer key={work.id} work={work} onResult={(stars) => recordResult(recordKeyFor(work.id), stars)} />
+          ) : (
+            <Paywall onCheck={access.refresh} />
+          )}
         </section>
 
         <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
@@ -227,6 +230,11 @@ export default function StagesPage() {
         })}
       </div>
       <p className="mt-5 rounded-2xl bg-sky-50 p-4 text-sm text-sky-950">
+        {access.ok ? (
+          <>✅ Subscription active. </>
+        ) : (
+          <>🎁 Free: Stage 1 and the first 10 works of Stage 2. After that a subscription is needed (student GHS 20, family GHS 50, school GHS 100 a month). </>
+        )}
         Each work needs <strong>⭐⭐⭐⭐</strong> or more. If you get fewer stars, do it again — you can&apos;t skip ahead. You can always go back and
         practise works you have passed.
       </p>

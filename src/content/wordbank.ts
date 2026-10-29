@@ -426,13 +426,42 @@ export const SECTIONS = [
 export type SectionId = (typeof SECTIONS)[number]["id"];
 
 export interface BankQuestion {
+  id: string;
+  section: SectionId;
   prompt: string;
-  word: string;
+  /** Example sentence shown with the question ("" when it would give the answer away). */
   sentence: string;
   say: string;
   options: string[];
   answer: number;
   explain: string;
+  /** What to show on the study card for this question. */
+  study: { head: string; line: string; sentence: string; say: string };
+}
+
+// ── Stages ────────────────────────────────────────────────────────────────
+// Each class (P4–6, JHS) has its own Word bank path. A stage is a test of 30
+// questions mixing meanings, synonyms, antonyms and idioms. Early stages ask
+// "what does X mean?"; later stages turn it round ("which word means …?").
+// ⭐⭐⭐⭐ (24 of 30) opens the next stage. Stage 1 and the first half of
+// Stage 2 are free; after that a subscription is needed (any plan).
+
+export const QUESTIONS_PER_STAGE = 30;
+export const FREE_QUESTIONS_IN_STAGE_2 = 15;
+
+export interface WordStage {
+  n: number; // 1-based
+  questions: BankQuestion[];
+}
+
+function seeded(seed: number) {
+  let x = seed >>> 0;
+  return () => {
+    x = (x + 0x6d2b79f5) >>> 0;
+    let r = Math.imul(x ^ (x >>> 15), 1 | x);
+    r = (r + Math.imul(r ^ (r >>> 7), 61 | r)) ^ r;
+    return ((r ^ (r >>> 14)) >>> 0) / 4294967296;
+  };
 }
 
 function pick<T>(list: T[], n: number, rand: () => number): T[] {
@@ -444,47 +473,96 @@ function pick<T>(list: T[], n: number, rand: () => number): T[] {
   return a.slice(0, n);
 }
 
-/** `count` questions for a section, with wrong answers from other entries. */
-export function bankQuiz(level: WordBankLevel, section: SectionId, count = 10, rand: () => number = Math.random): BankQuestion[] {
-  // `hint`: show the example sentence with the question. Off for synonyms and
-  // antonyms, whose examples contain the answer — shown after answering instead.
-  const build = (right: string, others: string[], prompt: string, word: string, sentence: string, explain: string, hint = true): BankQuestion => {
-    const wrong = pick([...new Set(others.filter((o) => o.toLowerCase() !== right.toLowerCase()))], 3, rand);
-    const options = pick([right, ...wrong], 4, rand);
-    const ask = prompt.replace(/[“”]/g, "");
-    return hint
-      ? { prompt, word, sentence, say: `${ask} ${sentence}`, options, answer: options.indexOf(right), explain }
-      : { prompt, word, sentence: "", say: ask, options, answer: options.indexOf(right), explain: `${explain} Example: “${sentence}”` };
-  };
+const cap = (t: string) => t.charAt(0).toUpperCase() + t.slice(1);
 
-  if (section === "meanings") {
-    const list = MEANINGS[level];
-    return pick(list, count, rand).map((e) =>
-      build(e.meaning, list.filter((o) => o !== e).map((o) => o.meaning), `What does “${e.word}” mean?`, e.word, e.sentence, `${cap(e.word)} means ${e.meaning}.`),
-    );
-  }
-  if (section === "synonyms") {
-    const list = SYNONYMS[level];
-    return pick(list, count, rand).map((e) => {
-      const right = e.same[Math.floor(rand() * e.same.length)];
-      const others = list.filter((o) => o !== e).flatMap((o) => [o.word, ...o.same]).filter((w) => w !== e.word && !e.same.includes(w));
-      return build(right, others, `Which word means the same as “${e.word}”?`, e.word, e.sentence, `${cap(e.word)} = ${e.same.join(", ")}.`, false);
-    });
-  }
-  if (section === "antonyms") {
-    const list = ANTONYMS[level];
-    return pick(list, count, rand).map((e) => {
-      // Ask either way round: hot → cold or cold → hot.
-      const flip = rand() < 0.5;
-      const [q, right] = flip ? [e.opposite, e.word] : [e.word, e.opposite];
-      const others = list.filter((o) => o !== e).flatMap((o) => [o.word, o.opposite]);
-      return build(right, others, `What is the opposite of “${q}”?`, q, e.sentence, `${cap(e.word)} ↔ ${e.opposite}.`, false);
-    });
-  }
-  const list = IDIOMS[level];
-  return pick(list, count, rand).map((e) =>
-    build(e.meaning, list.filter((o) => o !== e).map((o) => o.meaning), `What does “${e.idiom}” mean?`, e.idiom, e.sentence, `“${cap(e.idiom)}” means ${e.meaning}.`),
-  );
+type Make = (rand: () => number) => BankQuestion;
+
+function question(
+  id: string,
+  section: SectionId,
+  right: string,
+  others: string[],
+  prompt: string,
+  sentence: string,
+  explain: string,
+  study: BankQuestion["study"],
+  hint: boolean,
+  rand: () => number,
+): BankQuestion {
+  const wrong = pick([...new Set(others.filter((o) => o.toLowerCase() !== right.toLowerCase()))], 3, rand);
+  const options = pick([right, ...wrong], 4, rand);
+  const ask = prompt.replace(/[“”]/g, "");
+  return {
+    id,
+    section,
+    prompt,
+    sentence: hint ? sentence : "",
+    say: hint ? `${ask} ${sentence}` : ask,
+    options,
+    answer: options.indexOf(right),
+    explain: hint ? explain : `${explain} Example: “${sentence}”`,
+    study,
+  };
 }
 
-const cap = (t: string) => t.charAt(0).toUpperCase() + t.slice(1);
+/** Every question for a class: [forward questions per section, turned-round questions per section]. */
+function allQuestions(level: WordBankLevel): [Make[][], Make[][]] {
+  const M = MEANINGS[level];
+  const S = SYNONYMS[level];
+  const A = ANTONYMS[level];
+  const I = IDIOMS[level];
+
+  const mStudy = (e: Meaning) => ({ head: e.word, line: e.meaning, sentence: e.sentence, say: `${e.word}. ${e.meaning}. ${e.sentence}` });
+  const sStudy = (e: Synonym) => ({ head: e.word, line: `= ${e.same.join(", ")}`, sentence: e.sentence, say: `${e.word} means the same as ${e.same.join(", or ")}. ${e.sentence}` });
+  const aStudy = (e: Antonym) => ({ head: `${e.word} ↔ ${e.opposite}`, line: `The opposite of ${e.word} is ${e.opposite}.`, sentence: e.sentence, say: `The opposite of ${e.word} is ${e.opposite}. ${e.sentence}` });
+  const iStudy = (e: Idiom) => ({ head: e.idiom, line: e.meaning, sentence: e.sentence, say: `${e.idiom}. This means ${e.meaning}. ${e.sentence}` });
+  const synOthers = (e: Synonym) => S.filter((o) => o !== e).flatMap((o) => [o.word, ...o.same]).filter((w) => w !== e.word && !e.same.includes(w));
+  const antOthers = (e: Antonym) => A.filter((o) => o !== e).flatMap((o) => [o.word, o.opposite]);
+
+  const forward: Make[][] = [
+    M.map((e) => (r) => question(`m:${e.word}`, "meanings", e.meaning, M.filter((o) => o !== e).map((o) => o.meaning), `What does “${e.word}” mean?`, e.sentence, `${cap(e.word)} means ${e.meaning}.`, mStudy(e), true, r)),
+    S.map((e) => (r) => question(`s:${e.word}`, "synonyms", e.same[0], synOthers(e), `Which word means the same as “${e.word}”?`, e.sentence, `${cap(e.word)} = ${e.same.join(", ")}.`, sStudy(e), false, r)),
+    A.map((e) => (r) => question(`a:${e.word}`, "antonyms", e.opposite, antOthers(e), `What is the opposite of “${e.word}”?`, e.sentence, `${cap(e.word)} ↔ ${e.opposite}.`, aStudy(e), false, r)),
+    I.map((e) => (r) => question(`i:${e.idiom}`, "idioms", e.meaning, I.filter((o) => o !== e).map((o) => o.meaning), `What does “${e.idiom}” mean?`, e.sentence, `“${cap(e.idiom)}” means ${e.meaning}.`, iStudy(e), true, r)),
+  ];
+  const turned: Make[][] = [
+    M.map((e) => (r) => question(`m2:${e.word}`, "meanings", e.word, M.filter((o) => o !== e).map((o) => o.word), `Which word means “${e.meaning}”?`, e.sentence, `${cap(e.word)} means ${e.meaning}.`, mStudy(e), false, r)),
+    S.map((e) => (r) => question(`s2:${e.word}`, "synonyms", e.word, synOthers(e), `Which word means the same as “${e.same[e.same.length - 1]}”?`, e.sentence, `${cap(e.word)} = ${e.same.join(", ")}.`, sStudy(e), false, r)),
+    A.map((e) => (r) => question(`a2:${e.word}`, "antonyms", e.word, antOthers(e), `What is the opposite of “${e.opposite}”?`, e.sentence, `${cap(e.opposite)} ↔ ${e.word}.`, aStudy(e), false, r)),
+    I.map((e) => (r) => question(`i2:${e.idiom}`, "idioms", e.idiom, I.filter((o) => o !== e).map((o) => o.idiom), `Which expression means “${e.meaning}”?`, e.sentence, `“${cap(e.idiom)}” means ${e.meaning}.`, iStudy(e), false, r)),
+  ];
+  return [forward, turned];
+}
+
+/** Takes one from each list in turn, so every stage mixes all four sections. */
+function interleave<T>(lists: T[][]): T[] {
+  const out: T[] = [];
+  for (let k = 0; out.length < lists.reduce((a, l) => a + l.length, 0); k++) for (const l of lists) if (k < l.length) out.push(l[k]);
+  return out;
+}
+
+const cache = new Map<WordBankLevel, WordStage[]>();
+
+/** The Word bank stages for a class. The same questions every time (fixed seed). */
+export function wordBankStages(level: WordBankLevel): WordStage[] {
+  const hit = cache.get(level);
+  if (hit) return hit;
+  const rand = seeded(level === "jhs" ? 7301 : 4601);
+  const [forward, turned] = allQuestions(level);
+  const order = [...interleave(forward.map((l) => pick(l, l.length, rand))), ...interleave(turned.map((l) => pick(l, l.length, rand)))];
+  const count = Math.ceil(order.length / QUESTIONS_PER_STAGE);
+  // The last stage is topped up with review questions from the start.
+  const padded = [...order, ...order.slice(0, count * QUESTIONS_PER_STAGE - order.length)];
+  const stages = Array.from({ length: count }, (_, s) => ({
+    n: s + 1,
+    questions: padded.slice(s * QUESTIONS_PER_STAGE, (s + 1) * QUESTIONS_PER_STAGE).map((make) => make(rand)),
+  }));
+  cache.set(level, stages);
+  return stages;
+}
+
+/** Progress key for a stage, e.g. "wordbank:jhs:3". */
+export const wordStageKey = (level: WordBankLevel, n: number) => `wordbank:${level}:${n}`;
+
+/** Free without a subscription: all of Stage 1 and the first 15 questions of Stage 2. */
+export const freeQuestionsIn = (n: number) => (n === 1 ? QUESTIONS_PER_STAGE : n === 2 ? FREE_QUESTIONS_IN_STAGE_2 : 0);

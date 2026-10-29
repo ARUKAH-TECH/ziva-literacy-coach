@@ -53,9 +53,10 @@ export function activityName(key: string) {
     return `${SKILL_NAMES[skill] ?? skill} · ${LEVEL_NAMES[Number(L)] ?? ""} stage ${Number(s) + 1} · work ${Number(w) + 1}`;
   }
   if (prefix === "wordbank") {
-    const [section, ...lvl] = (rest ?? "").split("-");
-    const names: Record<string, string> = { meanings: "word meanings", synonyms: "synonyms", antonyms: "antonyms", idioms: "idioms" };
-    return `Word bank · ${names[section] ?? section}${lvl.length ? ` (${lvl.join("-") === "jhs" ? "JHS" : "P4–6"})` : ""}`;
+    // wordbank:<class>:<stage>  (e.g. wordbank:jhs:3)
+    const stage = key.split(":")[2];
+    const cls = rest === "jhs" ? "JHS" : rest === "p4-6" ? "P4–6" : null;
+    return cls && stage ? `Word bank · ${cls} stage ${stage}` : "Word bank";
   }
   const base = ACTIVITY_NAMES[prefix] ?? prefix;
   return rest && !["quiz", "all", "kg", "p1-3", "p4-6", "jhs"].includes(rest) ? `${base} · ${rest.replace(/-/g, " ")}` : base;

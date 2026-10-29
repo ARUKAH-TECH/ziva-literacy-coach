@@ -21,7 +21,7 @@ export const ACTIVITIES = [
   { id: "fluency", href: "/reading/?mode=fluency", title: "Reading speed", emoji: "⏱️", skill: "Reading", levels: ["p1-3", "p4-6", "jhs"], text: "Read aloud and see your words per minute." },
   { id: "spelling", href: "/spelling/", title: "Spelling", emoji: "📝", skill: "Spelling", levels: ["p1-3", "p4-6", "jhs"], text: "Listen to the word and type it." },
   { id: "vocabulary", href: "/vocabulary/", title: "Word meanings", emoji: "💡", skill: "Vocabulary", levels: ["p4-6", "jhs"], text: "Choose what each word means." },
-  { id: "word-bank", href: "/word-bank/", title: "Word bank", emoji: "📚", skill: "Vocabulary", levels: ["p4-6", "jhs"], text: "Meanings, synonyms, antonyms and idioms — learn, then test yourself." },
+  { id: "word-bank", href: "/word-bank/", title: "Word bank", emoji: "📚", skill: "Vocabulary", levels: ["p4-6", "jhs"], text: "Meanings, synonyms, antonyms and idioms — stages of 30 questions." },
   { id: "punctuation", href: "/punctuation/", title: "Punctuation", emoji: "❗", skill: "Writing", levels: ["p4-6", "jhs"], text: "Pick the sentence with correct punctuation." },
 ] as const;
 

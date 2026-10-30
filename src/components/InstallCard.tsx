@@ -47,13 +47,7 @@ export function InstallCard({ compact = false }: { compact?: boolean }) {
         </Link>
       ) : (
         <div className="mt-4 rounded-2xl bg-white/10 p-4 text-base leading-7">
-          {platform === "ios" ? (
-            <ol className="list-decimal pl-5">
-              <li>Open this page in <strong>Safari</strong>.</li>
-              <li>Tap the <strong>Share</strong> button (square with an arrow ⬆️).</li>
-              <li>Scroll and tap <strong>Add to Home Screen</strong>, then <strong>Add</strong>.</li>
-            </ol>
-          ) : platform === "android" ? (
+          {platform === "android" ? (
             <ol className="list-decimal pl-5">
               <li>Open this page in <strong>Chrome</strong>.</li>
               <li>Tap the <strong>⋮</strong> menu (top right).</li>

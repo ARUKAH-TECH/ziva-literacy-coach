@@ -25,7 +25,7 @@ export function currentPosition(path: PathLevel[], p: Partial<Progress> | undefi
       if (k >= 0) return { level: L, stage: s, work: k, done: false };
     }
   const last = path.length - 1;
-  return { level: last, stage: path[last].stages.length - 1, work: path[last].stages.at(-1)!.works.length - 1, done: true };
+  return { level: last, stage: path[last].stages.length - 1, work: path[last].stages[path[last].stages.length - 1].works.length - 1, done: true };
 }
 
 const order = (L: number, s: number) => L * 100 + s;

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { AppShell } from "@/components/AppShell";
+import { VoiceSpeed } from "@/components/VoiceSpeed";
 import { Stars, primaryButton, secondaryButton } from "@/components/ui";
 import { WorkPlayer } from "@/components/stages/WorkPlayer";
 import { PASS_STARS, SKILLS, buildPath, recordKeyFor, type SkillId } from "@/content/stages/generate";
@@ -119,6 +120,7 @@ export default function StagesPage() {
     const stageDone = stagePassedCount(path, progress, L, view.stage) === stage.works.length;
     return (
       <AppShell title={`${skill.title} · ${level.title}`} back="/learn/">
+        <VoiceSpeed className="mb-3" />
         <div className="flex items-center justify-between gap-2">
           <button type="button" onClick={() => (stopSpeaking(), setView({ ...view, stage: null }))} className="text-sm font-bold text-ziva underline">
             ← {level.emoji} {level.title} stages

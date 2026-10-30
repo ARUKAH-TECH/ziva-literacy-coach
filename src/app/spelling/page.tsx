@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { AppShell } from "@/components/AppShell";
+import { VoiceSpeed } from "@/components/VoiceSpeed";
 import { Finished, goldButton, primaryButton } from "@/components/ui";
 import { shuffle, starsFor } from "@/components/useQueryMode";
 import { SPELLING } from "@/content/words";
@@ -57,6 +58,7 @@ export default function SpellingPage() {
 
   return (
     <AppShell title="Spelling" back="/learn/">
+      <VoiceSpeed className="mb-4" />
       <p className="text-center text-lg font-semibold text-black/60">Word {i + 1} of {words.length} · ⭐ {score}</p>
       <div className="mt-4 flex flex-col items-center gap-4 rounded-3xl bg-white p-6 shadow-sm">
         <button type="button" onClick={say} className={goldButton}>🔊 Hear the word</button>

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { AppShell } from "@/components/AppShell";
+import { VoiceSpeed } from "@/components/VoiceSpeed";
 import { Finished, Stars, goldButton, primaryButton, secondaryButton } from "@/components/ui";
 import { QuizRunner } from "@/components/QuizRunner";
 import { starsFor, useQueryMode } from "@/components/useQueryMode";
@@ -165,6 +166,7 @@ export default function ReadingPage() {
 
   return (
     <AppShell title={fluency ? "Reading speed" : "Reading practice"} back="/learn/">
+      <VoiceSpeed className="mb-4" />
       {!loaded ? null : open ? (
         fluency ? <Fluency story={open} level={level} onBack={() => setOpen(null)} /> : <ReadStory story={open} onBack={() => setOpen(null)} />
       ) : (

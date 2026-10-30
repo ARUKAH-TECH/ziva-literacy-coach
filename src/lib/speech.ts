@@ -35,6 +35,44 @@ if (typeof window !== "undefined" && "speechSynthesis" in window) {
   });
 }
 
+// Voice speed chosen by the user (Slow / Normal / Fast). Each lesson asks for a
+// rate relative to 0.9 (its "normal"); the chosen speed scales that, so a lesson
+// that wants a slower letter sound is still a little slower than plain speech.
+export const SPEEDS = [
+  { id: "slow", label: "🐢 Slow", factor: 0.85 },
+  { id: "normal", label: "🔊 Normal", factor: 1.1 },
+  { id: "fast", label: "🐇 Fast", factor: 1.3 },
+] as const;
+export type SpeedId = (typeof SPEEDS)[number]["id"];
+const SPEED_KEY = "ziva-literacy:voice-speed";
+export const SPEED_EVENT = "ziva-voice-speed";
+
+export function getSpeed(): SpeedId {
+  try {
+    const s = localStorage.getItem(SPEED_KEY);
+    if (s === "slow" || s === "normal" || s === "fast") return s;
+  } catch {
+    // ignore
+  }
+  return "normal";
+}
+
+export function setSpeed(id: SpeedId) {
+  try {
+    localStorage.setItem(SPEED_KEY, id);
+  } catch {
+    // ignore
+  }
+  window.dispatchEvent(new Event(SPEED_EVENT));
+}
+
+function effectiveRate(requested = 0.9) {
+  const factor = SPEEDS.find((s) => s.id === getSpeed())?.factor ?? 1.1;
+  // "Hear it slowly" buttons (very low rates) stay clearly slow.
+  const r = requested < 0.65 ? requested * Math.min(factor, 1) : (requested / 0.9) * factor;
+  return Math.max(0.5, Math.min(1.6, r));
+}
+
 export function canSpeak() {
   return typeof window !== "undefined" && "speechSynthesis" in window;
 }
@@ -50,8 +88,9 @@ export function speak(text: string, options: { rate?: number; onEnd?: () => void
   const voice = pickVoice();
   if (voice) u.voice = voice;
   u.lang = voice?.lang ?? "en-GB";
-  u.rate = options.rate ?? 0.9;
-  u.pitch = 1.05;
+  u.rate = effectiveRate(options.rate);
+  u.pitch = 1;
+  u.volume = 1;
   if (options.onEnd) u.onend = () => options.onEnd?.();
   if (options.onBoundary) u.onboundary = (e) => options.onBoundary?.(e.charIndex);
   synth.speak(u);

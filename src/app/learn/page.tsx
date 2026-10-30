@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { AppShell } from "@/components/AppShell";
+import { VoiceSpeed } from "@/components/VoiceSpeed";
 import { BigLink } from "@/components/ui";
 import { activitiesFor, levelInfo } from "@/lib/levels";
 import { useProgress } from "@/lib/progress";
@@ -24,6 +25,7 @@ export default function LearnPage() {
   const list = activitiesFor(progress.level);
   return (
     <AppShell title={level ? `${level.label} lessons` : "Lessons"}>
+      <VoiceSpeed className="mb-4" />
       <div className="grid gap-4">
         <BigLink href="/stages/" emoji="🪜" title="Stages: step by step" text="Beginner → Professional · 5 stages each · get ⭐⭐⭐⭐ to move on" color="bg-gradient-to-r from-amber-200 to-orange-200" />
         {list.map((a, i) => (

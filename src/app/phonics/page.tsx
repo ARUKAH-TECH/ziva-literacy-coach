@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { AppShell } from "@/components/AppShell";
+import { VoiceSpeed } from "@/components/VoiceSpeed";
 import { Finished, goldButton, primaryButton } from "@/components/ui";
 import { shuffle, starsFor } from "@/components/useQueryMode";
 import { BLEND_WORDS, LETTERS } from "@/content/letters";
@@ -59,6 +60,7 @@ export default function PhonicsPage() {
   const allHeard = heard.length === item.parts.length;
   return (
     <AppShell title="Blend the sounds" back="/learn/">
+      <VoiceSpeed className="mb-4" />
       <p className="text-center text-lg font-semibold text-black/60">Word {i + 1} of {list.length} · ⭐ {score}</p>
       <p className="mt-2 text-center text-lg">1️⃣ Tap each sound &nbsp; 2️⃣ Blend &nbsp; 3️⃣ Pick the picture</p>
       <div className="mt-6 flex flex-wrap justify-center gap-3">

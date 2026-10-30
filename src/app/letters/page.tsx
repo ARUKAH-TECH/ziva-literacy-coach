@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { AppShell } from "@/components/AppShell";
+import { VoiceSpeed } from "@/components/VoiceSpeed";
 import { Finished, primaryButton, secondaryButton } from "@/components/ui";
 import { shuffle, starsFor, useQueryMode } from "@/components/useQueryMode";
 import { LETTERS } from "@/content/letters";
@@ -138,6 +139,7 @@ export default function LettersPage() {
   }, [mode]);
   return (
     <AppShell title="Letters & sounds" back="/learn/">
+      <VoiceSpeed className="mb-4" />
       <div role="tablist" className="mb-5 grid grid-cols-2 gap-2 rounded-full bg-white p-1 shadow-sm">
         {(["cards", "quiz"] as const).map((t) => (
           <button key={t} role="tab" aria-selected={tab === t} type="button" onClick={() => setTab(t)} className={`rounded-full py-3 text-lg font-bold ${tab === t ? "bg-ziva text-white" : ""}`}>

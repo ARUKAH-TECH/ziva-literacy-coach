@@ -10,6 +10,7 @@ import { InviteEarn } from "@/components/dash/InviteEarn";
 import { Subscriptions } from "@/components/dash/Subscriptions";
 import { call, captureRef, loadMe, prettyPhone, register, savedRef, signIn, signOut, useSession, type Me } from "@/lib/account";
 import { CloudError, rpc } from "@/lib/cloud";
+import { iosInfo, openIosGuide } from "@/components/IosInstallGuide";
 
 const input = "w-full rounded-2xl border-2 border-black/15 bg-white px-4 py-3 text-xl";
 
@@ -38,6 +39,9 @@ function SignInForm() {
     try {
       if (mode === "register") await register(phone, name);
       else await signIn(phone);
+      // On iPhone, show how to put the app on the Home Screen straight after registering.
+      const i = iosInfo();
+      if (mode === "register" && i.ios && !i.installed) window.setTimeout(openIosGuide, 800);
     } catch (err) {
       const msg = err instanceof Error ? err.message : "That didn't work.";
       setError(msg);

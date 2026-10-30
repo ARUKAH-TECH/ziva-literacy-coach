@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { ServiceWorker } from "@/components/ServiceWorker";
 import { LearnerSync } from "@/components/LearnerSync";
+import { IosInstallGuide } from "@/components/IosInstallGuide";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://learn.zivarukah.com"),
@@ -24,6 +25,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ServiceWorker />
         <LearnerSync />
         {children}
+        <IosInstallGuide />
         <script
           type="application/ld+json"
           // Our own static data: tells search engines this app belongs to ZIVARUKAH and its founder.

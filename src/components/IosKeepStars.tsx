@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { openIosGuide } from "@/components/IosInstallGuide";
 import { useEffect, useState } from "react";
 
 // iPhone/iPad Safari may clear a website's saved data (stars) after about a
@@ -32,7 +32,9 @@ export function IosKeepStars() {
           Add ZIVA Literacy to your <strong>Home Screen</strong> (Share ⬆️ → Add to Home Screen). Safari can clear saved stars after a week away. Registered
           learners&apos; stars are also saved online.
         </p>
-        <Link href="/install/" className="mt-2 inline-block font-bold underline">Show me how</Link>
+        <button type="button" onClick={openIosGuide} className="mt-2 rounded-full bg-amber-950 px-4 py-2 text-sm font-bold text-white">
+          📲 Show me how
+        </button>
       </div>
       <button
         type="button"

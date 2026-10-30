@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useInstall } from "@/components/useInstall";
 import { goldButton } from "@/components/ui";
+import { openIosGuide } from "@/components/IosInstallGuide";
 
 /** Install button when the browser offers it; otherwise clear steps. Never claims success it can't see. */
 export function InstallCard({ compact = false }: { compact?: boolean }) {
@@ -35,6 +36,10 @@ export function InstallCard({ compact = false }: { compact?: boolean }) {
           className={`${goldButton} mt-4`}
         >
           Install app
+        </button>
+      ) : platform === "ios" ? (
+        <button type="button" onClick={openIosGuide} className={`${goldButton} mt-4`}>
+          📲 Add to Home Screen
         </button>
       ) : compact ? (
         <Link href="/install/" className={`${goldButton} mt-4`}>

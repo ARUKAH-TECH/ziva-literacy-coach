@@ -39,9 +39,9 @@ if (typeof window !== "undefined" && "speechSynthesis" in window) {
 // rate relative to 0.9 (its "normal"); the chosen speed scales that, so a lesson
 // that wants a slower letter sound is still a little slower than plain speech.
 export const SPEEDS = [
-  { id: "slow", label: "🐢 Slow", factor: 0.85 },
-  { id: "normal", label: "🔊 Normal", factor: 1.1 },
-  { id: "fast", label: "🐇 Fast", factor: 1.3 },
+  { id: "slow", label: "🐢 Slow", factor: 0.78 },
+  { id: "normal", label: "🔊 Normal", factor: 0.95 },
+  { id: "fast", label: "🐇 Fast", factor: 1.12 },
 ] as const;
 export type SpeedId = (typeof SPEEDS)[number]["id"];
 const SPEED_KEY = "ziva-literacy:voice-speed";
@@ -67,7 +67,7 @@ export function setSpeed(id: SpeedId) {
 }
 
 function effectiveRate(requested = 0.9) {
-  const factor = SPEEDS.find((s) => s.id === getSpeed())?.factor ?? 1.1;
+  const factor = SPEEDS.find((s) => s.id === getSpeed())?.factor ?? 0.95;
   // "Hear it slowly" buttons (very low rates) stay clearly slow.
   const r = requested < 0.65 ? requested * Math.min(factor, 1) : (requested / 0.9) * factor;
   return Math.max(0.5, Math.min(1.6, r));

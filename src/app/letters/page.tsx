@@ -11,8 +11,13 @@ import { speak } from "@/lib/speech";
 
 type Letter = (typeof LETTERS)[number];
 
+/** "A, as in ant." */
+const letterLine = (x: Letter) => `${x.l}, as in ${x.word}.`;
+
+/** Said three times, with a short pause between: "A, as in ant. A, as in ant. A, as in ant." */
 function sayLetter(x: Letter) {
-  speak(`${x.l}. ${x.sound}. ${x.sound}, as in ${x.word}.`, { rate: 0.8 });
+  const line = letterLine(x);
+  speak(`${line} ${line} ${line}`, { rate: 0.8 });
 }
 
 function Cards() {
@@ -82,7 +87,7 @@ function Quiz() {
   const done = round >= ROUNDS;
 
   useEffect(() => {
-    if (q && !picked) speak(`Find the letter that says ${q.target.sound}. ${q.target.sound}, as in ${q.target.word}.`, { rate: 0.8 });
+    if (q && !picked) speak(`Find the letter. ${letterLine(q.target)} ${letterLine(q.target)}`, { rate: 0.8 });
   }, [q, picked]);
 
   useEffect(() => {
@@ -96,7 +101,7 @@ function Quiz() {
   return (
     <div className="flex flex-col items-center gap-5">
       <p className="text-lg font-semibold text-black/60">Question {round + 1} of {ROUNDS} · ⭐ {score}</p>
-      <button type="button" onClick={() => speak(`${q.target.sound}, as in ${q.target.word}`, { rate: 0.8 })} className={primaryButton}>
+      <button type="button" onClick={() => speak(`${letterLine(q.target)} ${letterLine(q.target)} ${letterLine(q.target)}`, { rate: 0.8 })} className={primaryButton}>
         🔊 Listen again
       </button>
       <p className="text-6xl" aria-hidden="true">{picked ? q.target.emoji : "❓"}</p>

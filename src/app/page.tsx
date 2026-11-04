@@ -4,7 +4,6 @@ import { AppShell } from "@/components/AppShell";
 import { BigLink } from "@/components/ui";
 import { InstallCard } from "@/components/InstallCard";
 import { ShareButtons } from "@/components/ShareButtons";
-import { RefWelcome } from "@/components/RefWelcome";
 import { IosKeepStars } from "@/components/IosKeepStars";
 import { levelInfo } from "@/lib/levels";
 import { useProgress, streak } from "@/lib/progress";
@@ -15,7 +14,6 @@ export default function Home() {
   const days = streak(progress.days);
   return (
     <AppShell back={null}>
-      <RefWelcome />
       <IosKeepStars />
       <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-ziva to-ziva-dark p-6 text-white shadow-lg">
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -43,10 +41,8 @@ export default function Home() {
         <BigLink href="/reading/" emoji="📖" title="Reading practice" text="Stories, read-aloud and questions" color="bg-emerald-100" />
         <BigLink href="/handwriting/" emoji="✏️" title="Handwriting practice" text="Trace strokes, letters, words and sentences" color="bg-rose-100" />
         <BigLink href="/progress/" emoji="🏆" title="My progress" text="Stars and practice days on this device" color="bg-violet-100" />
-        <BigLink href="/join/" emoji="🧒" title="Who is learning?" text="Enter your learner code from a parent or teacher" color="bg-lime-100" />
-        <BigLink href="/account/" emoji="👨‍👩‍👧" title="Register: students, parents & schools" text="Sign up with your name and phone, follow progress" color="bg-orange-100" />
+        <BigLink href="/parent/" emoji="👨‍👩‍👧" title="For parents: follow from anywhere" text="See your child's stars on your own phone, even far away" color="bg-orange-100" />
         <BigLink href="/comments/" emoji="💬" title="Comments & suggestions" text="See what people say, and tell us what to add" color="bg-sky-100" />
-        <BigLink href="/account/#invite" emoji="🎁" title="Invite & earn a free book" text="50 friends who learn 7 days = 7 days free reading" color="bg-yellow-100" />
       </div>
 
       <div className="mt-6">
@@ -66,7 +62,7 @@ export default function Home() {
       </section>
 
       <p className="mt-8 text-center text-sm text-black/60">
-        Free practice from <a href="https://zivarukah.com/ziva" className="font-semibold underline">ZIVA Special Classes</a>. No sign-up needed to learn. Parents and schools can register to follow progress.
+        Free practice from <a href="https://zivarukah.com/ziva" className="font-semibold underline">ZIVA Special Classes</a>. Everything is free, with no sign-up.
       </p>
     </AppShell>
   );

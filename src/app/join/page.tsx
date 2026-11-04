@@ -102,7 +102,7 @@ export default function JoinPage() {
 
       <form onSubmit={add} className="mt-8 rounded-3xl bg-white p-5 shadow-sm">
         <p className="text-xl font-extrabold">🔑 I have a learner code</p>
-        <p className="mt-1 text-sm text-black/60">Your parent or teacher gives you a code like ZV-4K7Q-M2PX.</p>
+        <p className="mt-1 text-sm text-black/60">Learning on another phone too? Enter the learner code (like ZV-4K7Q-M2PX) to keep the same stars.</p>
         <input
           value={code}
           onChange={(e) => setCode(e.target.value.toUpperCase())}
@@ -119,9 +119,9 @@ export default function JoinPage() {
       </form>
 
       <div className="mt-6 rounded-3xl bg-amber-50 p-5">
-        <p className="font-extrabold">👨‍👩‍👧 Parent, teacher or head of school?</p>
-        <p className="mt-1 text-sm text-black/70">Register with your phone number to add children, get their codes and see their progress.</p>
-        <Link href="/account/" className={`${secondaryButton} mt-3`}>Parents &amp; schools</Link>
+        <p className="font-extrabold">👨‍👩‍👧 A parent far away?</p>
+        <p className="mt-1 text-sm text-black/70">Make a free parent code in My progress and send it on WhatsApp. No registration.</p>
+        <Link href="/progress/#parent" className={`${secondaryButton} mt-3`}>Let a parent follow</Link>
       </div>
     </AppShell>
   );

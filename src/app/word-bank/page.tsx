@@ -2,14 +2,12 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { AppShell } from "@/components/AppShell";
-import { Paywall } from "@/components/Paywall";
 import { QuizRunner } from "@/components/QuizRunner";
 import { Finished, Stars, primaryButton, secondaryButton } from "@/components/ui";
 import { starsFor } from "@/components/useQueryMode";
-import { QUESTIONS_PER_STAGE, SECTIONS, freeQuestionsIn, wordBankStages, wordStageKey, type WordBankLevel } from "@/content/wordbank";
+import { QUESTIONS_PER_STAGE, SECTIONS, wordBankStages, wordStageKey, type WordBankLevel } from "@/content/wordbank";
 import { recordResult, useProgress } from "@/lib/progress";
 import { speak, stopSpeaking } from "@/lib/speech";
-import { useAccess } from "@/lib/subscription";
 
 const PASS = 4;
 const LEVEL_TABS: { id: WordBankLevel; label: string }[] = [
@@ -28,7 +26,6 @@ type View = { stage: number | null; mode: "study" | "test" | "done"; score: numb
 
 export default function WordBankPage() {
   const { progress, loaded } = useProgress();
-  const access = useAccess();
   const [level, setLevel] = useState<WordBankLevel>("p4-6");
   const [view, setView] = useState<View>({ stage: null, mode: "study", score: 0, asked: 0, seed: 0 });
 
@@ -53,8 +50,8 @@ export default function WordBankPage() {
   if (view.stage !== null && open(view.stage)) {
     const stage = stages[view.stage - 1];
     const tier = tierOf(stage.n, stages.length);
-    const free = freeQuestionsIn(stage.n);
-    const limit = access.ok ? QUESTIONS_PER_STAGE : free;
+    // Everything is free: every stage has all its questions.
+    const limit = QUESTIONS_PER_STAGE;
     const items = stage.questions.slice(0, limit).map((q) => ({
       prompt: (
         <>
@@ -83,11 +80,7 @@ export default function WordBankPage() {
           </span>
         </div>
 
-        {limit === 0 ? (
-          <section className="mt-4 rounded-3xl bg-white p-5 shadow-sm">
-            <Paywall onCheck={access.refresh} />
-          </section>
-        ) : view.mode === "study" ? (
+        {view.mode === "study" ? (
           <>
             <div className="mt-4 rounded-3xl bg-gradient-to-br from-ziva to-ziva-dark p-5 text-white shadow">
               <p className="text-2xl font-extrabold">📖 Study, then test</p>
@@ -128,19 +121,12 @@ export default function WordBankPage() {
               key={`${level}-${stage.n}-${view.seed}`}
               items={items}
               onDone={(correct) => {
-                // Only a full stage of 30 counts for stars; the free half of Stage 2 leads to the subscribe screen.
+                // Only a full stage of 30 counts for stars.
                 if (items.length === QUESTIONS_PER_STAGE) recordResult(wordStageKey(level, stage.n), starsFor(correct, QUESTIONS_PER_STAGE));
                 go({ mode: "done", score: correct, asked: items.length });
               }}
             />
           </div>
-        ) : view.asked < QUESTIONS_PER_STAGE ? (
-          <section className="mt-4 rounded-3xl bg-white p-5 shadow-sm">
-            <p className="mb-4 text-center text-lg font-bold">
-              You got {view.score} of {view.asked} right. 👏
-            </p>
-            <Paywall onCheck={access.refresh} />
-          </section>
         ) : (
           <div className="mt-4">
             <Finished

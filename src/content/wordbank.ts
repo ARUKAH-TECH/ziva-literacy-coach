@@ -443,11 +443,9 @@ export interface BankQuestion {
 // Each class (P4–6, JHS) has its own Word bank path. A stage is a test of 30
 // questions mixing meanings, synonyms, antonyms and idioms. Early stages ask
 // "what does X mean?"; later stages turn it round ("which word means …?").
-// ⭐⭐⭐⭐ (24 of 30) opens the next stage. Stage 1 and the first half of
-// Stage 2 are free; after that a subscription is needed (any plan).
+// ⭐⭐⭐⭐ (24 of 30) opens the next stage. Every stage is free.
 
 export const QUESTIONS_PER_STAGE = 30;
-export const FREE_QUESTIONS_IN_STAGE_2 = 15;
 
 export interface WordStage {
   n: number; // 1-based
@@ -564,5 +562,3 @@ export function wordBankStages(level: WordBankLevel): WordStage[] {
 /** Progress key for a stage, e.g. "wordbank:jhs:3". */
 export const wordStageKey = (level: WordBankLevel, n: number) => `wordbank:${level}:${n}`;
 
-/** Free without a subscription: all of Stage 1 and the first 15 questions of Stage 2. */
-export const freeQuestionsIn = (n: number) => (n === 1 ? QUESTIONS_PER_STAGE : n === 2 ? FREE_QUESTIONS_IN_STAGE_2 : 0);

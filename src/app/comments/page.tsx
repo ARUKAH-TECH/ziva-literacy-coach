@@ -1,15 +1,13 @@
 "use client";
 
-import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { AppShell } from "@/components/AppShell";
 import { primaryButton } from "@/components/ui";
 import { useOnline } from "@/components/useOnline";
-import { call, useSession } from "@/lib/account";
 import { rpc } from "@/lib/cloud";
 
-// Comments & suggestions. Anyone can read approved ones; registered people
-// can send. Everything is checked by ZIVA before it is shown to everyone.
+// Comments & suggestions. Anyone can read approved ones and send one (no
+// account needed). Everything is checked by ZIVA before it is shown to everyone.
 
 interface PublicComment {
   id: string;
@@ -19,22 +17,12 @@ interface PublicComment {
   reply: string | null;
   at: string;
 }
-interface MyComment {
-  id: string;
-  kind: "comment" | "suggestion";
-  body: string;
-  status: "pending" | "approved" | "hidden";
-  reply: string | null;
-  at: string;
-}
-
 const when = (iso: string) => new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
 
 export default function CommentsPage() {
   const online = useOnline();
-  const { session, ready } = useSession();
   const [list, setList] = useState<PublicComment[] | null>(null);
-  const [mine, setMine] = useState<MyComment[]>([]);
+  const [name, setName] = useState("");
   const [kind, setKind] = useState<"comment" | "suggestion">("comment");
   const [body, setBody] = useState("");
   const [busy, setBusy] = useState(false);
@@ -46,25 +34,18 @@ export default function CommentsPage() {
     } catch {
       setList((l) => l ?? []);
     }
-    if (session) {
-      try {
-        setMine(await call<MyComment[]>("lit_my_comments"));
-      } catch {
-        // ignore
-      }
-    }
-  }, [session]);
+  }, []);
 
   useEffect(() => {
-    if (ready) void load();
-  }, [ready, load]);
+    void load();
+  }, [load]);
 
   async function send(e: React.FormEvent) {
     e.preventDefault();
     setBusy(true);
     setMsg(null);
     try {
-      await call("lit_comment_post", { p_kind: kind, p_body: body });
+      await rpc("lit_comment_post_open", { p_name: name, p_kind: kind, p_body: body });
       setBody("");
       setMsg({ ok: true, text: "Thank you! ZIVA will read it, and once approved everyone can see it." });
       void load();
@@ -82,7 +63,6 @@ export default function CommentsPage() {
         <p className="mt-1 text-white/90">Tell us what you like and what we should add. Approved messages are shown here for everyone.</p>
       </div>
 
-      {!ready ? null : session ? (
         <form onSubmit={send} className="mt-5 grid gap-3 rounded-3xl bg-white p-5 shadow-sm">
           <div className="flex gap-2">
             {(["comment", "suggestion"] as const).map((k) => (
@@ -96,6 +76,17 @@ export default function CommentsPage() {
               </button>
             ))}
           </div>
+          <label className="grid gap-1 font-semibold">
+            Your first name (optional)
+            <input
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              maxLength={20}
+              autoComplete="given-name"
+              placeholder="e.g. Akosua"
+              className="rounded-2xl border-2 border-black/15 bg-white px-4 py-3 text-lg font-normal"
+            />
+          </label>
           <label className="grid gap-1 font-semibold">
             Your message
             <textarea
@@ -116,29 +107,7 @@ export default function CommentsPage() {
             {busy ? "Sending…" : "Send"}
           </button>
         </form>
-      ) : (
-        <div className="mt-5 rounded-3xl bg-amber-50 p-5">
-          <p className="font-semibold">To send a comment or suggestion, register free with your name and phone (or sign in).</p>
-          <Link href="/account/" className={`${primaryButton} mt-3`}>Register / sign in</Link>
-        </div>
-      )}
 
-      {mine.length > 0 && (
-        <section className="mt-5 rounded-3xl bg-white p-5 shadow-sm">
-          <p className="font-extrabold">📨 What I sent</p>
-          <ul className="mt-2 grid gap-2">
-            {mine.map((c) => (
-              <li key={c.id} className="rounded-2xl bg-black/5 p-3 text-sm">
-                <p>{c.body}</p>
-                <p className="mt-1 text-xs font-bold text-black/60">
-                  {c.status === "approved" ? "✅ Shown to everyone" : c.status === "pending" ? "⏳ Waiting for approval" : "🙈 Not shown"} · {when(c.at)}
-                </p>
-                {c.reply && <p className="mt-1 rounded-xl bg-sky-50 p-2 text-sky-950">↩️ ZIVA: {c.reply}</p>}
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
 
       <section className="mt-6">
         <p className="text-xl font-extrabold">What people are saying</p>

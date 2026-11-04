@@ -11,8 +11,6 @@ import { levelInfo } from "@/lib/levels";
 import { recordResult, useProgress } from "@/lib/progress";
 import { currentPosition, passed, stageOpen, stagePassedCount, starsOn, workOpen } from "@/lib/stages";
 import { speak, stopSpeaking } from "@/lib/speech";
-import { Paywall } from "@/components/Paywall";
-import { isFreeWork, useAccess } from "@/lib/subscription";
 
 type View = { skill: SkillId | null; level: number; stage: number | null; work: number };
 const KEY = "ziva-literacy:stages-view";
@@ -22,7 +20,6 @@ export default function StagesPage() {
   const cls = progress.level;
   const info = levelInfo(cls);
   const [view, setView] = useState<View>({ skill: null, level: 0, stage: null, work: 0 });
-  const access = useAccess();
 
   // Remember where we were (per phone), so Back/refresh returns here.
   useEffect(() => {
@@ -149,11 +146,7 @@ export default function StagesPage() {
         </div>
 
         <section className="mt-4 rounded-3xl bg-white p-5 shadow-sm">
-          {isFreeWork(L, view.stage, k) || access.ok ? (
-            <WorkPlayer key={work.id} work={work} onResult={(stars) => recordResult(recordKeyFor(work.id), stars)} />
-          ) : (
-            <Paywall onCheck={access.refresh} />
-          )}
+          <WorkPlayer key={work.id} work={work} onResult={(stars) => recordResult(recordKeyFor(work.id), stars)} />
         </section>
 
         <div className="mt-4 flex flex-wrap items-center justify-between gap-3">

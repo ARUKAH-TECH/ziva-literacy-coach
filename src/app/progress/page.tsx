@@ -2,13 +2,16 @@
 
 import { useState } from "react";
 import { AppShell } from "@/components/AppShell";
+import { ParentLinkCard } from "@/components/ParentLinkCard";
 import { Stars, secondaryButton } from "@/components/ui";
 import { ACTIVITIES, levelInfo } from "@/lib/levels";
+import { useLearners } from "@/lib/learners";
 import { clearProgress, streak, useProgress } from "@/lib/progress";
 
 export default function ProgressPage() {
   const { progress, loaded } = useProgress();
   const [confirm, setConfirm] = useState(false);
+  const { current } = useLearners();
   const level = levelInfo(progress.level);
   const entries = Object.entries(progress.records);
   const totalStars = entries.reduce((sum, [, r]) => sum + r.best, 0);
@@ -55,9 +58,15 @@ export default function ProgressPage() {
         </>
       )}
 
+      {loaded && <ParentLinkCard level={progress.level} />}
+
       <section className="mt-10 rounded-3xl border-2 border-dashed border-black/15 p-5 text-sm text-black/70">
         <p className="font-semibold text-black">🔒 Your privacy</p>
-        <p className="mt-1">Progress is saved only on this device. No names, scores or recordings are sent to anyone.</p>
+        <p className="mt-1">
+          {current
+            ? `Stars for ${current.name} are saved on this device and online, so a parent or teacher with the code can see them. No phone numbers or recordings are sent.`
+            : "Progress is saved only on this device. No names, scores or recordings are sent to anyone."}
+        </p>
         {entries.length > 0 &&
           (confirm ? (
             <div className="mt-3 flex flex-wrap items-center gap-3">

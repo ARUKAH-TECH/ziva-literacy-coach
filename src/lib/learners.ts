@@ -18,6 +18,7 @@ export interface LearnerProfile {
   kind: "family" | "school";
   lastSync?: string;
   missing?: boolean; // the code no longer works (deleted or changed)
+  viewCode?: string; // read-only code a parent uses to follow progress
 }
 
 interface Store {

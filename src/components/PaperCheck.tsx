@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { Stars, primaryButton, secondaryButton } from "@/components/ui";
 import { AiWritingCheck } from "@/components/AiWritingCheck";
+import { WebcamCapture } from "@/components/WebcamCapture";
+import { isComputer } from "@/lib/devices";
 import { checkPaperHandwriting, type PaperCheck as Result } from "@/lib/handwritingCheck";
 import { recordResult } from "@/lib/progress";
 import { speak } from "@/lib/speech";
@@ -44,6 +46,7 @@ export function PaperCheck({ target, prompt, level, recordKey }: { target: strin
   const [busy, setBusy] = useState(false);
   const [result, setResult] = useState<Result | null>(null);
   const [problem, setProblem] = useState<string | null>(null);
+  const [webcam, setWebcam] = useState(false);
   useEffect(() => () => void (preview && URL.revokeObjectURL(preview)), [preview]);
   useEffect(() => {
     // New exercise → start fresh.
@@ -81,7 +84,12 @@ export function PaperCheck({ target, prompt, level, recordKey }: { target: strin
       <input ref={camera} type="file" accept="image/*" capture="environment" className="hidden" onChange={(e) => onPick(e.target.files?.[0])} />
       <input ref={gallery} type="file" accept="image/*" className="hidden" onChange={(e) => onPick(e.target.files?.[0])} />
       <div className="mt-4 flex flex-wrap gap-3">
-        <button type="button" onClick={() => camera.current?.click()} className={primaryButton}>
+        <button
+          type="button"
+          // A computer has no camera app: use the webcam directly.
+          onClick={() => (isComputer() && typeof navigator.mediaDevices?.getUserMedia === "function" ? setWebcam(true) : camera.current?.click())}
+          className={primaryButton}
+        >
           📸 Take photo
         </button>
         <button type="button" onClick={() => gallery.current?.click()} className={secondaryButton}>
@@ -89,6 +97,15 @@ export function PaperCheck({ target, prompt, level, recordKey }: { target: strin
         </button>
       </div>
       <p className="mt-2 text-sm text-black/60">Tip: good light, paper flat, writing fills most of the photo.</p>
+      {webcam && (
+        <WebcamCapture
+          onClose={() => setWebcam(false)}
+          onCapture={(file) => {
+            setWebcam(false);
+            void onPick(file);
+          }}
+        />
+      )}
 
       {preview && (
         // eslint-disable-next-line @next/next/no-img-element -- local photo preview, never uploaded unless AI check is chosen

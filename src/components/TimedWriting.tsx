@@ -8,6 +8,7 @@ import { checkPaperHandwriting, type PaperCheck } from "@/lib/handwritingCheck";
 import { WRITING_LPM, clock, type LevelId } from "@/lib/levels";
 import { recordResult } from "@/lib/progress";
 import { speak } from "@/lib/speech";
+import { cameraMessage, isComputer, listDevices, problemOf } from "@/lib/devices";
 
 // Timed writing: a stopwatch (and, if allowed, a video of the paper) while
 // the child writes. Shows the time taken and letters per minute, then checks
@@ -48,6 +49,8 @@ export function TimedWriting({ target, isShape, level, recordKey }: { target: st
   }, [frameImg]);
   const [problem, setProblem] = useState<string | null>(null);
   const [cameraError, setCameraError] = useState<string | null>(null);
+  const [cameras, setCameras] = useState<MediaDeviceInfo[]>([]);
+  const [cameraId, setCameraId] = useState("");
   const live = useRef<HTMLVideoElement>(null);
   const stream = useRef<MediaStream | null>(null);
   const recorder = useRef<MediaRecorder | null>(null);
@@ -100,19 +103,28 @@ export function TimedWriting({ target, isShape, level, recordKey }: { target: st
     reset();
   }, [target]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  async function open(withVideo: boolean) {
+  async function open(withVideo: boolean, deviceId = cameraId) {
     setCameraError(null);
     setUseVideo(withVideo);
     if (withVideo) {
       try {
+        stream.current?.getTracks().forEach((t) => t.stop());
         const s = await navigator.mediaDevices.getUserMedia({
-          video: { facingMode: { ideal: "environment" }, width: { ideal: 1280 }, height: { ideal: 720 } },
+          // A chosen camera (e.g. a USB webcam on a computer), else the back camera on a phone.
+          video: deviceId
+            ? { deviceId: { exact: deviceId }, width: { ideal: 1280 }, height: { ideal: 720 } }
+            : { facingMode: { ideal: "environment" }, width: { ideal: 1280 }, height: { ideal: 720 } },
           audio: false,
         });
         stream.current = s;
+        if (live.current) {
+          live.current.srcObject = s;
+          live.current.play().catch(() => {});
+        }
+        setCameras(await listDevices("videoinput"));
         setPhase("ready");
-      } catch {
-        setCameraError("The camera couldn't open. In Chrome tap ⋮ → Settings → Site settings → Camera and allow this app, or use the timer without video.");
+      } catch (error) {
+        setCameraError(`${cameraMessage(problemOf(error))} You can also use the timer without video.`);
         setUseVideo(false);
       }
     } else setPhase("ready");
@@ -266,8 +278,33 @@ export function TimedWriting({ target, isShape, level, recordKey }: { target: st
           {phase === "ready" && (
             <>
               <p className="text-center text-sm text-black/60">
-                {useVideo ? "Hold the phone above the paper so the whole writing area shows. " : ""}Get your pencil ready, then tap Start.
+                {useVideo
+                  ? isComputer()
+                    ? "Point the webcam at the paper so the whole writing area shows. "
+                    : "Hold the phone above the paper so the whole writing area shows. "
+                  : ""}
+                Get your pencil ready, then tap Start.
               </p>
+              {useVideo && cameras.length > 1 && (
+                <label className="w-full text-sm font-semibold">
+                  Camera
+                  <select
+                    value={cameraId}
+                    onChange={(e) => {
+                      setCameraId(e.target.value);
+                      void open(true, e.target.value);
+                    }}
+                    className="mt-1 w-full rounded-xl border-2 border-black/15 px-3 py-2 font-normal"
+                  >
+                    <option value="">Default camera</option>
+                    {cameras.map((c, i) => (
+                      <option key={c.deviceId || i} value={c.deviceId}>
+                        {c.label || `Camera ${i + 1}`}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              )}
               <div className="flex gap-3">
                 <button type="button" onClick={begin} className={primaryButton}>▶️ Start</button>
                 <button type="button" onClick={reset} className={secondaryButton}>Cancel</button>

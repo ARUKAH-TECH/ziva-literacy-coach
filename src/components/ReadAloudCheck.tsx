@@ -1,5 +1,6 @@
 "use client";
 
+import { checkMicrophone, isComputer, micMessage, type DeviceProblem } from "@/lib/devices";
 import { useEffect, useRef, useState } from "react";
 import { Stars, goldButton, primaryButton, secondaryButton } from "@/components/ui";
 import { starsFor } from "@/components/useQueryMode";
@@ -175,8 +176,12 @@ export function ReadAloudCheck({ paragraphs, storyKey, big, wpmTarget }: { parag
 
   const words = splitWords(paragraphs[k] ?? "");
 
-  function start() {
+  async function start() {
     stopSpeaking();
+    setMicBlocked(null);
+    // Make sure a microphone (built-in, USB, headset or Bluetooth) is there and allowed.
+    const mic = await checkMicrophone();
+    if (mic !== "ok") return alertMic(mic);
     const r = newRecognition();
     if (!r) return;
     rec.current = r;
@@ -213,11 +218,11 @@ export function ReadAloudCheck({ paragraphs, storyKey, big, wpmTarget }: { parag
         r.lang = "en-GB";
         return; // onend restarts it
       }
-      if (e.error === "not-allowed" || e.error === "service-not-allowed") {
+      if (e.error === "not-allowed" || e.error === "service-not-allowed" || e.error === "audio-capture") {
         wantListening.current = false;
         setListening(false);
         stopTick();
-        alertMic();
+        alertMic(e.error === "audio-capture" ? "none" : "blocked");
       }
     };
     wantListening.current = true;
@@ -229,9 +234,9 @@ export function ReadAloudCheck({ paragraphs, storyKey, big, wpmTarget }: { parag
     tick.current = window.setInterval(() => setElapsed((performance.now() - partStart.current) / 1000), 250);
   }
 
-  const [micBlocked, setMicBlocked] = useState(false);
-  function alertMic() {
-    setMicBlocked(true);
+  const [micBlocked, setMicBlocked] = useState<string | null>(null);
+  function alertMic(problem: DeviceProblem = "blocked") {
+    setMicBlocked(micMessage(problem));
   }
 
   function finish() {
@@ -392,9 +397,15 @@ export function ReadAloudCheck({ paragraphs, storyKey, big, wpmTarget }: { parag
               </button>
             ))}
           </p>
+          {!micBlocked && !listening && isComputer() && (
+            <p className="mt-3 text-xs text-black/60">
+              Using an external microphone or headset? Plug it in first. To choose it, click the 🔒 at the left of the web address → Site settings →
+              Microphone, or in Windows make it the default microphone.
+            </p>
+          )}
           {micBlocked && (
             <p role="alert" className="mt-3 rounded-2xl bg-rose-100 p-3 font-semibold text-rose-900">
-              The microphone is blocked. In Chrome tap ⋮ → Settings → Site settings → Microphone, and allow learn.zivarukah.com.
+              {micBlocked}
             </p>
           )}
           {listening && (

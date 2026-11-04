@@ -55,8 +55,17 @@ export function InstallCard({ compact = false }: { compact?: boolean }) {
             </ol>
           ) : (
             <ol className="list-decimal pl-5">
-              <li>Open this page in <strong>Chrome</strong> or <strong>Edge</strong>.</li>
-              <li>Click the <strong>install icon</strong> at the right of the address bar, or the menu → <strong>Install ZIVA Literacy</strong>.</li>
+              <li>
+                Open <strong>learn.zivarukah.com</strong> in <strong>Google Chrome</strong> or <strong>Microsoft Edge</strong> (Firefox can&apos;t install apps).
+              </li>
+              <li>
+                <strong>Chrome:</strong> click the small <strong>install icon</strong> (a screen with an arrow) at the right end of the address bar. Or click{" "}
+                <strong>⋮</strong> → <strong>Cast, save and share</strong> → <strong>Install page as app</strong>.
+              </li>
+              <li>
+                <strong>Edge:</strong> click <strong>⋯</strong> → <strong>Apps</strong> → <strong>Install this site as an app</strong>.
+              </li>
+              <li>Click <strong>Install</strong>. ZIVA Literacy then opens from the desktop or Start menu, like any program.</li>
             </ol>
           )}
         </div>

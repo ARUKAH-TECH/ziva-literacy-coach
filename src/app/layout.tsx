@@ -10,6 +10,8 @@ export const metadata: Metadata = {
   description:
     "Free reading, phonics, spelling and handwriting practice for Kindergarten, Primary 1 to 6 and JHS 1 to 3 learners in Ghana, by ZIVARUKAH (founder: Shepherd Justice Sarpong Oduro). Works offline once opened.",
   applicationName: "ZIVA Literacy",
+  // Google Search Console ownership code (HTML tag method), set in Vercel.
+  verification: { google: process.env.GOOGLE_SITE_VERIFICATION || undefined },
   manifest: "/manifest.webmanifest",
   appleWebApp: { capable: true, title: "ZIVA Literacy", statusBarStyle: "default" },
   icons: { icon: "/icons/favicon-48.png", apple: "/icons/apple-180.png" },

@@ -28,3 +28,11 @@ for (const file of files.sort()) {
 const version = hash.digest("hex").slice(0, 12);
 writeFileSync(join(out, "precache.json"), JSON.stringify({ version, urls }));
 console.log(`precache.json: ${urls.length} files, version ${version}`);
+
+// Stamp the version into the service worker, so phones notice a new release
+// (a changed sw.js) and offer "Update now" — pages open from the saved copy.
+const swPath = join(out, "sw.js");
+const sw = readFileSync(swPath, "utf8");
+if (!sw.includes('let VERSION = "dev";')) throw new Error("sw.js: version marker missing");
+writeFileSync(swPath, sw.replace('let VERSION = "dev";', `let VERSION = "${version}";`));
+console.log(`sw.js stamped with version ${version}`);

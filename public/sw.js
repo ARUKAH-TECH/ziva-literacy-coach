@@ -66,9 +66,13 @@ self.addEventListener("fetch", (event) => {
   if (request.method !== "GET" || url.origin !== self.location.origin) return;
 
   if (request.mode === "navigate") {
-    // Pages: try the network (fresh content), fall back to the saved copy offline.
+    // Pages: the app is fully pre-built, so the saved copy is exactly what the
+    // internet would send: open it at once. Only pages not saved yet come from
+    // the internet. (New app versions arrive through the update flow below.)
     event.respondWith(
       (async () => {
+        const saved = await fromCache(request);
+        if (saved) return saved;
         try {
           const response = await fetch(request);
           if (response.ok) {
@@ -77,7 +81,7 @@ self.addEventListener("fetch", (event) => {
           }
           return response;
         } catch {
-          return (await fromCache(request)) || (await caches.match("/")) || Response.error();
+          return (await caches.match("/")) || Response.error();
         }
       })(),
     );

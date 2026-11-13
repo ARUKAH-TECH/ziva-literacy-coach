@@ -569,6 +569,144 @@ function ColourKinds() {
   );
 }
 
+function KgShapes() {
+  const lab = (x: number, t: string) => (
+    <T x={x} y={150} size={14}>
+      {t}
+    </T>
+  );
+  return (
+    <Frame title="Shapes" h={175}>
+      <circle cx={40} cy={80} r={30} fill="#f87171" stroke={ink} strokeWidth={2} />
+      {lab(40, "circle")}
+      <rect x={90} y={50} width={60} height={60} fill="#60a5fa" stroke={ink} strokeWidth={2} />
+      {lab(120, "square")}
+      <polygon points="200,45 235,112 165,112" fill="#4ade80" stroke={ink} strokeWidth={2} />
+      {lab(200, "triangle")}
+      <rect x={250} y={60} width={55} height={40} fill="#facc15" stroke={ink} strokeWidth={2} />
+      {lab(278, "rectangle")}
+      <polygon points="335,52 341,70 358,70 344,81 349,98 335,88 321,98 326,81 312,70 329,70" fill="#a78bfa" stroke={ink} strokeWidth={2} />
+      {lab(335, "star")}
+    </Frame>
+  );
+}
+
+function KgColours() {
+  const cols: [string, string][] = [
+    ["#ef4444", "red"],
+    ["#facc15", "yellow"],
+    ["#3b82f6", "blue"],
+    ["#22c55e", "green"],
+    ["#f97316", "orange"],
+    ["#a855f7", "purple"],
+    ["#92400e", "brown"],
+    ["#111827", "black"],
+    ["#ffffff", "white"],
+    ["#f472b6", "pink"],
+  ];
+  return (
+    <Frame title="Colours" h={170}>
+      {cols.map(([c, n], i) => (
+        <g key={n}>
+          <circle cx={36 + (i % 5) * 72} cy={40 + Math.floor(i / 5) * 70} r={22} fill={c} stroke={ink} strokeWidth={2} />
+          <T x={36 + (i % 5) * 72} y={78 + Math.floor(i / 5) * 70} size={13}>
+            {n}
+          </T>
+        </g>
+      ))}
+    </Frame>
+  );
+}
+
+function KgLines() {
+  return (
+    <Frame title="Lines" h={230}>
+      <line x1={30} y1={30} x2={250} y2={30} stroke="#ef4444" strokeWidth={5} strokeLinecap="round" />
+      <T x={300} y={35} size={14}>straight</T>
+      <path d="M30 75 q27 -25 55 0 t55 0 t55 0 t55 0" fill="none" stroke="#3b82f6" strokeWidth={5} strokeLinecap="round" />
+      <T x={300} y={80} size={14}>curvy</T>
+      <path d="M30 135 l20 -25 l20 25 l20 -25 l20 25 l20 -25 l20 25 l20 -25 l20 25 l20 -25 l20 25" fill="none" stroke="#22c55e" strokeWidth={5} strokeLinejoin="round" />
+      <T x={300} y={128} size={14}>zigzag</T>
+      <line x1={30} y1={165} x2={250} y2={165} stroke="#a855f7" strokeWidth={6} strokeDasharray="1 14" strokeLinecap="round" />
+      <T x={300} y={170} size={14}>dotted</T>
+      <path d="M140 205 m0 0 a6 6 0 1 1 12 0 a12 12 0 1 1 -24 0 a18 18 0 1 1 36 0" fill="none" stroke="#f97316" strokeWidth={4} transform="translate(0 -5)" />
+      <T x={300} y={205} size={14}>spiral</T>
+    </Frame>
+  );
+}
+
+function KgDrawHouse() {
+  const step = (x: number, n: number, body: React.ReactNode) => (
+    <g>
+      <rect x={x} y={12} width={82} height={112} rx={8} fill="#fffbeb" stroke="#e5e7eb" />
+      {body}
+      <T x={x + 41} y={142} size={13}>
+        {n}
+      </T>
+    </g>
+  );
+  const sq = (x: number) => <rect x={x + 18} y={62} width={46} height={46} fill="#fde68a" stroke={ink} strokeWidth={2} />;
+  const roof = (x: number) => <polygon points={`${x + 12},62 ${x + 41},30 ${x + 70},62`} fill="#ef4444" stroke={ink} strokeWidth={2} />;
+  const door = (x: number) => <rect x={x + 35} y={82} width={13} height={26} fill="#92400e" stroke={ink} />;
+  const win = (x: number) => <rect x={x + 22} y={70} width={10} height={10} fill="#93c5fd" stroke={ink} />;
+  return (
+    <Frame title="Draw a house in 4 steps" h={160}>
+      {step(4, 1, sq(4))}
+      {step(93, 2, <>{sq(93)}{roof(93)}</>)}
+      {step(182, 3, <>{sq(182)}{roof(182)}{door(182)}</>)}
+      {step(271, 4, <>{sq(271)}{roof(271)}{door(271)}{win(271)}<rect x={271 + 51} y={70} width={10} height={10} fill="#93c5fd" stroke={ink} /></>)}
+    </Frame>
+  );
+}
+
+function KgDrawFace() {
+  const step = (x: number, n: number, parts: number) => (
+    <g>
+      <rect x={x} y={12} width={82} height={112} rx={8} fill="#fffbeb" stroke="#e5e7eb" />
+      <circle cx={x + 41} cy={68} r={30} fill="#fcd34d" stroke={ink} strokeWidth={2} />
+      {parts >= 2 && (
+        <>
+          <circle cx={x + 31} cy={60} r={4} fill={ink} />
+          <circle cx={x + 51} cy={60} r={4} fill={ink} />
+        </>
+      )}
+      {parts >= 3 && <line x1={x + 41} y1={64} x2={x + 41} y2={74} stroke={ink} strokeWidth={2} />}
+      {parts >= 4 && <path d={`M${x + 28} 80 q13 12 26 0`} fill="none" stroke={ink} strokeWidth={2.5} strokeLinecap="round" />}
+      <T x={x + 41} y={142} size={13}>
+        {n}
+      </T>
+    </g>
+  );
+  return (
+    <Frame title="Draw a happy face in 4 steps" h={160}>
+      {step(4, 1, 1)}
+      {step(93, 2, 2)}
+      {step(182, 3, 3)}
+      {step(271, 4, 4)}
+    </Frame>
+  );
+}
+
+function KgPatterns() {
+  const seq = ["#ef4444", "#3b82f6", "#ef4444", "#3b82f6", "#ef4444", "#3b82f6"];
+  return (
+    <Frame title="Patterns: what comes next?" h={170}>
+      {seq.map((c, i) => (
+        <circle key={i} cx={30 + i * 50} cy={45} r={18} fill={c} stroke={ink} strokeWidth={2} />
+      ))}
+      <T x={330} y={52} size={26} weight={800}>?</T>
+      {[0, 1, 2, 3, 4, 5].map((i) =>
+        i % 2 === 0 ? (
+          <circle key={i} cx={30 + i * 50} cy={115} r={18} fill="#facc15" stroke={ink} strokeWidth={2} />
+        ) : (
+          <polygon key={i} points={`${30 + i * 50},95 ${50 + i * 50},133 ${10 + i * 50},133`} fill="#22c55e" stroke={ink} strokeWidth={2} />
+        ),
+      )}
+      <T x={330} y={122} size={26} weight={800}>?</T>
+    </Frame>
+  );
+}
+
 export function Diagram({ id }: { id: DiagramId }) {
   switch (id) {
     case "elements":
@@ -625,6 +763,18 @@ export function Diagram({ id }: { id: DiagramId }) {
       return <Steps title="Casting with plaster of Paris" steps={["Model", "Mould", "Separator", "Mix & pour", "Let it set", "Remove & finish"]} cols={3} />;
     case "folding":
       return <Steps title="Folding a paper box (masu)" steps={["Square paper", "Fold both diagonals", "Corners to centre", "Fold edges in", "Lift the sides", "Lock the corners"]} cols={3} />;
+    case "kg-shapes":
+      return <KgShapes />;
+    case "kg-colours":
+      return <KgColours />;
+    case "kg-lines":
+      return <KgLines />;
+    case "kg-draw-house":
+      return <KgDrawHouse />;
+    case "kg-draw-face":
+      return <KgDrawFace />;
+    case "kg-patterns":
+      return <KgPatterns />;
     default:
       return null;
   }

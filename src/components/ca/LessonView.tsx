@@ -76,7 +76,7 @@ function Quiz({ lesson }: { lesson: Lesson }) {
   );
 }
 
-function Written({ items, jhs }: { items: Lesson["written"]; jhs: boolean }) {
+function Written({ items, jhs, kg }: { items: Lesson["written"]; jhs: boolean; kg: boolean }) {
   const [shown, setShown] = useState<number[]>([]);
   return (
     <ol className="grid gap-3">
@@ -87,12 +87,12 @@ function Written({ items, jhs }: { items: Lesson["written"]; jhs: boolean }) {
           </p>
           {shown.includes(i) ? (
             <p className="mt-2 rounded-2xl bg-green-50 p-3 text-black/80">
-              <span className="font-bold text-green-700">{jhs ? "Model answer: " : "Answer: "}</span>
+              <span className="font-bold text-green-700">{jhs ? "Model answer: " : kg ? "Ideas: " : "Answer: "}</span>
               {w.answer}
             </p>
           ) : (
             <button type="button" onClick={() => setShown([...shown, i])} className="mt-2 rounded-full border-2 border-ziva px-4 py-1.5 text-sm font-bold text-ziva">
-              Write your answer first, then tap to check
+              {kg ? "Try it first, then tap for ideas" : "Write your answer first, then tap to check"}
             </button>
           )}
         </li>
@@ -112,6 +112,7 @@ export function LessonView({ cls, classLabel, standard, place, lesson }: { cls: 
     );
   }
   const jhs = ["b7", "b8", "b9"].includes(cls);
+  const kg = cls === "kg";
   const readAll = () => speak([lesson.title, lesson.intro, ...lesson.sections.flatMap((s) => [s.heading, s.text ?? "", ...(s.points ?? [])])].filter(Boolean).join(". "));
   return (
     <AppShell title={`Creative Arts · ${cls.toUpperCase()} ${standard.code}`} back={back}>
@@ -141,7 +142,7 @@ export function LessonView({ cls, classLabel, standard, place, lesson }: { cls: 
             ["#words", "🔑 Key words"],
             lesson.practical ? ["#practical", "🛠 Practical"] : null,
             ["#quiz", "⭐ Quiz"],
-            ["#exam", jhs ? "📝 BECE practice" : "📝 Questions"],
+            ["#exam", jhs ? "📝 BECE practice" : kg ? "🗣 Talk about it" : "📝 Questions"],
           ]
             .filter(Boolean)
             .map((x) => (
@@ -217,11 +218,15 @@ export function LessonView({ cls, classLabel, standard, place, lesson }: { cls: 
         </section>
 
         <section id="exam" className="scroll-mt-24">
-          <h2 className="mb-3 text-xl font-extrabold text-ziva">{jhs ? "📝 BECE-style practice" : "📝 Written questions"}</h2>
-          <Written items={lesson.written} jhs={jhs} />
+          <h2 className="mb-3 text-xl font-extrabold text-ziva">{jhs ? "📝 BECE-style practice" : kg ? "🗣 Do it and talk about it with a grown-up" : "📝 Written questions"}</h2>
+          <Written items={lesson.written} jhs={jhs} kg={kg} />
         </section>
 
-        <Curriculum cls={cls} standard={standard} place={place} />
+        {kg ? (
+          <p className="rounded-3xl bg-ziva/5 p-4 text-sm text-black/60">Kindergarten activities: extra early-years fun to prepare for Creative Arts in Primary 1. They are not part of the NaCCA B1–B9 Creative Arts curriculum.</p>
+        ) : (
+          <Curriculum cls={cls} standard={standard} place={place} />
+        )}
 
         <ShareButtons
           url={`https://learn.zivarukah.com/creative-arts/${cls}/${standard.code.replace(/\./g, "-")}/`}

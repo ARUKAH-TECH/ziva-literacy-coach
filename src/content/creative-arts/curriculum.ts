@@ -5,10 +5,13 @@
 // Our lessons (lessons/*.ts) teach these content standards; they never add
 // new curriculum requirements.
 
-export type ClassId = "b1" | "b2" | "b3" | "b4" | "b5" | "b6" | "b7" | "b8" | "b9";
+import { KG_TOPICS } from "./lessons/kg";
+
+export type ClassId = "kg" | "b1" | "b2" | "b3" | "b4" | "b5" | "b6" | "b7" | "b8" | "b9";
 export type Area = "Design" | "Visual Arts" | "Performing Arts" | "Music" | "Dance and Drama";
 
-export const CLASSES: { id: ClassId; label: string; short: string; level: "p1-3" | "p4-6" | "jhs" }[] = [
+export const CLASSES: { id: ClassId; label: string; short: string; level: "kg" | "p1-3" | "p4-6" | "jhs" }[] = [
+  { id: "kg", label: "Kindergarten (KG 1–2)", short: "KG", level: "kg" },
   { id: "b1", label: "Primary 1 (B1)", short: "P1", level: "p1-3" },
   { id: "b2", label: "Primary 2 (B2)", short: "P2", level: "p1-3" },
   { id: "b3", label: "Primary 3 (B3)", short: "P3", level: "p1-3" },
@@ -41,6 +44,10 @@ export const isJhs = (cls: ClassId) => cls === "b7" || cls === "b8" || cls === "
 /** Strand and sub-strand names for a content standard. */
 export function placeOf(cls: ClassId, code: string) {
   const [st, ss] = code.split(".");
+  if (cls === "kg") {
+    const music = Number(code) >= 7;
+    return { strand: music ? "Music, movement and play" : "Art and making", subStrand: "Kindergarten fun activities" };
+  }
   if (isJhs(cls)) {
     const strand = JHS_STRANDS.find((s) => s.code === st);
     return { strand: `Strand ${st}: ${strand?.title ?? ""}`, subStrand: `Sub-strand ${st}.${ss}: ${strand?.subStrands[`${st}.${ss}`] ?? ""}` };
@@ -2492,12 +2499,15 @@ export const STANDARDS: Standard[] = [
   }
 ];
 
+/** Official standards plus the extra kindergarten activities (not part of NaCCA B1–B9). */
+export const ALL_STANDARDS: Standard[] = [...KG_TOPICS, ...STANDARDS];
+
 export function standardsFor(cls: ClassId) {
-  return STANDARDS.filter((s) => s.cls === cls);
+  return ALL_STANDARDS.filter((s) => s.cls === cls);
 }
 
 export function findStandard(cls: string, code: string) {
-  return STANDARDS.find((s) => s.cls === cls && s.code === code) ?? null;
+  return ALL_STANDARDS.find((s) => s.cls === cls && s.code === code) ?? null;
 }
 
 /** "B7 1.1.1" */

@@ -12,11 +12,11 @@ import { useProgress } from "@/lib/progress";
 export default function CreativeArtsHome() {
   const { progress } = useProgress();
   const level = levelInfo(progress.level);
-  const shown = CLASSES.filter((c) => !level || level.id === "kg" || c.level === level.id);
+  const shown = CLASSES.filter((c) => !level || c.level === level.id);
   return (
     <AppShell title="Creative Arts" back="/learn/">
       <p className="text-lg text-black/70">
-        Visual Arts, Music, Dance and Drama, and Design, following the official NaCCA Creative Arts curriculum. Notes, pictures, practical steps and quizzes. Choose your class:
+        Drawing, colours, Visual Arts, Music, Dance and Drama, and Design. Primary and JHS follow the official NaCCA Creative Arts curriculum. Notes, pictures, practical steps and quizzes. Choose your class:
       </p>
       <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-3">
         {shown.map((c, i) => (
@@ -33,7 +33,7 @@ export default function CreativeArtsHome() {
           </Link>
         ))}
       </div>
-      {level && level.id !== "kg" && (
+      {level && (
         <p className="mt-6 text-sm text-black/60">
           Showing {level.label}.{" "}
           <Link href="/level/" className="font-bold text-ziva underline">

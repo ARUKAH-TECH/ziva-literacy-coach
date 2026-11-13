@@ -1,11 +1,11 @@
 import { notFound } from "next/navigation";
-import { CLASSES, STANDARDS, findStandard, placeOf, type ClassId } from "@/content/creative-arts/curriculum";
+import { CLASSES, ALL_STANDARDS, findStandard, placeOf, type ClassId } from "@/content/creative-arts/curriculum";
 import { findLesson } from "@/content/creative-arts/lessons";
 import { LessonView } from "@/components/ca/LessonView";
 
 export const dynamicParams = false;
 export function generateStaticParams() {
-  return STANDARDS.map((s) => ({ cls: s.cls, cs: s.code.replace(/\./g, "-") }));
+  return ALL_STANDARDS.map((s) => ({ cls: s.cls, cs: s.code.replace(/\./g, "-") }));
 }
 
 export async function generateMetadata({ params }: PageProps<"/creative-arts/[cls]/[cs]">) {

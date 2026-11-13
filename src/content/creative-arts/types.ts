@@ -29,7 +29,13 @@ export type DiagramId =
   | "texture-colour"
   | "value-scale"
   | "three-d"
-  | "adinkra";
+  | "adinkra"
+  | "kg-shapes"
+  | "kg-colours"
+  | "kg-lines"
+  | "kg-draw-house"
+  | "kg-draw-face"
+  | "kg-patterns";
 
 export interface LessonSection {
   heading: string;

@@ -47,7 +47,7 @@ export function ParentLinkCard({ level }: { level: LevelId | null }) {
             <p className="font-bold">Parent code</p>
             <ShareCode
               code={code}
-              message={`👨‍👩‍👧 See ${current?.name ?? "my"}'s reading and handwriting progress on *ZIVA Literacy* (free).\n\nOpen this link on your phone 👇\n${parentLink(code)}\n\nParent code: *${code}*`}
+              message={`👨‍👩‍👧 See ${current?.name ?? "my"}'s reading and handwriting progress on *ZIVA Learning* (free).\n\nOpen this link on your phone 👇\n${parentLink(code)}\n\nParent code: *${code}*`}
             />
           </div>
         </>

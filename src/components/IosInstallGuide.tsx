@@ -97,12 +97,12 @@ export function IosInstallGuide() {
   const num = "flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-ziva text-lg font-extrabold text-white";
 
   return (
-    <div role="dialog" aria-modal="true" aria-label="Add ZIVA Literacy to your Home Screen" className="fixed inset-0 z-[60] flex items-end justify-center bg-black/60 p-3 sm:items-center">
+    <div role="dialog" aria-modal="true" aria-label="Add ZIVA Learning to your Home Screen" className="fixed inset-0 z-[60] flex items-end justify-center bg-black/60 p-3 sm:items-center">
       <div className="mb-24 w-full max-w-md rounded-3xl bg-sky-50 p-5 text-[#14110c] shadow-2xl sm:mb-0">
         <div className="flex items-start gap-3">
           <img src="/icons/apple-180.png" alt="" className="h-14 w-14 rounded-2xl shadow" />
           <div className="flex-1">
-            <p className="text-xl font-extrabold leading-tight">Put ZIVA Literacy on your Home Screen</p>
+            <p className="text-xl font-extrabold leading-tight">Put ZIVA Learning on your Home Screen</p>
             <p className="mt-1 text-sm text-black/70">It opens like an app, works offline and keeps stars safe.</p>
           </div>
           <button type="button" onClick={close} aria-label="Close" className="h-9 w-9 shrink-0 rounded-full bg-black/10 text-lg">

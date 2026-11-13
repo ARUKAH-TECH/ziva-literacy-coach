@@ -71,7 +71,7 @@ export function ServiceWorker() {
   return (
     <div role="status" className="fixed inset-x-3 bottom-3 z-50 mx-auto flex max-w-md items-center gap-3 rounded-2xl bg-[#0b3d91] p-3 pl-4 text-white shadow-2xl">
       <span aria-hidden="true" className="text-2xl">✨</span>
-      <p className="flex-1 text-sm font-semibold leading-snug">A new version of ZIVA Literacy is ready.</p>
+      <p className="flex-1 text-sm font-semibold leading-snug">A new version of ZIVA Learning is ready.</p>
       <button
         type="button"
         onClick={() => {

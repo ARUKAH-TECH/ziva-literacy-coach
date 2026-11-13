@@ -10,7 +10,17 @@ import { speak, stopSpeaking } from "@/lib/speech";
 
 const card = "rounded-3xl bg-white p-5 shadow-sm";
 
-function Check({ items }: { items: LessonQuestion[] }) {
+/** Moves options round by a fixed amount per question so the answer isn't always first. */
+function mix(q: LessonQuestion): LessonQuestion {
+  let h = 0;
+  for (const ch of q.q) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
+  const n = q.options.length;
+  const shift = h % n;
+  return { ...q, options: q.options.map((_, i) => q.options[(i + shift) % n]), answer: (q.answer - shift + n) % n };
+}
+
+function Check({ items: raw }: { items: LessonQuestion[] }) {
+  const items = raw.map(mix);
   const [picked, setPicked] = useState<Record<number, number>>({});
   return (
     <ol className="grid gap-3">

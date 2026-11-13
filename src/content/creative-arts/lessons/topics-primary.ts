@@ -1,5 +1,6 @@
 import type { Topic } from "../types";
 import { FOCUS, type Focus } from "./primary";
+import { DESC } from "./descriptions";
 
 // Primary (B1–B6): detailed lessons for each content standard, built from the
 // class focus (local community, Ghana, Africa, Ghanaian artists, African
@@ -9,8 +10,8 @@ const join = (xs: string[]) => (xs.length > 1 ? `${xs.slice(0, -1).join(", ")} a
 
 function va(f: Focus): Record<string, Topic[]> {
   const y = f.young;
-  const artworks = f.visual.map(([a, b]): [string, string] => [a, `This is ${b}. ${y ? "Look at how it is made and what it is used for." : "Notice the materials, the method used to make it, and what it tells us about the people."}`]);
-  const artists = f.visualArtists?.map(([a, b]): [string, string] => [a, b]) ?? [];
+  const artworks = f.visual.map(([a, b]): [string, string] => [`${a} (${b})`, DESC[a] ?? `This is ${b}.`]);
+  const artists = f.visualArtists?.map(([a, b]): [string, string] => [a, `${b[0].toUpperCase()}${b.slice(1)}.`]) ?? [];
   return {
     "1.1.1": [
       {
@@ -44,7 +45,7 @@ function va(f: Focus): Record<string, Topic[]> {
           y ? "Ask your parents, teachers and elders about them. Look at pictures in books or on a phone." : "Use books, the internet, museums, galleries and visits to artists' workshops to find out more. Write short notes and make sketches.",
         ],
         examples: [...artworks, ...artists],
-        remember: [`${f.place[0].toUpperCase()}${f.place.slice(1)} has many artworks.`, "Each artwork has a material, a method and a meaning.", y ? "Ask elders and look at pictures to learn more." : "Research artists: their works, materials, style and message."],
+        remember: [`There are many artworks in ${f.place}.`, "Each artwork has a material, a method and a meaning.", y ? "Ask elders and look at pictures to learn more." : "Research artists: their works, materials, style and message."],
         check: [...f.vaQuiz],
       },
       {
@@ -317,8 +318,8 @@ function va(f: Focus): Record<string, Topic[]> {
 
 function pa(f: Focus): Record<string, Topic[]> {
   const y = f.young;
-  const perf = f.performing.map(([a, b]): [string, string] => [a, `This is ${b}. ${y ? "Listen or watch, and say what it is about." : "Note the occasion, the performers, the instruments and the message."}`]);
-  const performers = f.performers?.map(([a, b]): [string, string] => [a, b]) ?? [];
+  const perf = f.performing.map(([a, b]): [string, string] => [`${a} (${b})`, DESC[a] ?? `This is ${b}.`]);
+  const performers = f.performers?.map(([a, b]): [string, string] => [a, `${b[0].toUpperCase()}${b.slice(1)}.`]) ?? [];
   return {
     "2.1.1": [
       {

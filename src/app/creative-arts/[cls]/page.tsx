@@ -11,7 +11,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps<"/creative-arts/[cls]">) {
   const { cls } = await params;
   const c = CLASSES.find((x) => x.id === cls);
-  return { title: c ? `Creative Arts ${c.label}: free lessons` : "Creative Arts", description: c ? `Free Creative Arts lessons for ${c.label} in Ghana (NaCCA curriculum): notes, pictures, practicals and quizzes.` : undefined };
+  return { title: c ? `Creative Arts ${c.label}: free lessons` : "Creative Arts", description: c ? (c.id === "kg" ? "Free Creative Arts fun for Kindergarten in Ghana: shapes, colours, lines, drawing, patterns, clay, songs, instruments, dance and pretend play." : `Free Creative Arts lessons for ${c.label} in Ghana (NaCCA curriculum): notes, pictures, practicals and quizzes.`) : undefined };
 }
 
 export default async function ClassPage({ params }: PageProps<"/creative-arts/[cls]">) {

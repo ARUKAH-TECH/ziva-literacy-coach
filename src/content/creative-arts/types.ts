@@ -52,6 +52,25 @@ export interface LessonQuestion {
   explain?: string;
 }
 
+/** One detailed lesson inside a content standard (opens on its own page). */
+export interface Topic {
+  title: string;
+  emoji?: string;
+  /** Explanation paragraphs, in simple, complete sentences. */
+  explain: string[];
+  diagram?: DiagramId;
+  /** Worked examples or real-life examples: [heading, explanation]. */
+  examples?: [string, string][];
+  /** How to do it, step by step. */
+  steps?: { title: string; items: string[] };
+  /** "Did you know?" fact. */
+  fact?: string;
+  /** Short summary points to remember. */
+  remember: string[];
+  /** 2–3 quick questions to check understanding. */
+  check: LessonQuestion[];
+}
+
 export interface Lesson {
   cls: ClassId;
   /** Content standard number, e.g. "1.1.1". */
@@ -61,6 +80,8 @@ export interface Lesson {
   /** One or two sentences: what the learner will be able to do. */
   intro: string;
   sections: LessonSection[];
+  /** Detailed lessons (when present they replace `sections`). */
+  topics?: Topic[];
   /** Key words and their meanings. */
   words: [string, string][];
   materials?: string[];

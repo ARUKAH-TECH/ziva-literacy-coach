@@ -18,6 +18,9 @@ export default function CreativeArtsHome() {
       <p className="text-lg text-black/70">
         Drawing, colours, Visual Arts, Music, Dance and Drama, and Design. Primary and JHS follow the official NaCCA Creative Arts curriculum. Notes, pictures, practical steps and quizzes. Choose your class:
       </p>
+      <Link href="/creative-arts/search/" className="mt-4 flex items-center gap-3 rounded-2xl border-2 border-ziva/30 bg-white px-4 py-3 text-lg text-black/50">
+        <span aria-hidden="true">🔍</span> Search a topic (e.g. shading, weaving, drum)
+      </Link>
       <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-3">
         {shown.map((c, i) => (
           <Link

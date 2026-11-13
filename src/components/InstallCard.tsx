@@ -14,20 +14,20 @@ export function InstallCard({ compact = false }: { compact?: boolean }) {
   if (!ready) return null;
   if (standalone) {
     return compact ? null : (
-      <p className="rounded-2xl bg-green-100 p-4 text-green-900">✅ You’re using the installed ZIVA Literacy app.</p>
+      <p className="rounded-2xl bg-green-100 p-4 text-green-900">✅ You’re using the installed ZIVA Learning app.</p>
     );
   }
   if (justInstalled || result === "accepted") {
     return (
       <p role="status" className="rounded-2xl bg-green-100 p-4 text-green-900">
-        ✅ ZIVA Literacy has been added. Open it from your home screen or app list.
+        ✅ ZIVA Learning has been added. Open it from your home screen or app list.
       </p>
     );
   }
 
   return (
     <div className="rounded-3xl bg-ziva-dark p-5 text-white shadow">
-      <p className="text-xl font-extrabold">📲 Install ZIVA Literacy</p>
+      <p className="text-xl font-extrabold">📲 Install ZIVA Learning</p>
       <p className="mt-1 text-white/85">Get the app icon on your phone. It opens straight to the lessons and works offline.</p>
       {canPrompt ? (
         <button
@@ -65,7 +65,7 @@ export function InstallCard({ compact = false }: { compact?: boolean }) {
               <li>
                 <strong>Edge:</strong> click <strong>⋯</strong> → <strong>Apps</strong> → <strong>Install this site as an app</strong>.
               </li>
-              <li>Click <strong>Install</strong>. ZIVA Literacy then opens from the desktop or Start menu, like any program.</li>
+              <li>Click <strong>Install</strong>. ZIVA Learning then opens from the desktop or Start menu, like any program.</li>
             </ol>
           )}
         </div>

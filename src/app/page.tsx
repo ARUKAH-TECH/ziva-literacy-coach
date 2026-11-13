@@ -19,7 +19,7 @@ export default function Home() {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/logo.webp"
-          alt="ZIVA Literacy: a sub of ZIVA Online and Special Classes"
+          alt="ZIVA Learning: a sub of ZIVA Online and Special Classes"
           width={128}
           height={128}
           className="float-right mb-2 ml-3 h-24 w-24 rounded-full bg-white shadow-xl ring-4 ring-white/30 sm:h-32 sm:w-32"
@@ -50,14 +50,14 @@ export default function Home() {
       </div>
 
       <section className="mt-6 rounded-3xl bg-white p-5 shadow-sm">
-        <p className="text-lg font-extrabold">📣 Share ZIVA Literacy</p>
+        <p className="text-lg font-extrabold">📣 Share ZIVA Learning</p>
         <p className="mt-1 text-black/70">Free for every child: send it to parents, teachers and friends.</p>
         <ShareButtons
           className="mt-3"
           label="Send"
           url="https://learn.zivarukah.com/"
-          title="ZIVA Literacy & Handwriting Coach"
-          message={"✏️ *ZIVA Literacy & Handwriting Coach*: FREE\n\nReading, phonics, spelling and handwriting practice for KG, Primary and JHS. Reads stories aloud, lets children trace letters with their finger and gives up to ⭐⭐⭐⭐⭐. Install it on your phone, works offline 👇"}
+          title="ZIVA Learning"
+          message={"✏️ *ZIVA Learning*: FREE\n\nReading, phonics, spelling and handwriting practice for KG, Primary and JHS. Reads stories aloud, lets children trace letters with their finger and gives up to ⭐⭐⭐⭐⭐. Install it on your phone, works offline 👇"}
         />
       </section>
 

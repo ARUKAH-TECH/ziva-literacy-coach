@@ -29,7 +29,7 @@ export function IosKeepStars() {
       <div className="flex-1 text-sm">
         <p className="font-bold">Keep your stars safe on iPhone</p>
         <p className="mt-0.5">
-          Add ZIVA Literacy to your <strong>Home Screen</strong> (Share ⬆️ → Add to Home Screen). Safari can clear saved stars after a week away. With a parent
+          Add ZIVA Learning to your <strong>Home Screen</strong> (Share ⬆️ → Add to Home Screen). Safari can clear saved stars after a week away. With a parent
           code, stars are also saved online.
         </p>
         <button type="button" onClick={openIosGuide} className="mt-2 rounded-full bg-amber-950 px-4 py-2 text-sm font-bold text-white">

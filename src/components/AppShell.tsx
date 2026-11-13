@@ -27,8 +27,8 @@ export function AppShell({ title, back = "/", children }: { title?: string; back
             <img src="/logo.webp" alt="" width={44} height={44} className="h-11 w-11 shrink-0 rounded-full bg-white shadow" />
           )}
           <div className="min-w-0 flex-1">
-            <p className="truncate text-lg font-extrabold leading-tight">{title ?? "ZIVA Literacy"}</p>
-            {title && <p className="hidden text-xs text-white/80 sm:block">ZIVA Literacy & Handwriting Coach</p>}
+            <p className="truncate text-lg font-extrabold leading-tight">{title ?? "ZIVA Learning"}</p>
+            {title && <p className="hidden text-xs text-white/80 sm:block">ZIVA Learning</p>}
           </div>
           <Link
             href="/join/"

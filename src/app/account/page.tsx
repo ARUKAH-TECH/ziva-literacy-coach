@@ -4,13 +4,13 @@ import Link from "next/link";
 import { AppShell } from "@/components/AppShell";
 import { primaryButton, secondaryButton } from "@/components/ui";
 
-// Registration has been removed (Nov 2026): ZIVA Literacy is free for everyone.
+// Registration has been removed (Nov 2026): ZIVA Learning is free for everyone.
 // Old links to this page land here and are pointed to the parent view.
 export default function AccountPage() {
   return (
     <AppShell title="No registration needed" back="/">
       <div className="rounded-3xl bg-white p-6 shadow-sm">
-        <p className="text-2xl font-extrabold">🎉 ZIVA Literacy is now completely free</p>
+        <p className="text-2xl font-extrabold">🎉 ZIVA Learning is now completely free</p>
         <p className="mt-2 text-black/75">
           There is nothing to register and nothing to pay. Every stage, level and the Word bank are open for every child.
         </p>

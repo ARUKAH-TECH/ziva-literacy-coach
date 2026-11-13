@@ -363,6 +363,212 @@ function DisplayPlan() {
   return <Steps title="Planning a display" steps={["Theme & title", "Select & group works", "Prepare venue", "Mount & label", "Invite audience", "Visitors' book", "Review comments"]} />;
 }
 
+function ValueScale() {
+  const greys = ["#ffffff", "#e5e5e5", "#c4c4c4", "#9a9a9a", "#707070", "#454545", "#111111"];
+  return (
+    <Frame title="Value scale: from white to black" h={170}>
+      {greys.map((g, i) => (
+        <rect key={g} x={12 + i * 48} y={30} width={46} height={60} fill={g} stroke={ink} />
+      ))}
+      <T x={36} y={110} size={11}>white</T>
+      <T x={324} y={110} size={11}>black</T>
+      <T x={180} y={110} size={11} fill={soft}>greys (mid-tones)</T>
+      <T x={180} y={150} size={12} fill={soft}>Light values = high key · dark values = low key</T>
+    </Frame>
+  );
+}
+
+function ThreeD() {
+  return (
+    <Frame title="Oblique, isometric and one-point perspective" h={220}>
+      {/* oblique */}
+      <rect x={15} y={70} width={60} height={50} fill="#dbeafe" stroke={ink} />
+      <polygon points="15,70 40,45 100,45 75,70" fill="#eff6ff" stroke={ink} />
+      <polygon points="75,70 100,45 100,95 75,120" fill="#93c5fd" stroke={ink} />
+      <T x={58} y={150} size={12}>Oblique (45°)</T>
+      {/* isometric */}
+      <polygon points="180,40 225,62 180,84 135,62" fill="#eff6ff" stroke={ink} />
+      <polygon points="135,62 180,84 180,134 135,112" fill="#dbeafe" stroke={ink} />
+      <polygon points="180,84 225,62 225,112 180,134" fill="#93c5fd" stroke={ink} />
+      <T x={180} y={150} size={12}>Isometric (30°)</T>
+      {/* perspective */}
+      <line x1={250} y1={60} x2={355} y2={60} stroke={soft} strokeDasharray="4 3" />
+      <circle cx={302} cy={60} r={3} fill="#dc2626" />
+      <polygon points="262,95 290,95 290,125 262,125" fill="#dbeafe" stroke={ink} />
+      <line x1={262} y1={95} x2={302} y2={60} stroke={soft} />
+      <line x1={290} y1={95} x2={302} y2={60} stroke={soft} />
+      <line x1={290} y1={125} x2={302} y2={60} stroke={soft} />
+      <T x={302} y={50} size={10} fill="#dc2626">vanishing point</T>
+      <T x={340} y={75} size={10} fill={soft}>horizon</T>
+      <T x={302} y={150} size={12}>Perspective</T>
+      <T x={180} y={195} size={12} fill={soft}>Light top · mid side · dark side</T>
+    </Frame>
+  );
+}
+
+function Weaving() {
+  const cells = (x0: number, label: string, on: (r: number, c: number) => boolean) => (
+    <g>
+      {Array.from({ length: 8 }, (_, r) =>
+        Array.from({ length: 8 }, (_, c) => (
+          <rect key={`${r}-${c}`} x={x0 + c * 12} y={40 + r * 12} width={12} height={12} fill={on(r, c) ? "#b45309" : "#fde68a"} stroke="#78350f" strokeWidth={0.5} />
+        )),
+      )}
+      <T x={x0 + 48} y={155} size={12}>
+        {label}
+      </T>
+    </g>
+  );
+  return (
+    <Frame title="Weaves: dark = warp on top, light = weft on top" h={185}>
+      {cells(14, "Plain (1 over, 1 under)", (r, c) => (r + c) % 2 === 0)}
+      {cells(132, "Twill (diagonal)", (r, c) => (c - r + 16) % 4 < 2)}
+      {cells(250, "Satin (long floats)", (r, c) => (c * 2 + r) % 5 === 0)}
+      <T x={180} y={25} size={11} fill={soft}>warp runs up and down · weft runs across</T>
+    </Frame>
+  );
+}
+
+function Triads() {
+  const ch: [string, string, string][] = [
+    ["I", "C E G", "d m s"],
+    ["IV", "F A C", "f l d'"],
+    ["V", "G B D", "s t r'"],
+    ["vi", "A C E", "l d' m'"],
+  ];
+  return (
+    <Frame title="Triads in C major (root, third, fifth)" h={180}>
+      {ch.map(([n, l, s], i) => (
+        <g key={n}>
+          <rect x={12 + i * 87} y={30} width={78} height={110} rx={12} fill={i === 3 ? "#ede9fe" : "#dbeafe"} stroke={ink} />
+          <T x={51 + i * 87} y={62} size={22} weight={800} fill="#1d4ed8">
+            {n}
+          </T>
+          <T x={51 + i * 87} y={92} size={14}>
+            {l}
+          </T>
+          <T x={51 + i * 87} y={118} size={13} fill={soft}>
+            {s}
+          </T>
+        </g>
+      ))}
+      <T x={180} y={165} size={11} fill={soft}>I, IV, V are major · vi is minor</T>
+    </Frame>
+  );
+}
+
+function StageAreas() {
+  const areas = [
+    ["Up right", "Up centre", "Up left"],
+    ["Centre right", "Centre", "Centre left"],
+    ["Down right", "Down centre", "Down left"],
+  ];
+  return (
+    <Frame title="Stage areas (named from the actor's view)" h={230}>
+      {areas.map((row, r) =>
+        row.map((a, c) => (
+          <g key={a}>
+            <rect x={30 + c * 100} y={20 + r * 50} width={100} height={50} fill={r === 1 && c === 1 ? "#fef3c7" : "#f3f4f6"} stroke={ink} />
+            <T x={80 + c * 100} y={50 + r * 50} size={12}>
+              {a}
+            </T>
+          </g>
+        )),
+      )}
+      <rect x={30} y={175} width={300} height={22} fill="#1f2937" />
+      <T x={180} y={190} size={12} fill="#fff">AUDIENCE</T>
+      <T x={180} y={218} size={11} fill={soft}>Stage right is on the audience's left</T>
+    </Frame>
+  );
+}
+
+function TempoDynamics() {
+  const tempo = ["Largo", "Adagio", "Andante", "Moderato", "Allegro", "Presto"];
+  const dyn = ["pp", "p", "mp", "mf", "f", "ff"];
+  return (
+    <Frame title="Tempo (slow → fast) and dynamics (soft → loud)" h={190}>
+      {arrow}
+      {tempo.map((t, i) => (
+        <g key={t}>
+          <rect x={8 + i * 58} y={30} width={54} height={36} rx={8} fill={`hsl(${200 - i * 30} 80% 85%)`} stroke={ink} />
+          <T x={35 + i * 58} y={53} size={11}>
+            {t}
+          </T>
+        </g>
+      ))}
+      <line x1={20} y1={80} x2={340} y2={80} stroke={ink} markerEnd="url(#ca-arrow)" />
+      <T x={180} y={96} size={11} fill={soft}>faster</T>
+      {dyn.map((d, i) => (
+        <T key={d} x={35 + i * 58} y={135} size={12 + i * 3} weight={800} fill="#7c3aed">
+          {d}
+        </T>
+      ))}
+      <path d="M30 160 L330 150 L330 170 Z" fill="none" stroke={ink} />
+      <T x={180} y={185} size={11} fill={soft}>crescendo: getting louder</T>
+    </Frame>
+  );
+}
+
+function Forms() {
+  const rows: [string, string[]][] = [
+    ["Binary", ["A", "B"]],
+    ["Ternary", ["A", "B", "A"]],
+    ["Rondo", ["A", "B", "A", "C", "A"]],
+    ["Verse–chorus", ["V", "C", "V", "C", "Br", "C"]],
+  ];
+  const col: Record<string, string> = { A: "#fde68a", B: "#bfdbfe", C: "#bbf7d0", V: "#fbcfe8", Br: "#ddd6fe" };
+  return (
+    <Frame title="Musical forms" h={200}>
+      {rows.map(([n, parts], r) => (
+        <g key={n}>
+          <T x={10} y={42 + r * 42} anchor="start" size={12}>
+            {n}
+          </T>
+          {parts.map((p, i) => (
+            <g key={i}>
+              <rect x={105 + i * 41} y={22 + r * 42} width={37} height={30} rx={6} fill={col[p] ?? "#eee"} stroke={ink} />
+              <T x={123 + i * 41} y={42 + r * 42} size={13} weight={800}>
+                {p}
+              </T>
+            </g>
+          ))}
+        </g>
+      ))}
+    </Frame>
+  );
+}
+
+function ColourKinds() {
+  const sw = (x: number, y: number, c: string) => <rect x={x} y={y} width={30} height={30} rx={5} fill={c} stroke={ink} />;
+  return (
+    <Frame title="Colour groups" h={210}>
+      <T x={90} y={22} size={12}>Warm</T>
+      {sw(30, 30, "#e11d48")}
+      {sw(75, 30, "#f97316")}
+      {sw(120, 30, "#facc15")}
+      <T x={270} y={22} size={12}>Cool</T>
+      {sw(210, 30, "#2563eb")}
+      {sw(255, 30, "#16a34a")}
+      {sw(300, 30, "#7c3aed")}
+      <T x={90} y={92} size={12}>Complementary</T>
+      {sw(45, 100, "#e11d48")}
+      {sw(105, 100, "#16a34a")}
+      <T x={270} y={92} size={12}>Harmonious</T>
+      {sw(210, 100, "#facc15")}
+      {sw(255, 100, "#a3e635")}
+      {sw(300, 100, "#16a34a")}
+      <T x={90} y={160} size={12}>Tint → hue → shade</T>
+      {sw(30, 168, "#93c5fd")}
+      {sw(75, 168, "#2563eb")}
+      {sw(120, 168, "#1e3a8a")}
+      <T x={270} y={160} size={12}>Tertiary</T>
+      {sw(210, 168, "#a3e635")}
+      {sw(255, 168, "#fb7185")}
+      {sw(300, 168, "#f59e0b")}
+    </Frame>
+  );
+}
+
 export function Diagram({ id }: { id: DiagramId }) {
   switch (id) {
     case "elements":
@@ -397,6 +603,28 @@ export function Diagram({ id }: { id: DiagramId }) {
       return <Steps title="Appreciating an artwork" steps={["Describe", "Analyse", "Interpret", "Judge"]} />;
     case "adinkra":
       return <Adinkra />;
+    case "value-scale":
+      return <ValueScale />;
+    case "three-d":
+      return <ThreeD />;
+    case "weaving":
+      return <Weaving />;
+    case "triads":
+      return <Triads />;
+    case "stage-areas":
+      return <StageAreas />;
+    case "tempo-dynamics":
+      return <TempoDynamics />;
+    case "musical-forms":
+      return <Forms />;
+    case "texture-colour":
+      return <ColourKinds />;
+    case "print-making":
+      return <Steps title="Relief (block) printing" steps={["Draw design", "Cut away background", "Roll or dab ink", "Press on paper/cloth", "Lift and repeat", "Clean tools"]} cols={3} />;
+    case "casting":
+      return <Steps title="Casting with plaster of Paris" steps={["Model", "Mould", "Separator", "Mix & pour", "Let it set", "Remove & finish"]} cols={3} />;
+    case "folding":
+      return <Steps title="Folding a paper box (masu)" steps={["Square paper", "Fold both diagonals", "Corners to centre", "Fold edges in", "Lift the sides", "Lock the corners"]} cols={3} />;
     default:
       return null;
   }

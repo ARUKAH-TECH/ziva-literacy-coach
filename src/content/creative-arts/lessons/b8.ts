@@ -1,0 +1,793 @@
+import type { Lesson } from "../types";
+
+// JHS 2 (B8) Creative Arts and Design lessons: one per official content standard.
+
+export const B8: Lesson[] = [
+  {
+    cls: "b8",
+    code: "1.1.1",
+    title: "Texture and colour; contrast, emphasis and unity",
+    emoji: "🌈",
+    intro: "Study texture and colour in nature and in manmade things, and use contrast, emphasis and unity to make strong designs.",
+    sections: [
+      {
+        heading: "Texture: how a surface feels or looks",
+        points: [
+          "Actual (tactile) texture is what you feel when you touch: the rough bark of a tree, a smooth calabash, a woven basket, a plastered wall.",
+          "Visual (implied) texture is drawn or printed to look rough or smooth; it is flat when you touch it, like the drawing of fur or a printed wood pattern.",
+          "Words for texture: rough, smooth, bumpy, furry, scaly, prickly, shiny, soft, hard.",
+          "You can collect textures by rubbing (frottage): put paper over a textured surface and rub with a crayon.",
+        ],
+      },
+      {
+        heading: "Colour",
+        diagram: "texture-colour",
+        points: [
+          "Hue is the name of the colour (red, blue, green).",
+          "Primary colours: red, yellow, blue. Secondary: orange, green, violet. Tertiary colours mix a primary and a next-door secondary, e.g. yellow-green, red-orange.",
+          "Warm colours (red, orange, yellow) feel hot and lively; cool colours (blue, green, violet) feel calm.",
+          "Complementary colours sit opposite each other on the colour wheel (red–green, blue–orange, yellow–violet). Together they look bright and strong.",
+          "Harmonious (analogous) colours sit next to each other (yellow, yellow-green, green). Together they look calm.",
+          "Tint: a colour + white (lighter). Shade: a colour + black (darker).",
+          "In nature, colours protect (camouflage), attract (bright flowers and birds) or warn (some frogs and insects).",
+        ],
+      },
+      {
+        heading: "Contrast, emphasis and unity",
+        points: [
+          "Contrast: putting very different things together so they stand out: light and dark, rough and smooth, big and small, complementary colours.",
+          "Emphasis: making one part the centre of attention (the focal point), using contrast, size, colour or position. Example: a red flower in a green field.",
+          "Unity: the feeling that all parts belong together, made by repeating colours, shapes or textures. Example: a kente cloth where every strip shares the same colours.",
+          "Variety: adding small differences so the design is not boring. Good designs balance unity and variety.",
+        ],
+      },
+    ],
+    words: [
+      ["Actual texture", "The real feel of a surface when touched."],
+      ["Visual texture", "Texture that is drawn or printed and only looks rough or smooth."],
+      ["Hue", "The name of a colour."],
+      ["Complementary colours", "Colours opposite each other on the colour wheel."],
+      ["Tint / shade", "A colour made lighter with white / darker with black."],
+      ["Focal point", "The part of a design that catches the eye first."],
+      ["Unity", "The sense that all parts of a design belong together."],
+    ],
+    materials: ["Paper and crayons for rubbing", "Poster colours, brushes, palette", "Textured objects (leaves, coins, sacks, bark)", "Colour pencils"],
+    practical: {
+      title: "Texture and colour collage",
+      steps: [
+        "Make five texture rubbings from objects around the school.",
+        "Paint a colour wheel strip: one colour, then its tint and its shade.",
+        "Cut the rubbings into shapes.",
+        "Arrange them on card. Choose one shape as the focal point and give it a complementary colour (emphasis).",
+        "Repeat one colour everywhere else to create unity.",
+        "Display it and explain where you used contrast, emphasis and unity.",
+      ],
+    },
+    quiz: [
+      { q: "Texture you can feel when you touch is…", options: ["visual texture", "actual texture", "tint", "hue"], answer: 1 },
+      { q: "Which pair are complementary colours?", options: ["Red and green", "Red and orange", "Blue and violet", "Yellow and orange"], answer: 0 },
+      { q: "A colour mixed with white is a…", options: ["shade", "tint", "hue", "tertiary"], answer: 1 },
+      { q: "Making one part stand out as the centre of attention is…", options: ["unity", "emphasis", "repetition", "balance"], answer: 1 },
+      { q: "Which is a warm colour?", options: ["Blue", "Green", "Orange", "Violet"], answer: 2 },
+      { q: "Repeating the same colours so all parts belong together creates…", options: ["unity", "contrast", "texture", "perspective"], answer: 0 },
+      { q: "Rubbing a crayon over paper placed on a rough surface is called…", options: ["frottage", "stippling", "weaving", "casting"], answer: 0 },
+    ],
+    written: [
+      { q: "(a) Distinguish between actual and visual texture. (b) Give two examples of each.", answer: "(a) Actual texture can be felt by touch; visual texture is only seen (drawn or printed) and feels flat. (b) Actual: tree bark, woven basket. Visual: drawing of animal fur, printed wood grain on a laminate." },
+      { q: "Explain contrast, emphasis and unity with one example each.", answer: "Contrast: strong difference that makes parts stand out, e.g. black letters on yellow. Emphasis: the focal point that attracts attention, e.g. a red flower among green leaves. Unity: all parts work together, e.g. repeating the same colours across a kente cloth." },
+    ],
+  },
+  {
+    cls: "b8",
+    code: "1.2.1",
+    title: "2-D drawing, shading, colouring and modelling",
+    emoji: "📐",
+    intro: "Use manual and digital tools to draw accurate flat (2-D) shapes, shade and colour them, and turn templates into models.",
+    sections: [
+      {
+        heading: "What is 2-D drawing?",
+        text: "2-D (two-dimensional) drawing shows length and width only: plane shapes such as squares, triangles, circles and polygons, patterns, plans and flat designs.",
+      },
+      {
+        heading: "Accurate drawing with instruments",
+        points: [
+          "Bisect a line: open the compasses more than half the line, draw arcs above and below from each end, join where the arcs cross. This line cuts the first line in half at 90°.",
+          "Construct 60°: from point A draw an arc cutting the line at B; with the same radius, from B cut the arc at C. Angle CAB is 60°.",
+          "Draw a hexagon: draw a circle, then step the same radius six times round it and join the points.",
+          "Use a T-square and set squares for parallel and perpendicular lines; use an HB or H pencil for construction lines and press harder for final lines.",
+        ],
+      },
+      {
+        heading: "Shading and colouring flat designs",
+        points: [
+          "Flat colour: fill a shape evenly with one colour.",
+          "Gradation: change smoothly from light to dark (tints and shades).",
+          "Use colour schemes: complementary for strong contrast, harmonious for calm designs.",
+          "Digital tools (drawing apps, free programs like Krita or Inkscape) have shape, fill, gradient and layer tools.",
+        ],
+      },
+      {
+        heading: "From template to model",
+        text: "A net is a flat 2-D template that folds into a 3-D form. Draw nets of a cube, cuboid (box), triangular prism, cylinder or pyramid, add glue flaps, cut, fold and glue. Use cardboard, Styrofoam, clay or paper pulp to model simple forms such as a pen holder or packaging box.",
+      },
+    ],
+    words: [
+      ["Bisect", "To cut into two equal parts."],
+      ["Perpendicular", "At a right angle (90°) to another line."],
+      ["Polygon", "A flat shape with many straight sides, e.g. hexagon."],
+      ["Gradation", "A smooth change from light to dark."],
+      ["Net", "A flat template that folds into a 3-D form."],
+      ["Construction lines", "Light lines used to set out a drawing."],
+    ],
+    materials: ["Drawing board, T-square, set squares", "Pair of compasses, protractor, ruler", "H, HB and 2B pencils", "Cardboard, scissors, glue", "Colour pencils or poster colours", "A drawing app (optional)"],
+    practical: {
+      title: "Hexagon pattern and a box model",
+      steps: [
+        "Draw a circle of radius 4 cm and step off the radius six times to make a hexagon.",
+        "Repeat the hexagon to make a honeycomb pattern.",
+        "Colour it with a harmonious colour scheme and add one complementary colour for emphasis.",
+        "Draw the net of a small box on cardboard with glue flaps.",
+        "Cut, fold, glue and decorate the box with your hexagon pattern.",
+      ],
+      safety: "Handle compass points and blades carefully.",
+    },
+    quiz: [
+      { q: "2-D drawings show…", options: ["length and width only", "length, width and depth", "only depth", "sound"], answer: 0 },
+      { q: "To bisect a line means to…", options: ["make it longer", "cut it into two equal parts", "colour it", "rub it out"], answer: 1 },
+      { q: "Stepping the radius six times round a circle gives a…", options: ["square", "triangle", "hexagon", "pentagon"], answer: 2 },
+      { q: "A flat template that folds into a box is a…", options: ["net", "stencil", "loom", "mould"], answer: 0 },
+      { q: "Perpendicular lines meet at…", options: ["45°", "60°", "90°", "180°"], answer: 2 },
+      { q: "A smooth change from light to dark is…", options: ["gradation", "texture", "rhythm", "weaving"], answer: 0 },
+    ],
+    written: [
+      { q: "Describe how to bisect a straight line using a pair of compasses.", answer: "Open the compasses to more than half the line. With the point on one end, draw arcs above and below the line. Repeat from the other end with the same radius. Join the two points where the arcs cross; this line divides the first line into two equal halves at right angles." },
+      { q: "Explain what a net is and name three 3-D forms that can be made from nets.", answer: "A net is a flat (2-D) template that is cut and folded to make a 3-D form. Examples: cube, cuboid/box, triangular prism, pyramid, cylinder." },
+    ],
+  },
+  {
+    cls: "b8",
+    code: "1.3.1",
+    title: "The design process in action: improving products",
+    emoji: "🔧",
+    intro: "Use creativity, innovation and the design process to evaluate products, suggest improvements and make a prototype that solves a community problem.",
+    sections: [
+      {
+        heading: "Creativity and innovation (revision)",
+        text: "Creativity is having new ideas; innovation is turning ideas into useful products or better ways of doing things. Innovation can be new (invention) or an improvement of an old product.",
+      },
+      {
+        heading: "Evaluating a product",
+        points: [
+          "Function: does it do its job well?",
+          "User: is it easy and safe for the people who use it, including the young, the old and people with disabilities?",
+          "Materials and cost: is it strong, affordable and available locally?",
+          "Appearance: is it attractive?",
+          "Environment: can it be reused or recycled?",
+          "Example: the Veronica bucket solved handwashing where there is no running water; a tippy-tap made from a gallon uses even less water.",
+        ],
+      },
+      {
+        heading: "The design process steps",
+        diagram: "design-process",
+        text: "Define → Brief → Research → Ideation → Invent → Prototype → Testing → Refine. Designers often go back and repeat steps until the product works well.",
+      },
+      {
+        heading: "Presenting your design",
+        text: "Show your sketches, the prototype and what you learnt from testing. Explain the problem, your solution and how it can be improved. Listen to feedback.",
+      },
+    ],
+    words: [
+      ["Evaluate", "To judge how good something is."],
+      ["Function", "The job a product does."],
+      ["Specification", "A list of what a design must do and its limits."],
+      ["Prototype", "A first working model used for testing."],
+      ["Refine", "To improve a design after testing."],
+    ],
+    materials: ["Sketchbook", "Recycled materials (gallons, bottles, cardboard, sticks)", "Glue, tape, string, scissors"],
+    practical: {
+      title: "Redesign a school item",
+      steps: [
+        "Choose an item at school that has a problem (e.g. a broken desk lid, a heavy refuse bin).",
+        "List its problems using function, user, materials, cost, appearance and environment.",
+        "Write a design brief and a short specification.",
+        "Sketch three improved ideas and choose the best.",
+        "Make a prototype from recycled materials and test it.",
+        "Refine it and present it to the class.",
+      ],
+    },
+    quiz: [
+      { q: "Improving an existing product is a form of…", options: ["innovation", "repetition", "erosion", "copying"], answer: 0 },
+      { q: "A list of what a design must do is a…", options: ["specification", "stencil", "texture", "rhythm"], answer: 0 },
+      { q: "Which step comes right after making a prototype?", options: ["Define", "Testing", "Brief", "Research"], answer: 1 },
+      { q: "The Veronica bucket helps with…", options: ["handwashing", "cooking", "drawing", "weaving"], answer: 0 },
+      { q: "'Is it safe and easy to use?' checks the product's…", options: ["user needs", "colour", "rhythm", "price only"], answer: 0 },
+    ],
+    written: [
+      { q: "State five things to consider when evaluating a product.", answer: "Function (does it work), user (ease and safety), materials (strength, availability), cost, appearance, environmental impact (reuse/recycling)." },
+    ],
+  },
+  {
+    cls: "b8",
+    code: "2.1.1",
+    title: "Drawing from observation, memory and imagination; printmaking and weaving",
+    emoji: "🧶",
+    intro: "Draw what you see, remember and imagine; make prints with stencils and blocks; and weave with cane, raffia or yarn.",
+    sections: [
+      {
+        heading: "Three ways of drawing",
+        points: [
+          "Direct observation: drawing an object or scene while looking at it (a classmate, a tree, a market scene).",
+          "Memory: drawing something you saw before (your home, last festival).",
+          "Imagination: drawing something you create in your mind (a future city, a story scene).",
+          "Use art words when you talk about drawings: line, shape, form, tone, pattern.",
+        ],
+      },
+      {
+        heading: "Printmaking",
+        diagram: "print-making",
+        points: [
+          "Printmaking means making copies of an image by pressing an inked or painted surface onto paper or cloth.",
+          "Relief (block) printing: cut away the parts you do not want to print; the raised part takes the ink. Blocks: cassava, cocoyam, potato, wood, lino. Adinkra stamps are cut from calabash.",
+          "Direct printing: dip an object (leaf, bottle top, finger) in paint and press it.",
+          "Stencil printing: cut a shape out of card; dab paint through the hole onto paper.",
+          "Low relief: printing from a slightly raised surface such as a string or card collage block.",
+          "Tools: cutting tools/gouges, roller (brayer), ink or paint, glass or tile for rolling ink, paper or cloth.",
+          "Care: wash blocks and rollers after use, dry them and store them safely.",
+        ],
+      },
+      {
+        heading: "Weaving",
+        diagram: "weaving",
+        points: [
+          "Weaving is crossing two sets of threads or strips at right angles.",
+          "Warp: threads stretched lengthwise on the loom. Weft: threads passed across, over and under the warp.",
+          "Plain (tabby) weave: over one, under one. It is the simplest and strongest.",
+          "Twill weave: over two, under two, moving one step each row, making diagonal lines (like jeans).",
+          "Satin weave: the weft floats over several warps, giving a smooth, shiny surface.",
+          "Materials: cane, raffia, reed, straw, yarn, strips of paper or plastic.",
+          "Ghanaian weaving: kente from Bonwire (Asante) and Agotime (Ewe), Bolga baskets, Northern smock (fugu) strips.",
+        ],
+      },
+    ],
+    words: [
+      ["Direct observation", "Drawing while looking at the subject."],
+      ["Relief printing", "Printing from raised parts of a block."],
+      ["Stencil", "A cut-out sheet through which paint is applied."],
+      ["Brayer", "A roller for spreading ink."],
+      ["Warp", "Lengthwise threads on a loom."],
+      ["Weft", "Crosswise threads woven over and under the warp."],
+      ["Twill", "A weave that forms diagonal lines."],
+    ],
+    materials: ["Pencils and sketchbook", "Cassava or potato, knife (with adult help), paint", "Card for stencils, sponge", "Cardboard loom, yarn, raffia or paper strips"],
+    practical: {
+      title: "Paper-strip weaving",
+      steps: [
+        "Fold a sheet of paper in half and cut slits from the fold to 2 cm from the edge. Open it: these are your warp.",
+        "Cut strips of a different colour: these are your weft.",
+        "Weave the first strip over one, under one (plain weave).",
+        "Weave the next strip under one, over one. Push the strips close together.",
+        "Try a twill row: over two, under two, moving one step each row.",
+        "Glue the ends and display your woven mat.",
+      ],
+      safety: "Only cut printing blocks with an adult; always cut away from your hand.",
+    },
+    quiz: [
+      { q: "Drawing a scene while looking at it is drawing from…", options: ["memory", "imagination", "direct observation", "a stencil"], answer: 2 },
+      { q: "In relief printing, the part that prints is the…", options: ["cut-away part", "raised part", "back of the block", "roller"], answer: 1 },
+      { q: "The lengthwise threads on a loom are the…", options: ["weft", "warp", "twill", "satin"], answer: 1 },
+      { q: "Over one, under one is…", options: ["plain weave", "twill weave", "satin weave", "knotting"], answer: 0 },
+      { q: "A weave that makes diagonal lines is…", options: ["plain", "twill", "satin", "tabby"], answer: 1 },
+      { q: "Kente is famously woven at…", options: ["Bonwire", "Tamale", "Takoradi", "Ho only"], answer: 0 },
+      { q: "A roller used to spread printing ink is a…", options: ["brayer", "baren", "loom", "shuttle"], answer: 0 },
+    ],
+    written: [
+      { q: "Describe the steps in making a cassava block print.", answer: "Cut a cassava in half to get a flat surface; draw a simple design; cut away the parts not to be printed so the design stands raised; dab or roll paint on the raised part; press firmly on paper/cloth; lift carefully; repeat to make a pattern; clean the tools." },
+      { q: "Distinguish between warp and weft and name three weaving materials.", answer: "Warp are the threads stretched lengthwise on the loom; weft are the threads passed across, over and under the warp. Materials: cane, raffia, yarn, reed, straw." },
+    ],
+  },
+  {
+    cls: "b8",
+    code: "2.1.2",
+    title: "Music: tempo, dynamics and simple forms",
+    emoji: "🎼",
+    intro: "Describe how fast or slow and how loud or soft music is, using Italian terms, and recognise simple musical forms such as AB, ABA and verse–chorus.",
+    sections: [
+      {
+        heading: "Tempo: the speed of music",
+        diagram: "tempo-dynamics",
+        points: [
+          "Largo: very slow and broad. Adagio: slow. Andante: walking pace. Moderato: moderate. Allegro: fast and lively. Presto: very fast.",
+          "Accelerando: getting faster. Ritardando / rallentando: getting slower. Poco a poco: little by little.",
+          "Slow music suits funerals, prayer, lullabies and sad moments. Fast music suits celebrations, festivals, sports and dancing.",
+        ],
+      },
+      {
+        heading: "Dynamics: loud and soft",
+        points: [
+          "pp (pianissimo) very soft · p (piano) soft · mp (mezzo piano) fairly soft · mf (mezzo forte) fairly loud · f (forte) loud · ff (fortissimo) very loud.",
+          "Crescendo (<): getting louder. Diminuendo / decrescendo (>): getting softer.",
+          "Soft music calms, helps rest, study and worship. Loud music excites, gathers people and announces events. Very loud music for a long time can damage hearing.",
+        ],
+      },
+      {
+        heading: "Form: how music is built",
+        diagram: "musical-forms",
+        points: [
+          "Strophic (AA…): the same music repeats for each verse, as in many hymns.",
+          "Binary (AB): two different sections.",
+          "Ternary (ABA): first section, a different section, then the first again.",
+          "Rondo (ABACA): the main section keeps returning.",
+          "Through-composed: new music all the way, with little repetition.",
+          "Pop songs: verse–chorus, verse–chorus–bridge, or a ballad (a slow song that tells a story).",
+        ],
+      },
+    ],
+    words: [
+      ["Tempo", "The speed of music."],
+      ["Allegro", "Fast and lively."],
+      ["Adagio", "Slow."],
+      ["Dynamics", "How loud or soft music is."],
+      ["Crescendo", "Gradually getting louder."],
+      ["Form", "The plan or structure of a piece of music."],
+      ["Ternary form", "A–B–A structure."],
+    ],
+    materials: ["Recordings of songs (radio or phone)", "Drum or clapping", "Notebook"],
+    practical: {
+      title: "Listen, label and perform",
+      steps: [
+        "Listen to two songs: one for a funeral and one for a celebration. Write their tempo words.",
+        "Clap a rhythm softly (p), then gradually louder (crescendo) to ff.",
+        "Listen to a pop song and mark its parts: verse, chorus, bridge.",
+        "Sing a school song in ABA form: sing verse A, a different part B, then A again.",
+        "Discuss when soft or loud music is helpful.",
+      ],
+    },
+    quiz: [
+      { q: "Allegro means…", options: ["very slow", "fast and lively", "soft", "getting louder"], answer: 1 },
+      { q: "Largo means…", options: ["very slow and broad", "very fast", "loud", "medium"], answer: 0 },
+      { q: "The sign ff means…", options: ["very soft", "very loud", "fairly loud", "fast"], answer: 1 },
+      { q: "Gradually getting louder is…", options: ["diminuendo", "crescendo", "ritardando", "staccato"], answer: 1 },
+      { q: "A–B–A is…", options: ["binary form", "ternary form", "rondo form", "strophic form"], answer: 1 },
+      { q: "Andante is a tempo at about…", options: ["walking pace", "running pace", "standing still", "very fast"], answer: 0 },
+      { q: "Poco a poco means…", options: ["little by little", "very loud", "stop", "repeat"], answer: 0 },
+    ],
+    written: [
+      { q: "Explain four Italian tempo terms and give one occasion for slow music and one for fast music.", answer: "Largo: very slow; Adagio: slow; Andante: walking pace; Allegro: fast and lively (also Presto: very fast). Slow music: funerals, lullabies. Fast music: festivals, celebrations, sports." },
+      { q: "Describe binary, ternary and rondo forms.", answer: "Binary (AB): two contrasting sections. Ternary (ABA): a section, a contrasting section, then the first section repeated. Rondo (ABACA): a main section that returns between different sections." },
+    ],
+  },
+  {
+    cls: "b8",
+    code: "2.1.3",
+    title: "Dance and Drama: Ghanaian dance types and techniques",
+    emoji: "🥁",
+    intro: "Identify religious, war and socio-cultural (recreational) dances of Ghana, know when they are performed, and practise rhythm and dynamics in movement.",
+    sections: [
+      {
+        heading: "Categories of Ghanaian dances",
+        points: [
+          "Religious dances: performed in worship of the Supreme Being, gods or ancestors, often by priests and priestesses. Example: Akom (Akan).",
+          "War (warrior) dances: show bravery and were performed before or after war; today at festivals and funerals of chiefs. Examples: Fontomfrom (Akan royal and warrior dance), Atrikpui (Ewe), Asafo dances (Fante).",
+          "Socio-cultural / recreational dances: for entertainment, social gatherings, festivals and funerals. Examples: Adowa (Akan), Kpanlogo (Ga), Agbadza and Borborbor (Ewe), Bawa (Dagaaba), Takai and Bamaya (Dagomba), Sikyi (Akan).",
+          "Some dances belong to more than one category; Adowa, for instance, is performed at funerals and festivals.",
+        ],
+      },
+      {
+        heading: "Context of performance",
+        text: "Context means when, where, why and by whom a dance is performed: the occasion (festival, funeral, installation of a chief, worship), the place (palace, shrine, open arena), the performers (royals, priests, youth, women) and the costume and instruments used.",
+      },
+      {
+        heading: "Rhythm and dynamics in dance and drama",
+        points: [
+          "Beat: the steady pulse you step to.",
+          "Tempo: how fast or slow the movement is.",
+          "Intensity: how much energy is used (gentle or forceful).",
+          "Dynamics in movement: fast or slow, smooth or sharp, flowing or stopping.",
+          "Change the dynamics to show feelings: slow and heavy for sorrow, quick and light for joy.",
+        ],
+      },
+    ],
+    words: [
+      ["Religious dance", "A dance performed in worship."],
+      ["War dance", "A dance that shows bravery and strength."],
+      ["Recreational dance", "A dance for enjoyment and social occasions."],
+      ["Context", "The when, where, why and who of a performance."],
+      ["Intensity", "The amount of energy in a movement."],
+    ],
+    materials: ["Drums, bells, rattles or recorded music", "Open space", "Simple costumes"],
+    practical: {
+      title: "Dance dynamics",
+      steps: [
+        "Warm up for 3 minutes.",
+        "Learn a basic step of a recreational dance from your area (e.g. Kpanlogo, Adowa or Borborbor).",
+        "Perform it at a slow tempo, then a fast tempo.",
+        "Perform it with gentle intensity, then strong intensity.",
+        "In groups, use these changes to show one feeling; others guess it.",
+        "Write the dance's category and context in your notebook.",
+      ],
+      safety: "Dance on safe, clear ground and drink water.",
+    },
+    quiz: [
+      { q: "Fontomfrom is mainly a…", options: ["royal/war dance", "lullaby", "church hymn", "clay pot"], answer: 0 },
+      { q: "Kpanlogo is a recreational dance of the…", options: ["Ga", "Asante", "Dagaaba", "Nzema"], answer: 0 },
+      { q: "A dance performed in worship is a…", options: ["religious dance", "war dance", "recreational dance", "robot dance"], answer: 0 },
+      { q: "The steady pulse in music and dance is the…", options: ["beat", "costume", "context", "stage"], answer: 0 },
+      { q: "Bawa is a dance of the…", options: ["Dagaaba", "Ewe", "Fante", "Ga"], answer: 0 },
+      { q: "'When, where, why and by whom' a dance is performed is its…", options: ["context", "tempo", "intensity", "texture"], answer: 0 },
+    ],
+    written: [
+      { q: "Name the three categories of Ghanaian dances with two examples each.", answer: "Religious: Akom (Akan), priestly/shrine dances. War: Fontomfrom (Akan), Atrikpui (Ewe), Asafo (Fante). Recreational/socio-cultural: Kpanlogo (Ga), Adowa (Akan), Borborbor (Ewe), Bawa (Dagaaba)." },
+    ],
+  },
+  {
+    cls: "b8",
+    code: "2.2.1",
+    title: "Visual Arts: artworks on history, culture and topical issues",
+    emoji: "🖌️",
+    intro: "Plan and make artworks about events, cultures and topical issues (such as Ghana's independence, sanitation, galamsey or SSNIT pensions), then organise, monitor and appraise an exhibition.",
+    sections: [
+      {
+        heading: "Planning an artwork with a message",
+        points: [
+          "Research your topic: e.g. Ghana's independence on 6 March 1957, sanitation, galamsey (illegal mining), the SSNIT Pension Scheme.",
+          "Decide your message and your audience.",
+          "Sketch several ideas (thumbnails) and choose the clearest.",
+          "Choose the art form: poster, painting, collage, sculpture, print, textile design.",
+          "Choose colours and symbols that carry meaning (e.g. red, gold, green and the black star for Ghana).",
+          "While working, check: does it communicate the idea? Ask a friend and adjust.",
+        ],
+      },
+      {
+        heading: "Organising an exhibition: roles",
+        points: [
+          "Curator: chooses and arranges the works.",
+          "Publicity team: posters, invitations, announcements.",
+          "Mounting/display team: hangs and labels works.",
+          "Guides: welcome visitors and explain works.",
+          "Security and care team: keeps works safe and returns them after the show.",
+          "Monitoring and reporting: count visitors, collect comments, write a report in a journal or the school newsletter.",
+        ],
+      },
+      {
+        heading: "Appraising artworks",
+        diagram: "appraisal-guide",
+        text: "Describe what you see, analyse how elements and principles are used, interpret the meaning and culture it shows, and judge its beauty and usefulness. Suggest how it can better express the identity of the culture.",
+      },
+    ],
+    words: [
+      ["Thumbnail sketch", "A small, quick drawing of an idea."],
+      ["Curator", "A person who selects and arranges works for an exhibition."],
+      ["Topical issue", "A problem currently being discussed in society."],
+      ["Publicity", "Making an event known to the public."],
+      ["Interpret", "To explain the meaning of something."],
+    ],
+    materials: ["Sketchbook", "Paints, card, magazines for collage", "Tape, pins, labels", "Visitors' book"],
+    practical: {
+      title: "Message poster",
+      steps: [
+        "Pick one topical issue in your area.",
+        "Make three thumbnail sketches.",
+        "Choose one and make a poster with a short slogan.",
+        "Ask two friends what message they see; improve it.",
+        "Exhibit the posters with the class team roles.",
+        "Write a short exhibition report.",
+      ],
+    },
+    quiz: [
+      { q: "Ghana gained independence on…", options: ["6 March 1957", "1 July 1960", "24 February 1966", "7 January 1993"], answer: 0 },
+      { q: "The person who selects and arranges works for an exhibition is the…", options: ["curator", "potter", "weaver", "conductor"], answer: 0 },
+      { q: "Small quick drawings of ideas are…", options: ["thumbnail sketches", "murals", "prints", "nets"], answer: 0 },
+      { q: "Galamsey refers to…", options: ["illegal small-scale mining", "a dance", "a weave", "a colour"], answer: 0 },
+      { q: "Explaining the meaning of an artwork is to…", options: ["interpret", "mount", "frame", "sell"], answer: 0 },
+    ],
+    written: [
+      { q: "State and explain four roles in organising a school exhibition.", answer: "Curator: selects and arranges works. Publicity: advertises the show. Display team: mounts and labels works. Guides: explain works to visitors. Security: keeps works safe. Reporting: records visitors and comments." },
+    ],
+  },
+  {
+    cls: "b8",
+    code: "2.2.2",
+    title: "Music: create and present music from other Ghanaian cultures",
+    emoji: "🎶",
+    intro: "Choose an indigenous genre from outside your community, rehearse it, present a class concert with a talk on its history and culture, and appraise the recording.",
+    sections: [
+      {
+        heading: "Choosing a genre",
+        points: [
+          "Pick a genre from another part of Ghana: e.g. Bawa (Upper West), Takai (Northern), Agbadza (Volta), Adowa (Ashanti), Kpanlogo (Greater Accra), Apatampa (Central).",
+          "Find out: who performs it, when, the instruments, the song themes and the dance.",
+          "You may write new words on a topical issue (e.g. pensions, sanitation, road safety) to an indigenous style.",
+        ],
+      },
+      {
+        heading: "Rehearsal plan",
+        points: [
+          "Roles: lead singer (cantor), chorus, drummers, bell, dancers, costume and props.",
+          "Time plan for learning the song, the drum parts, the dance and the full run-through.",
+          "Venue, costumes and recording arrangement.",
+        ],
+      },
+      {
+        heading: "Class concert and appraisal",
+        points: [
+          "Begin with a short presentation on the style, history and culture of the music.",
+          "Perform and record the concert.",
+          "Watch the recording; write an aesthetic appreciation report: accuracy, togetherness, tone, dynamics, costume, audience reaction.",
+          "Refine your work and present your findings.",
+        ],
+      },
+    ],
+    words: [
+      ["Cantor", "The lead singer who starts the song."],
+      ["Call and response", "A leader sings and the group answers; common in African music."],
+      ["Concert", "A public musical performance."],
+      ["Aesthetic", "Concerned with beauty and taste."],
+    ],
+    materials: ["Local instruments or clapping", "Phone to record", "Costumes", "Notebook"],
+    practical: {
+      title: "Mini concert",
+      steps: [
+        "Choose a genre from another region.",
+        "Research and write five facts about it.",
+        "Learn one song with call and response.",
+        "Rehearse with instruments and movement.",
+        "Present the five facts, then perform; record it.",
+        "Watch and write three strengths and two improvements.",
+      ],
+    },
+    quiz: [
+      { q: "A leader sings and a group answers. This is…", options: ["call and response", "solo", "ostinato", "unison only"], answer: 0 },
+      { q: "Bawa comes from the…", options: ["Upper West Region", "Volta Region", "Central Region", "Western Region"], answer: 0 },
+      { q: "The lead singer in a traditional group is the…", options: ["cantor", "curator", "conductor of trains", "choreographer"], answer: 0 },
+      { q: "Takai is associated with the…", options: ["Dagomba", "Fante", "Ga", "Ewe"], answer: 0 },
+    ],
+    written: [
+      { q: "Explain how you would organise a class concert of a Ghanaian indigenous genre.", answer: "Choose the genre and research its history and culture; assign roles (cantor, chorus, drummers, dancers, costume); make a rehearsal timetable; rehearse; prepare venue and recording; begin the concert with a short presentation on the genre; perform and record; appraise the recording and refine." },
+    ],
+  },
+  {
+    cls: "b8",
+    code: "2.2.3",
+    title: "Dance and Drama: produce a piece that reflects times and cultures",
+    emoji: "🎭",
+    intro: "Learn from Ghanaian dance and drama artists, then design, plan, rehearse and perform your own dance piece or play.",
+    sections: [
+      {
+        heading: "Learning from artists",
+        points: [
+          "Martin Owusu: Ghanaian playwright and drama teacher; plays include 'The Story Ananse Told' and 'The Mightier Sword'.",
+          "Francis Nii-Yartey: choreographer who led the Ghana Dance Ensemble and the National Dance Company and founded the Noyam dance institute; he blended traditional and contemporary African dance.",
+          "Ask: what themes do they use, how do they use Ghanaian culture, and what can we learn?",
+        ],
+      },
+      {
+        heading: "Designing your production",
+        points: [
+          "Theme: history, heritage, environment or a topical issue (pensions, sanitation).",
+          "Plot (drama) or movement sequence (dance) with a clear beginning, middle and end.",
+          "Characters, costumes, props, music and set.",
+          "Venue: choose and prepare it (space, seats, light, safety).",
+          "Rehearse, perform and record.",
+        ],
+      },
+      {
+        heading: "Appraising performances",
+        text: "Discuss the theme, story, acting, movement, music, costume, use of space and how the audience responded. Note strengths and weaknesses and plan improvements.",
+      },
+    ],
+    words: [
+      ["Playwright", "A person who writes plays."],
+      ["Choreographer", "A person who creates dances."],
+      ["Choreography", "The arrangement of dance movements."],
+      ["Set", "The scenery on stage."],
+      ["Heritage", "Traditions and culture passed down from the past."],
+    ],
+    materials: ["Costumes and props", "Drums or recorded music", "Paper for scripts and posters"],
+    practical: {
+      title: "Heritage performance",
+      steps: [
+        "Choose a heritage or topical theme.",
+        "Write a short script or plan a dance sequence (8 movements repeated).",
+        "Cast roles and choose costumes.",
+        "Prepare the venue and rehearse three times.",
+        "Perform and record.",
+        "Hold a class appraisal discussion.",
+      ],
+    },
+    quiz: [
+      { q: "A person who creates dances is a…", options: ["choreographer", "playwright", "curator", "potter"], answer: 0 },
+      { q: "A person who writes plays is a…", options: ["playwright", "drummer", "weaver", "sculptor"], answer: 0 },
+      { q: "Martin Owusu wrote…", options: ["The Story Ananse Told", "Yɛn Ara Asase Ni", "The Lion and the Jewel", "Anowa"], answer: 0 },
+      { q: "The scenery on stage is the…", options: ["set", "cast", "plot", "theme"], answer: 0 },
+    ],
+    written: [
+      { q: "Describe how to plan and stage a short play on a topical issue.", answer: "Choose a theme; write a plot and script; cast characters; choose costumes, props, set and music; choose and prepare a venue; publicise; rehearse; perform and record; appraise strengths and weaknesses afterwards." },
+    ],
+  },
+  {
+    cls: "b8",
+    code: "2.3.1",
+    title: "Visual Arts: Ghanaian visual artists and their approaches",
+    emoji: "👩🏾‍🎨",
+    intro: "Find out about visual artists, classify them by discipline, compare their works and study the design approaches they use to address history, culture and topical issues.",
+    sections: [
+      {
+        heading: "Some Ghanaian visual artists",
+        points: [
+          "Kofi Antubam (painter and designer): designed Ghana's state chair and other state regalia; promoted Ghanaian culture in art.",
+          "Vincent Kofi (sculptor): large carved wooden figures full of energy.",
+          "Grace Salome Kwami: one of Ghana's first female sculptors.",
+          "Amon Kotei: designed Ghana's coat of arms (1957). Theodosia Okoh: designed the national flag.",
+          "Ablade Glover (painter): colourful market and crowd scenes painted with a palette knife.",
+          "El Anatsui (sculptor): metal 'cloths' made from thousands of bottle tops, inspired by kente.",
+          "Serge Attukwei Clottey: uses discarded yellow gallons ('Afrogallonism') to talk about water shortage and waste.",
+        ],
+      },
+      {
+        heading: "Classifying artists",
+        text: "Group artists by discipline: painting, sculpture, textiles, ceramics (pottery), graphic design, photography, jewellery, leatherwork, installation art. Record their background, education, philosophy, exhibitions, awards and influence.",
+      },
+      {
+        heading: "Design approaches",
+        points: [
+          "Recycling: turning waste into art (El Anatsui, Serge Attukwei Clottey).",
+          "Symbolism: using Adinkra and other cultural symbols (Kofi Antubam).",
+          "Documentary: recording everyday life (Ablade Glover's market scenes).",
+          "Compare two artists: subject, materials, techniques, style, message.",
+        ],
+      },
+    ],
+    words: [
+      ["Discipline", "A branch of art, e.g. sculpture or textiles."],
+      ["Installation", "Artwork that arranges objects in a space."],
+      ["Style", "An artist's own way of working."],
+      ["Recycling", "Using waste materials to make something new."],
+      ["Regalia", "Special objects that show the authority of a state or chief."],
+    ],
+    materials: ["Notebook", "Pictures of artworks (books, internet)", "Manila card for presentation"],
+    practical: {
+      title: "Artist presentation",
+      steps: [
+        "Choose one Ghanaian visual artist.",
+        "Record: name, discipline, background, famous works, materials, message.",
+        "Compare one of their works with a work by another artist.",
+        "Make a small artwork using the same approach (e.g. recycled materials).",
+        "Present to the class.",
+      ],
+    },
+    quiz: [
+      { q: "Who designed Ghana's national flag?", options: ["Theodosia Okoh", "Amon Kotei", "Kofi Antubam", "El Anatsui"], answer: 0 },
+      { q: "Who designed Ghana's coat of arms?", options: ["Amon Kotei", "Ablade Glover", "Vincent Kofi", "Serge Clottey"], answer: 0 },
+      { q: "El Anatsui is famous for sculptures made from…", options: ["bottle tops", "glass", "ice", "sand only"], answer: 0 },
+      { q: "Serge Attukwei Clottey works with discarded…", options: ["yellow gallons", "pianos", "cars", "books"], answer: 0 },
+      { q: "Ablade Glover is mainly a…", options: ["painter", "drummer", "weaver", "playwright"], answer: 0 },
+    ],
+    written: [
+      { q: "Name three Ghanaian visual artists, their disciplines and one contribution each.", answer: "Kofi Antubam (painter/designer): designed the state chair and regalia. Amon Kotei (artist): designed Ghana's coat of arms. Theodosia Okoh: designed the national flag. El Anatsui (sculptor): bottle-top 'cloth' sculptures. Ablade Glover (painter): vibrant market scenes." },
+    ],
+  },
+  {
+    cls: "b8",
+    code: "2.3.2",
+    title: "Music: Ghanaian art composers, indigenous and neo-traditional groups",
+    emoji: "🎹",
+    intro: "Compare Ephraim Amu and J. H. Kwabena Nketia, transcribe a song on a topical issue, and appraise indigenous and neo-traditional groups across Ghana.",
+    sections: [
+      {
+        heading: "Ephraim Amu (1899–1995)",
+        points: [
+          "Born at Peki in the Volta Region; teacher, composer and patriot.",
+          "Wrote choral music in Ghanaian languages using African rhythms; famous for 'Yɛn Ara Asase Ni' (This Is Our Own Land).",
+          "Promoted African dress, instruments (such as the atenteben flute) and pride in African culture.",
+        ],
+      },
+      {
+        heading: "J. H. Kwabena Nketia (1921–2019)",
+        points: [
+          "Born at Mampong, Ashanti; composer and ethnomusicologist (scholar of music in culture).",
+          "Researched and wrote about African music; his book 'The Music of Africa' is studied worldwide.",
+          "Directed the Institute of African Studies at the University of Ghana; composed for voice, piano and African instruments.",
+        ],
+      },
+      {
+        heading: "Comparing them",
+        text: "Both used African materials and built pride in African music. Amu is best known as a choral composer and music teacher who spread patriotic songs; Nketia is best known as a researcher who documented African music and taught it at university level.",
+      },
+      {
+        heading: "Indigenous and neo-traditional groups",
+        points: [
+          "Indigenous: Adowa, Kete, Fontomfrom (Akan), Agbadza (Ewe), Klama (Krobo), Bamaya (Dagomba), Bawa (Dagaaba).",
+          "Neo-traditional: Sikyi, Kpanlogo, Borborbor, Gome, Nnwonkoro: they use traditional instruments with newer styles.",
+          "Compare by: style, instruments, song themes, dance movements, costumes and occasions.",
+        ],
+      },
+    ],
+    words: [
+      ["Art music", "Composed, written music meant for performance and listening."],
+      ["Ethnomusicologist", "A person who studies music in its cultural setting."],
+      ["Atenteben", "A Ghanaian bamboo flute."],
+      ["Neo-traditional", "Newer forms built on traditional music."],
+      ["Transcribe", "To write down music or words you hear."],
+    ],
+    materials: ["Recordings of Amu's and Nketia's works", "Notebook", "Atenteben or recorder (optional)"],
+    practical: {
+      title: "Compare and transcribe",
+      steps: [
+        "Listen to 'Yɛn Ara Asase Ni' and one Nketia piece.",
+        "Write two similarities and two differences.",
+        "Choose a popular song about a topical issue and transcribe its chorus.",
+        "Research three groups (indigenous or neo-traditional) in Ghana and compare them in a table.",
+        "Share your table.",
+      ],
+    },
+    quiz: [
+      { q: "'Yɛn Ara Asase Ni' was composed by…", options: ["Ephraim Amu", "J. H. K. Nketia", "E. T. Mensah", "Kojo Antwi"], answer: 0 },
+      { q: "Ephraim Amu was born at…", options: ["Peki", "Mampong", "Cape Coast", "Tamale"], answer: 0 },
+      { q: "Who wrote 'The Music of Africa'?", options: ["J. H. Kwabena Nketia", "Ephraim Amu", "Kakraba Lobi", "Koo Nimo"], answer: 0 },
+      { q: "A person who studies music in its culture is an…", options: ["ethnomusicologist", "archaeologist", "architect", "agronomist"], answer: 0 },
+      { q: "The atenteben is a…", options: ["bamboo flute", "drum", "xylophone", "guitar"], answer: 0 },
+      { q: "Which is a neo-traditional genre?", options: ["Borborbor", "Fontomfrom", "Akom", "Kete"], answer: 0 },
+    ],
+    written: [
+      { q: "Compare the contributions of Ephraim Amu and J. H. Kwabena Nketia to Ghanaian music.", answer: "Similarities: both used African musical materials and promoted African identity. Amu: choral composer and teacher, patriotic songs like 'Yɛn Ara Asase Ni', promoted the atenteben and African dress. Nketia: ethnomusicologist who researched and documented African music ('The Music of Africa'), led the Institute of African Studies, composed art music." },
+    ],
+  },
+  {
+    cls: "b8",
+    code: "2.3.3",
+    title: "Dance and Drama: analysing works of artistes",
+    emoji: "🎟️",
+    intro: "Compare a dance piece and a play, identify the history, culture, environmental and topical issues in them, and hold a group discussion to appreciate performances.",
+    sections: [
+      {
+        heading: "Ghanaian plays and dance companies to study",
+        points: [
+          "Efua Sutherland: 'The Marriage of Anansewa', 'Edufa'; she founded the Ghana Drama Studio.",
+          "Ama Ata Aidoo: 'The Dilemma of a Ghost', 'Anowa'.",
+          "Joe de Graft: 'Sons and Daughters'.",
+          "The National Dance Company (Ghana Dance Ensemble) performs dances from all regions on national occasions.",
+        ],
+      },
+      {
+        heading: "How to analyse a performance",
+        points: [
+          "Theme and message: what is it about?",
+          "History and culture: which people, traditions, beliefs or events does it show?",
+          "Environment and topical issues: does it talk about land, water, sanitation, migration, family life?",
+          "Techniques: dialogue, characters, movement, music, costume, props, use of space.",
+          "Audience effect: how did it make people feel or think?",
+        ],
+      },
+      {
+        heading: "Group discussion guide",
+        text: "Sit in a circle. One person summarises the performance; each member shares one strength, one weakness and one idea to borrow. A recorder writes the key points.",
+      },
+    ],
+    words: [
+      ["Theme", "The central idea of a work."],
+      ["Characterisation", "How an actor creates and shows a character."],
+      ["Dance piece", "A complete dance work."],
+      ["Recorder (secretary)", "The person who writes notes in a discussion."],
+    ],
+    materials: ["Video of a dance and a play", "Notebook"],
+    practical: {
+      title: "Compare and discuss",
+      steps: [
+        "Watch one dance piece and one short play (video or live).",
+        "Fill a table: theme, culture, issue, techniques, audience effect.",
+        "Write two similarities and two differences.",
+        "Hold a group discussion using the guide.",
+        "Use one idea in your next class performance.",
+      ],
+    },
+    quiz: [
+      { q: "'Anowa' was written by…", options: ["Ama Ata Aidoo", "Efua Sutherland", "Martin Owusu", "Wole Soyinka"], answer: 0 },
+      { q: "'The Marriage of Anansewa' was written by…", options: ["Efua Sutherland", "Joe de Graft", "Ama Ata Aidoo", "Ola Rotimi"], answer: 0 },
+      { q: "How an actor creates a character is…", options: ["characterisation", "choreography", "costume", "lighting"], answer: 0 },
+      { q: "The central idea of a play is its…", options: ["theme", "set", "prop", "venue"], answer: 0 },
+    ],
+    written: [
+      { q: "State five things to look for when analysing a dance or drama performance.", answer: "Theme/message; history and culture shown; environmental or topical issues; techniques (dialogue, movement, music, costume, props, space); effect on the audience." },
+    ],
+  },
+];

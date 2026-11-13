@@ -37,6 +37,16 @@ function Curriculum({ cls, standard, place, open }: { cls: ClassId; standard: St
   );
 }
 
+/** Moves the options round by a fixed amount per question, so the right answer isn't always in the same place. */
+function mix(q: Lesson["quiz"][number]) {
+  let h = 0;
+  for (const ch of q.q) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
+  const n = q.options.length;
+  const shift = h % n;
+  const options = q.options.map((_, i) => q.options[(i + shift) % n]);
+  return { prompt: q.q, say: q.q, options, answer: (q.answer - shift + n) % n, explain: q.explain };
+}
+
 function Quiz({ lesson }: { lesson: Lesson }) {
   const [round, setRound] = useState(0);
   const [done, setDone] = useState<number | null>(null);
@@ -57,7 +67,7 @@ function Quiz({ lesson }: { lesson: Lesson }) {
   return (
     <QuizRunner
       key={round}
-      items={lesson.quiz.map((q) => ({ prompt: q.q, say: q.q, options: q.options, answer: q.answer, explain: q.explain }))}
+      items={lesson.quiz.map(mix)}
       onDone={(correct) => {
         recordResult(key, Math.round((correct / lesson.quiz.length) * MAX_STARS));
         setDone(correct);

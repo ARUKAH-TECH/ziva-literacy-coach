@@ -5,10 +5,14 @@ import { B9 } from "./b9";
 import { PRIMARY } from "./primary";
 import { KG } from "./kg";
 import { TOPICS_B7 } from "./topics-b7";
+import { TOPICS_B8 } from "./topics-b8";
+import { TOPICS_B9 } from "./topics-b9";
 
 // Detailed lessons (topics) per class, keyed by content standard.
 const TOPICS: Record<string, Record<string, Topic[]>> = {
   b7: TOPICS_B7,
+  b8: TOPICS_B8,
+  b9: TOPICS_B9,
 };
 
 const ALL: Lesson[] = [...KG, ...PRIMARY, ...B7, ...B8, ...B9].map((l) => {

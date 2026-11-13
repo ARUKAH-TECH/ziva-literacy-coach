@@ -31,7 +31,7 @@ export const PRIMARY_SUBSTRANDS: Record<string, string> = {
   "3": "Displaying and Sharing",
   "4": "Appreciating and Appraising",
 };
-export const JHS_STRANDS = [
+export const JHS_STRANDS: { code: string; title: string; subStrands: Record<string, string> }[] = [
   { code: "1", title: "Design", subStrands: { "1.1": "Design in Nature and the Manmade Environment", "1.2": "Drawing, Shading, Colouring and Modelling for Design", "1.3": "Creativity, Innovation and the Design Process" } },
   { code: "2", title: "Creative Arts", subStrands: { "2.1": "Media and Techniques", "2.2": "Creative and Aesthetic Expression", "2.3": "Connections in Local and Global Cultures" } },
 ];
@@ -43,7 +43,7 @@ export function placeOf(cls: ClassId, code: string) {
   const [st, ss] = code.split(".");
   if (isJhs(cls)) {
     const strand = JHS_STRANDS.find((s) => s.code === st);
-    return { strand: `Strand ${st}: ${strand?.title ?? ""}`, subStrand: `Sub-strand ${st}.${ss}: ${(strand?.subStrands as Record<string, string>)?.[`${st}.${ss}`] ?? ""}` };
+    return { strand: `Strand ${st}: ${strand?.title ?? ""}`, subStrand: `Sub-strand ${st}.${ss}: ${strand?.subStrands[`${st}.${ss}`] ?? ""}` };
   }
   return { strand: `Strand ${st}: ${PRIMARY_STRANDS.find((s) => s.code === st)?.title ?? ""}`, subStrand: `Sub-strand ${ss}: ${PRIMARY_SUBSTRANDS[ss] ?? ""}` };
 }

@@ -10,6 +10,7 @@ export const SKILLS = [
   { id: "spelling", label: "Spelling", emoji: "📝", href: "/spelling/", prefixes: ["spelling"] },
   { id: "vocabulary", label: "Word meanings", emoji: "💡", href: "/vocabulary/", prefixes: ["vocabulary", "wordbank"] },
   { id: "punctuation", label: "Punctuation", emoji: "❗", href: "/punctuation/", prefixes: ["punctuation"] },
+  { id: "creative-arts", label: "Creative Arts", emoji: "🎨", href: "/creative-arts/", prefixes: ["ca"] },
 ] as const;
 
 export type SkillId = (typeof SKILLS)[number]["id"];
@@ -51,6 +52,11 @@ export function activityName(key: string) {
   if (prefix === "stage") {
     const [, skill, L, s, w] = (rest ?? "").split(".");
     return `${SKILL_NAMES[skill] ?? skill} · ${LEVEL_NAMES[Number(L)] ?? ""} stage ${Number(s) + 1} · work ${Number(w) + 1}`;
+  }
+  if (prefix === "ca") {
+    // ca:<class>:<content standard>  (e.g. ca:b7:1.1.1)
+    const [, cls, code] = key.split(":");
+    return `Creative Arts · ${(cls ?? "").toUpperCase()} ${code ?? ""}`;
   }
   if (prefix === "wordbank") {
     // wordbank:<class>:<stage>  (e.g. wordbank:jhs:3)

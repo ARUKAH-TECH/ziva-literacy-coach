@@ -23,6 +23,7 @@ export const ACTIVITIES = [
   { id: "vocabulary", href: "/vocabulary/", title: "Word meanings", emoji: "💡", skill: "Vocabulary", levels: ["p4-6", "jhs"], text: "Choose what each word means." },
   { id: "twi-words", href: "/twi-words/", title: "Twi → English words", emoji: "🇬🇭", skill: "Vocabulary", levels: ["kg", "p1-3", "p4-6", "jhs"], text: "Type a Twi word or saying (like bankuta) and see its English name." },
   { id: "word-bank", href: "/word-bank/", title: "Word bank", emoji: "📚", skill: "Vocabulary", levels: ["p4-6", "jhs"], text: "Meanings, synonyms, antonyms and idioms: stages of 30 questions." },
+  { id: "creative-arts", href: "/creative-arts/", title: "Creative Arts", emoji: "🎨", skill: "Creative Arts", levels: ["p1-3", "p4-6", "jhs"], text: "Visual Arts, Music, Dance, Drama and Design: notes, pictures, practicals and quizzes. Choose your class." },
   { id: "punctuation", href: "/punctuation/", title: "Punctuation", emoji: "❗", skill: "Writing", levels: ["p4-6", "jhs"], text: "Pick the sentence with correct punctuation." },
 ] as const;
 

@@ -7,9 +7,13 @@ import { KG } from "./kg";
 import { TOPICS_B7 } from "./topics-b7";
 import { TOPICS_B8 } from "./topics-b8";
 import { TOPICS_B9 } from "./topics-b9";
+import { TOPICS_PRIMARY } from "./topics-primary";
+import { TOPICS_KG } from "./topics-kg";
 
 // Detailed lessons (topics) per class, keyed by content standard.
 const TOPICS: Record<string, Record<string, Topic[]>> = {
+  kg: TOPICS_KG,
+  ...TOPICS_PRIMARY,
   b7: TOPICS_B7,
   b8: TOPICS_B8,
   b9: TOPICS_B9,

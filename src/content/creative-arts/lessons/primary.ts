@@ -10,9 +10,9 @@ import type { Lesson, LessonQuestion } from "../types";
 // So each lesson is built from a class "focus" (real examples for that class)
 // and a teaching pattern for the content standard.
 
-type Pair = [string, string];
+export type Pair = [string, string];
 
-interface Focus {
+export interface Focus {
   cls: ClassId;
   young: boolean;
   /** "your local community", "other communities in Ghana"… */
@@ -33,7 +33,7 @@ interface Focus {
   paQuiz: LessonQuestion[];
 }
 
-const FOCUS: Focus[] = [
+export const FOCUS: Focus[] = [
   {
     cls: "b1",
     young: true,

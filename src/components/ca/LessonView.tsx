@@ -104,7 +104,7 @@ export function LessonView({ cls, classLabel, standard, place, lesson }: { cls: 
   const jhs = ["b7", "b8", "b9"].includes(cls);
   const readAll = () => speak([lesson.title, lesson.intro, ...lesson.sections.flatMap((s) => [s.heading, s.text ?? "", ...(s.points ?? [])])].filter(Boolean).join(". "));
   return (
-    <AppShell title={`${classLabel} · ${cls.toUpperCase()} ${standard.code}`} back={back}>
+    <AppShell title={`Creative Arts · ${cls.toUpperCase()} ${standard.code}`} back={back}>
       <article className="grid gap-4">
         <header className={card}>
           <p className="text-sm font-bold text-black/50">

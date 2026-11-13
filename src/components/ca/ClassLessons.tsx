@@ -20,6 +20,9 @@ export function ClassLessons({ cls, label, items }: { cls: string; label: string
   const strands = [...new Set(items.map((i) => i.strand))];
   return (
     <AppShell title={`Creative Arts · ${label}`} back="/creative-arts/">
+      <Link href="/creative-arts/search/" className="mb-5 flex items-center gap-3 rounded-2xl border-2 border-ziva/30 bg-white px-4 py-3 text-lg text-black/50">
+        <span aria-hidden="true">🔍</span> Search a topic
+      </Link>
       {strands.map((st) => (
         <section key={st} className="mb-6">
           <h2 className="text-xl font-extrabold text-ziva">{st}</h2>

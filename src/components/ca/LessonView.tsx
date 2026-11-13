@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { AppShell } from "@/components/AppShell";
 import { QuizRunner } from "@/components/QuizRunner";
@@ -113,7 +114,12 @@ export function LessonView({ cls, classLabel, standard, place, lesson }: { cls: 
   }
   const jhs = ["b7", "b8", "b9"].includes(cls);
   const kg = cls === "kg";
-  const readAll = () => speak([lesson.title, lesson.intro, ...lesson.sections.flatMap((s) => [s.heading, s.text ?? "", ...(s.points ?? [])])].filter(Boolean).join(". "));
+  const readAll = () =>
+    speak(
+      (lesson.topics ? [lesson.title, lesson.intro, "The lessons are:", ...lesson.topics.map((t, i) => `${i + 1}. ${t.title}`)] : [lesson.title, lesson.intro, ...lesson.sections.flatMap((s) => [s.heading, s.text ?? "", ...(s.points ?? [])])])
+        .filter(Boolean)
+        .join(". "),
+    );
   return (
     <AppShell title={`Creative Arts · ${cls.toUpperCase()} ${standard.code}`} back={back}>
       <article className="grid gap-4">
@@ -138,7 +144,7 @@ export function LessonView({ cls, classLabel, standard, place, lesson }: { cls: 
 
         <nav className="flex flex-wrap gap-2 text-sm font-bold" aria-label="Lesson parts">
           {[
-            ["#notes", "📖 Notes"],
+            ["#notes", lesson.topics ? "📚 Lessons" : "📖 Notes"],
             ["#words", "🔑 Key words"],
             lesson.practical ? ["#practical", "🛠 Practical"] : null,
             ["#quiz", "⭐ Quiz"],
@@ -152,7 +158,33 @@ export function LessonView({ cls, classLabel, standard, place, lesson }: { cls: 
             ))}
         </nav>
 
-        <section id="notes" className="grid gap-4 scroll-mt-24">
+        {lesson.topics && (
+          <section id="notes" className="scroll-mt-24">
+            <h2 className="mb-3 text-xl font-extrabold text-ziva">📚 Lessons in this topic ({lesson.topics.length})</h2>
+            <ol className="grid gap-3">
+              {lesson.topics.map((t, i) => (
+                <li key={t.title}>
+                  <Link href={`/creative-arts/${cls}/${standard.code.replace(/\./g, "-")}/${i + 1}/`} className="flex items-center gap-3 rounded-3xl bg-white p-4 shadow-sm">
+                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-ziva text-lg font-extrabold text-white">{i + 1}</span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block text-lg font-bold leading-snug">
+                        {t.emoji ? `${t.emoji} ` : ""}
+                        {t.title}
+                      </span>
+                      <span className="block text-sm text-black/60">{t.explain[0].length > 110 ? `${t.explain[0].slice(0, 110)}…` : t.explain[0]}</span>
+                    </span>
+                    <span aria-hidden="true" className="text-2xl text-ziva">
+                      ›
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ol>
+            <p className="mt-3 text-sm text-black/60">Read the lessons in order, then come back for the key words, the practical and the quiz below.</p>
+          </section>
+        )}
+
+        <section id={lesson.topics ? "summary" : "notes"} className={`grid gap-4 scroll-mt-24 ${lesson.topics ? "hidden" : ""}`}>
           {lesson.sections.map((s) => (
             <div key={s.heading} className={card}>
               <h2 className="text-xl font-extrabold text-ziva">{s.heading}</h2>
